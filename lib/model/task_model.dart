@@ -1,20 +1,31 @@
-import 'dart:ffi';
+import 'package:flutter/material.dart';
 
 class Task {
-  const Task({
+  Task({
+    required this.id,
     required this.text,
     required this.importance,
     required this.deadline,
     required this.done,
+    required this.color,
+    required this.createdAt,
+    required this.changedAt,
+    required this.lastUpdatedBy,
   });
-  final String text;
-  final Importance importance;
-  final int deadline;
-  final bool done;
+
+  late int? id;
+  late String text;
+  late Importance importance;
+  late int? deadline;
+  late bool done;
+  late Color? color;
+  late int createdAt;
+  late int changedAt;
+  late int lastUpdatedBy;
 }
 
 enum Importance {
-  low ,
   basic ,
+  low ,
   important,
 }

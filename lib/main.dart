@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pages/main_page.dart';
+import 'pages/editor_page.dart';
 import 'styles/app_colors.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const EditorPage(),
     );
   }
 }
