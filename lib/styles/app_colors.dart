@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppLigthColors {
+abstract class AppLigthColors {
   static Color separator = const Color(0x33000000);
   static Color overlay = const Color(0x0F000000);
 
