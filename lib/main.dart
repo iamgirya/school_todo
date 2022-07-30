@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pages/editor_page.dart';
+import 'ui/editor_page/editor_page.dart';
 import 'styles/app_colors.dart';
 
 void main() {
