@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 abstract class AppLigthColors {
-  static Color separator = const Color(0x33000000);
-  static Color overlay = const Color(0x0F000000);
+  static const Color separator = Color(0x33000000);
+  static const Color overlay = Color(0x0F000000);
 
-  static Color primary = const Color(0xFF000000);
-  static Color secondary = const Color(0x99000000);
-  static Color tertiary = const Color(0x4D000000);
-  static Color disable = const Color(0x26000000);
-  
-  static Color red = const Color(0xFFFF3B30);
-  static Color green = const Color(0xFF34C759);
-  static Color blue = const Color(0xFF007AFF);  
-  static Color gray = const Color(0xFF8E8E93);
+  static const Color primary = Color(0xFF000000);
+  static const Color secondary = Color(0x99000000);
+  static const Color tertiary = Color(0x4D000000);
+  static const Color disable = Color(0x26000000);
+   
+  static const Color red = Color(0xFFFF3B30);
+  static const Color green = Color(0xFF34C759);
+  static const Color blue = Color(0xFF007AFF);  
+  static const Color gray = Color(0xFF8E8E93);
 
-  static Color backgroundPrimary = const Color(0xFFF7F6F2);
-  static Color backgroundSecondary = const Color(0xFFFFFFFF);
-  static Color backgroundElevated = const Color(0xFFFFFFFF);
+  static const Color backgroundPrimary = Color(0xFFF7F6F2);
+  static const Color backgroundSecondary = Color(0xFFFFFFFF);
+  static const Color backgroundElevated = Color(0xFFFFFFFF);
 }
