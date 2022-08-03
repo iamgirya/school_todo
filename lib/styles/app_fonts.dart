@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 abstract class AppTextStyles {
-  static TextStyle largeTitle = const TextStyle(
+  static const TextStyle largeTitle = TextStyle(
     fontSize: 32,
     fontWeight: FontWeight.w500,
     height: 1.1875,
     fontFamily: "Roboto",
   );
   
-  static TextStyle title = const TextStyle(
+  static const TextStyle title = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
     height: 1.6,
@@ -16,7 +16,7 @@ abstract class AppTextStyles {
     fontFamily: "Roboto",
   );
 
-  static TextStyle button = const TextStyle(
+  static const TextStyle button = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     height: 1.71,
@@ -24,14 +24,14 @@ abstract class AppTextStyles {
     fontFamily: "Roboto",
   );
 
-  static TextStyle body = const TextStyle(
+  static const TextStyle body = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     height: 1.25,
     fontFamily: "Roboto",
   );
 
-  static TextStyle subhead = const TextStyle(
+  static const TextStyle subhead = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     height: 1.43,

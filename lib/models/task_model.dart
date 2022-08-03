@@ -13,6 +13,15 @@ class Task {
     required this.lastUpdatedBy,
   });
 
+  Task.empty() {
+    text = "fs";
+    importance = Importance.basic;
+    done = false;
+    createdAt = DateTime.now().millisecondsSinceEpoch~/1000;
+    changedAt = DateTime.now().millisecondsSinceEpoch~/1000;
+    lastUpdatedBy = 0;
+  }
+
   late int? id;
   late String text;
   late Importance importance;
@@ -22,6 +31,10 @@ class Task {
   late int createdAt;
   late int changedAt;
   late int lastUpdatedBy;
+
+  String toJson() {
+    return '{"importance":$importance,"deadline":$deadline,"text":$text}';
+  }
 }
 
 enum Importance {
