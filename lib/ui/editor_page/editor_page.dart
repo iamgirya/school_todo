@@ -13,17 +13,17 @@ import 'widgets/clouse_button_widget.dart';
 import 'widgets/deadline_choose_widget.dart';
 
 class EditorPage extends StatelessWidget {
-  EditorPage({Key? key}) : super(key: key);
+  EditorPage({Key? key, this.editingTask}) : super(key: key);
 
   // выглядит как костыль, а как исправить
+  final Task? editingTask;
   late void Function(BuildContext) saveTask;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        // внесение заготовленного таска
-        EditingTaskCubit editingTaskCubit = EditingTaskCubit(Task.empty());
+        EditingTaskCubit editingTaskCubit = EditingTaskCubit(editingTask ?? Task.empty());
         saveTask = editingTaskCubit.saveTask;
         return editingTaskCubit;
       },

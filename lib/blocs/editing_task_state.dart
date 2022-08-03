@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/task_model.dart';
-import 'package:equatable/equatable.dart';
 
 
 @immutable
@@ -9,9 +8,6 @@ abstract class EditingTaskState  {
 
 class EditingTaskError extends EditingTaskState {
   final String message;
-
-  @override
-  List<String> get props => [message];
 
   EditingTaskError({required this.message});
 }
