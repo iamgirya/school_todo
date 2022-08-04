@@ -6,8 +6,7 @@ import '../../models/task_model.dart';
 import 'task_list_state.dart';
 
 class TaskListCubit extends Cubit<TaskListState> {
-  TaskListCubit()
-      : super(TaskListOnStart());
+  TaskListCubit() : super(TaskListOnStart());
 
   void addNewTown(Task data) async {
     if (state is TaskListLoaded) {
@@ -21,6 +20,16 @@ class TaskListCubit extends Cubit<TaskListState> {
   int getLengthOfTaskList() {
     if (state is TaskListLoaded) {
       return (state as TaskListLoaded).loadedTasks.length;
+    }
+    return 0;
+  }
+
+  int getLengthOfCompletedTaskList() {
+    if (state is TaskListLoaded) {
+      return (state as TaskListLoaded)
+          .loadedTasks
+          .where((element) => element.done)
+          .length;
     }
     return 0;
   }
@@ -51,5 +60,4 @@ class TaskListCubit extends Cubit<TaskListState> {
     tmp.addAll(Cont.localTaskList);
     emit(TaskListLoaded(loadedTasks: tmp));
   }
-
 }

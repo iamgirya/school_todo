@@ -14,29 +14,43 @@ class TaskList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TaskListCubit, TaskListState>(
-      builder: (context, state) {
-        TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
-        if (state is TaskListLoaded) {
-          return ListView(
-            children: [
-              //выгрузка из локального репозитория
-              for (int i = 0; i < taskListCubit.getLengthOfTaskList(); i++)
-                Dismissible(
-                  key: Key(taskListCubit.getTask(i).id.toString()),
-                  onDismissed: (direction) {
-                    taskListCubit.deleteTask(i);
-                  },
-                  background: ColoredBox(color: Colors.red),
-                  secondaryBackground: ColoredBox(color: Colors.blue),
-                  child: TaskCard(task: taskListCubit.getTask(i)),
-                )
-            ],
-          );
-        } else {
-          return Container();
-        }
-      },
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.only(right: 8, left: 8),
+      color: AppLigthColors.backgroundSecondary,
+      child: BlocBuilder<TaskListCubit, TaskListState>(
+        builder: (context, state) {
+          TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
+          if (state is TaskListLoaded) {
+            return ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              children: [
+                const SizedBox(
+                  height: 8,
+                ),
+                //выгрузка из локального репозитория
+                for (int i = 0; i < taskListCubit.getLengthOfTaskList(); i++)
+                  Dismissible(
+                    key: Key(taskListCubit.getTask(i).id.toString()),
+                    onDismissed: (direction) {
+                      taskListCubit.deleteTask(i);
+                    },
+                    // сделать нормальные свайпы
+                    background: const ColoredBox(color: Colors.red),
+                    secondaryBackground: const ColoredBox(color: Colors.blue),
+                    child: TaskCard(task: taskListCubit.getTask(i)),
+                  ),
+                const SizedBox(
+                  height: 8,
+                ),
+              ],
+            );
+          } else {
+            return Container();
+          }
+        },
+      ),
     );
   }
 }

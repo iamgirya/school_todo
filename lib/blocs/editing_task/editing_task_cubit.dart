@@ -8,53 +8,42 @@ import 'editing_task_state.dart';
 class EditingTaskCubit extends Cubit<EditingTaskState> {
   EditingTaskCubit(Task? task)
       : super(EditingTaskReady(editingTask: task ?? Task.empty())) {
-        textController = TextEditingController();
-        if (task != null) {
-          textController.text = task.text;
-          if (task.deadline != null) {
-            switchValue = true;
-          }
-        }
+    textController = TextEditingController();
+    if (task != null) {
+      textController.text = task.text;
+      if (task.deadline != null) {
+        switchValue = true;
       }
+    }
+  }
 
   late TextEditingController textController;
   bool switchValue = false;
 
   bool _stateIsHasData() => state is EditingTaskHasData;
 
-  int dateToUnix(DateTime date) => date.millisecondsSinceEpoch~/1000;
+  int dateToUnix(DateTime date) => date.millisecondsSinceEpoch ~/ 1000;
 
   Task get taskModel => (state as EditingTaskHasData).editingTask;
 
   Future<void> _selectDeadLine(BuildContext context) async {
-      int? nowUnixDeadline = taskModel.deadline;
-      final DateTime? picked = await showDatePicker(
+    int? nowUnixDeadline = taskModel.deadline;
+    final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(2030));
-      if (picked != null) {
-        int pickedUnix = dateToUnix(picked);
-        if (pickedUnix != nowUnixDeadline) {
-          taskModel.deadline = pickedUnix;
-        }
-      } else if (nowUnixDeadline == null) {
-        switchValue = false;
+    if (picked != null) {
+      int pickedUnix = dateToUnix(picked);
+      if (pickedUnix != nowUnixDeadline) {
+        taskModel.deadline = pickedUnix;
       }
-  }
-
-  String? getDayFromUnix(int? unix) {
-    // вывод названия месяца
-    if (unix != null) {
-      DateTime tmpTime = DateTime.fromMillisecondsSinceEpoch(unix * 1000);
-
-      return "${tmpTime.day} ${tmpTime.month} ${tmpTime.year}";
-    } else {
-      return null;
+    } else if (nowUnixDeadline == null) {
+      switchValue = false;
     }
   }
 
-  void onTapeOnDate(BuildContext context) async{
+  void onTapeOnDate(BuildContext context) async {
     if (_stateIsHasData()) {
       if (taskModel.deadline != null && switchValue) {
         emit(EditingTaskWaitingChanges(editingTask: taskModel));
@@ -80,13 +69,13 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
       emit(EditingTaskWaitingChanges(editingTask: taskModel));
       taskModel.importance = importance;
       emit(EditingTaskReady(editingTask: taskModel));
-    } 
+    }
   }
 
   void deleteTask(BuildContext context) {
     if (_stateIsHasData()) {
       taskModel.text = textController.text;
-      
+
       // удаление из локального хранилища
       Cont.localTaskList.remove(taskModel);
     }
@@ -96,7 +85,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   void saveTask(BuildContext context) {
     if (_stateIsHasData()) {
       taskModel.text = textController.text;
-      
+
       // внесение в локальное хранилище
       Cont.localTaskList.add(taskModel);
     }

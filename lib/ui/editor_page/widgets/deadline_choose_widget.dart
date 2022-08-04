@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_state.dart';
+import 'package:school_todo/core/container_class.dart';
 
 import '../../../models/task_model.dart';
 import '../../../styles/app_colors.dart';
@@ -38,10 +39,11 @@ class DeadlineChoose extends StatelessWidget {
                         editingTaskCubit.onTapeOnDate(context);
                       },
                       child: Text(
-                        editingTaskCubit.getDayFromUnix(taskModel.deadline) ??
+                        Cont.convertUnixToStringDate(taskModel.deadline) ??
                             "Нет",
                         style: AppTextStyles.button.copyWith(
-                          color: taskModel.deadline != null && editingTaskCubit.switchValue
+                          color: taskModel.deadline != null &&
+                                  editingTaskCubit.switchValue
                               ? AppLigthColors.blue
                               : AppLigthColors.tertiary,
                         ),

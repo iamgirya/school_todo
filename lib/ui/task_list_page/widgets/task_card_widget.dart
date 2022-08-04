@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/navigation/navigation_controller.dart';
 import 'package:school_todo/navigation/root_names_container.dart';
+import 'package:school_todo/styles/app_colors.dart';
+import 'package:school_todo/styles/app_fonts.dart';
 
 class TaskCard extends StatelessWidget {
   const TaskCard({Key? key, required this.task}) : super(key: key);
@@ -11,20 +14,85 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  ListTile(
-      title: Row(children: [
-        Text(task.text),
-        Text(task.deadline.toString()),
-        Text(task.importance.toString()),
-        IconButton(onPressed: (){
-          context
-                      .read<NavigationController>()
-                      .navigateTo(RouteNames.editorPage, arguments: task);
-        }, icon: Icon(Icons.earbuds))
-      ]),
+    return ListTile(
+      contentPadding:
+          const EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 12),
+      title: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+              height: 24,
+              width: 24,
+              child: IconButton(
+                onPressed: () {},
+                // Понять в каких случаях и сделать ещё и красные квадратики
+                icon: task.done
+                    ? const Icon(
+                        Icons.check_box,
+                        color: AppLigthColors.green,
+                      )
+                    : const Icon(Icons.check_box_outline_blank),
+                padding: EdgeInsets.zero,
+                color: AppLigthColors.gray,
+              )),
+          const SizedBox(
+            width: 12,
+          ),
+          if (task.importance != Importance.basic)
+            SizedBox(
+              height: 24,
+              width: 16,
+              // вставить эти два восклицательных знака
+              child: task.importance == Importance.important
+                  ? const Icon(Icons.panorama_vertical_sharp)
+                  : const Icon(Icons.arrow_downward),
+            ),
+          if (task.importance != Importance.basic)
+            const SizedBox(
+              width: 8,
+            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                task.text,
+                style: task.done
+                    ? AppTextStyles.body.copyWith(
+                        color: AppLigthColors.tertiary,
+                        decoration: TextDecoration.lineThrough,
+                      )
+                    : AppTextStyles.body,
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              if (task.deadline != null)
+                Text(
+                  Cont.convertUnixToStringDate(task.deadline)!,
+                  style: AppTextStyles.subhead
+                      .copyWith(color: AppLigthColors.tertiary),
+                ),
+            ],
+          ),
+          const Expanded(
+            child: SizedBox(),
+          ),
+          SizedBox(
+            height: 24,
+            width: 24,
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                context
+                    .read<NavigationController>()
+                    .navigateTo(RouteNames.editorPage, arguments: task);
+              },
+              icon: const Icon(Icons.info_outline),
+              color: AppLigthColors.gray,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
-
-// блок едитора вызывает изменение в локальной базе данных, на неё подписан локальный репозиторий, который пингует 
-// блок списка, который вызывает переотрисовку
