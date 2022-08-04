@@ -22,12 +22,12 @@ class Task {
     lastUpdatedBy = 0;
   }
 
-  late int? id;
+  int? id;
   late String text;
   late Importance importance;
-  late int? deadline;
+  int? deadline;
   late bool done;
-  late Color? color;
+  Color? color;
   late int createdAt;
   late int changedAt;
   late int lastUpdatedBy;

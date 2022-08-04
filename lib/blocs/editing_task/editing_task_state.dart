@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/task_model.dart';
+import '../../models/task_model.dart';
 
 
 @immutable
@@ -20,10 +20,10 @@ class EditingTaskHasData extends EditingTaskState {
 
 class EditingTaskWaitingChanges extends EditingTaskHasData {
 
-  EditingTaskWaitingChanges({required editingTask}) : super(editingTask: editingTask);
+  EditingTaskWaitingChanges({required Task editingTask}) : super(editingTask: editingTask);
 }
 
 class EditingTaskReady extends EditingTaskHasData {
 
-  EditingTaskReady({required editingTask}) : super(editingTask: editingTask);
+  EditingTaskReady({required Task editingTask}) : super(editingTask: editingTask);
 }

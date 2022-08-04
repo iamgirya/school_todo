@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/navigation/navigation_controller.dart';
-import '../models/task_model.dart';
+import '../../models/task_model.dart';
 import 'editing_task_state.dart';
 
 class EditingTaskCubit extends Cubit<EditingTaskState> {
-  EditingTaskCubit(Task task)
-      : super(EditingTaskReady(editingTask: task)) {
+  EditingTaskCubit(Task? task)
+      : super(EditingTaskReady(editingTask: task ?? Task.empty())) {
         textController = TextEditingController();
-        textController.text = task.text;
+        if (task != null) {
+          textController.text = task.text;
+          if (task.deadline != null) {
+            switchValue = true;
+          }
+        }
       }
 
   late TextEditingController textController;
@@ -62,21 +67,19 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   void changeSwitch(BuildContext context) async {
     if (_stateIsHasData()) {
       switchValue = !switchValue;
+      emit(EditingTaskWaitingChanges(editingTask: taskModel));
       if (switchValue && taskModel.deadline == null) {
-        emit(EditingTaskWaitingChanges(editingTask: taskModel));
         await _selectDeadLine(context);
-        emit(EditingTaskReady(editingTask: taskModel));
       }
+      emit(EditingTaskReady(editingTask: taskModel));
     }
   }
 
   void changeImportance(Importance? importance) {
     if (importance != null && _stateIsHasData()) {
+      emit(EditingTaskWaitingChanges(editingTask: taskModel));
       taskModel.importance = importance;
-      dynamic tmp = state;
-      emit(EditingTaskError(message: "sa"));
-
-      emit(tmp);
+      emit(EditingTaskReady(editingTask: taskModel));
     } 
   }
 

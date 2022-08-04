@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:school_todo/blocs/editing_task_cubit.dart';
+import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
 import 'package:school_todo/models/task_model.dart';
 
-import '../../../blocs/editing_task_state.dart';
+import '../../../blocs/editing_task/editing_task_state.dart';
 import '../../../styles/app_colors.dart';
 import '../../../styles/app_fonts.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:school_todo/blocs/editing_task_cubit.dart';
-import 'package:school_todo/blocs/editing_task_state.dart';
+import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
+import 'package:school_todo/blocs/editing_task/editing_task_state.dart';
 import 'package:school_todo/navigation/navigation_controller.dart';
 
 import '../../../models/task_model.dart';

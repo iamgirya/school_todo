@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/navigation/root_names_container.dart';
 import 'package:school_todo/ui/task_list_page/task_list_page.dart';
 
@@ -24,12 +25,11 @@ class MyApp extends StatelessWidget {
           switch (settings.name) {
             case RouteNames.editorPage:
               return MaterialPageRoute(
-                  builder: (_) =>
-                      EditorPage());
+                  builder: (_) => EditorPage(
+                        editingTask: (settings.arguments as Task?),
+                      ));
             case RouteNames.taskListPage:
-              return MaterialPageRoute(
-                  builder: (_) =>
-                      TaskListPage());
+              return MaterialPageRoute(builder: (_) => const TaskListPage());
           }
         },
         theme: ThemeData(

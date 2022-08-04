@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:school_todo/blocs/editing_task_cubit.dart';
-import 'package:school_todo/blocs/editing_task_state.dart';
+import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
+import 'package:school_todo/blocs/editing_task/editing_task_state.dart';
 
 import '../../../models/task_model.dart';
 import '../../../styles/app_colors.dart';
