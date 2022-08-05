@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +9,8 @@ import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/navigation/navigation_controller.dart';
 import 'package:school_todo/navigation/root_names_container.dart';
 import 'package:school_todo/styles/app_colors.dart';
+import 'package:school_todo/ui/task_list_page/widgets/dismissible_task_cad_widget.dart';
+import 'package:school_todo/ui/task_list_page/widgets/new_task_card_widget.dart';
 import 'package:school_todo/ui/task_list_page/widgets/task_card_widget.dart';
 
 class TaskList extends StatelessWidget {
@@ -31,16 +35,9 @@ class TaskList extends StatelessWidget {
                 ),
                 //выгрузка из локального репозитория
                 for (int i = 0; i < taskListCubit.getLengthOfTaskList(); i++)
-                  Dismissible(
-                    key: Key(taskListCubit.getTask(i).id.toString()),
-                    onDismissed: (direction) {
-                      taskListCubit.deleteTask(i);
-                    },
-                    // сделать нормальные свайпы
-                    background: const ColoredBox(color: Colors.red),
-                    secondaryBackground: const ColoredBox(color: Colors.blue),
-                    child: TaskCard(task: taskListCubit.getTask(i)),
-                  ),
+                  DismissibleTaskCard(
+                      key: Key(taskListCubit.getTask(i).id.toString()), i: i),
+                const NewTaskCard(),
                 const SizedBox(
                   height: 8,
                 ),

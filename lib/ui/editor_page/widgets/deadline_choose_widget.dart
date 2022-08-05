@@ -17,7 +17,6 @@ class DeadlineChoose extends StatelessWidget {
       height: 72,
       width: Size.infinite.width,
       child: BlocBuilder<EditingTaskCubit, EditingTaskState>(
-        buildWhen: (previous, current) => true,
         builder: (context, state) {
           if (state is EditingTaskHasData) {
             Task taskModel = state.editingTask;

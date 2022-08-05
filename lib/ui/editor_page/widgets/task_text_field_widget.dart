@@ -26,12 +26,15 @@ class TaskTextField extends StatelessWidget {
             buildWhen: (previous, current) => false,
             builder: ((context, state) {
               if (state is EditingTaskHasData) {
-                EditingTaskCubit editingTaskCubit = BlocProvider.of<EditingTaskCubit>(context);
+                EditingTaskCubit editingTaskCubit =
+                    BlocProvider.of<EditingTaskCubit>(context);
                 return TextField(
                   style: AppTextStyles.body,
                   textAlignVertical: TextAlignVertical.top,
                   maxLines: null,
                   minLines: 2,
+                  cursorWidth: 2,
+                  cursorColor: AppLigthColors.blue,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.zero,
                     hintText: "Что надо сделать...",

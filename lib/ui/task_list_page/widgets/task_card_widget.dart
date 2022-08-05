@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/models/task_model.dart';
@@ -15,8 +16,10 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding:
-          const EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 12),
+      contentPadding: const EdgeInsets.only(
+        left: 16,
+        right: 16,
+      ),
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -42,9 +45,8 @@ class TaskCard extends StatelessWidget {
             SizedBox(
               height: 24,
               width: 16,
-              // вставить эти два восклицательных знака
               child: task.importance == Importance.important
-                  ? const Icon(Icons.panorama_vertical_sharp)
+                  ? SvgPicture.asset('assets/images/double_ex.svg')
                   : const Icon(Icons.arrow_downward),
             ),
           if (task.importance != Importance.basic)

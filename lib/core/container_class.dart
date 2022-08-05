@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../models/task_model.dart';
 
 abstract class Cont {
+  static double tmp = 0;
+
   static String? convertUnixToStringDate(int? unix) {
     // вывод названия месяца
     if (unix != null) {
@@ -89,7 +91,7 @@ abstract class Cont {
         id: 7,
         text: "texter",
         importance: Importance.important,
-        deadline: 12,
+        deadline: null,
         done: true,
         color: Colors.red,
         createdAt: 14,
@@ -109,7 +111,7 @@ abstract class Cont {
         id: 9,
         text: "texter",
         importance: Importance.important,
-        deadline: 12,
+        deadline: null,
         done: true,
         color: Colors.red,
         createdAt: 14,

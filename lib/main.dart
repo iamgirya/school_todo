@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/navigation/root_names_container.dart';
@@ -8,6 +9,7 @@ import 'navigation/navigation_controller.dart';
 import 'ui/editor_page/editor_page.dart';
 
 void main() {
+  debugRepaintRainbowEnabled = false;
   runApp(const MyApp());
 }
 
