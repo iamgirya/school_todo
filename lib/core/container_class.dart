@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:school_todo/repositories/cubits_connectror_repository.dart';
+import 'package:school_todo/repositories/local_task_repository.dart';
 
 import '../models/task_model.dart';
+import '../repositories/global_task_repository.dart';
 
 abstract class Cont {
-  static double tmp = 0;
+  static ILocalTaskSavesRepository localTaskSavesRepository =
+      LocalTaskSavesRepository();
+  static ICubitsConnectorRepository cubitsConnectorRepository =
+      SimpleCubitsConnectorRepository();
+  static IGlobalTaskSavesRepository globalTaskSavesRepository =
+      GlobalTaskSavesRepository();
 
   static String? convertUnixToStringDate(int? unix) {
     // вывод названия месяца

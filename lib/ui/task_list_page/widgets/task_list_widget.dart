@@ -18,6 +18,7 @@ class TaskList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
     return Card(
       elevation: 2,
       margin: const EdgeInsets.only(right: 8, left: 8),
@@ -25,18 +26,18 @@ class TaskList extends StatelessWidget {
       child: BlocBuilder<TaskListCubit, TaskListState>(
         builder: (context, state) {
           TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
-          if (state is TaskListLoaded) {
-            return ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
+          if (state is TaskListReady) {
+            return Column(
               children: [
                 const SizedBox(
                   height: 8,
                 ),
-                //выгрузка из локального репозитория
-                for (int i = 0; i < taskListCubit.getLengthOfTaskList(); i++)
-                  DismissibleTaskCard(
-                      key: Key(taskListCubit.getTask(i).id.toString()), i: i),
+                for (int i = 0;
+                    i < taskListCubit.getUnLengthOfCompletedTaskList() ||
+                        (taskListCubit.isCompletedVisible &&
+                            i < taskListCubit.getLengthOfTaskList());
+                    i++)
+                  DismissibleTaskCard(indexOfTask: i),
                 const NewTaskCard(),
                 const SizedBox(
                   height: 8,

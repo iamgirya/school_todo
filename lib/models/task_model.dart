@@ -14,11 +14,12 @@ class Task {
   });
 
   Task.empty() {
-    text = "fs";
+    text = "";
     importance = Importance.basic;
     done = false;
-    createdAt = DateTime.now().millisecondsSinceEpoch~/1000;
-    changedAt = DateTime.now().millisecondsSinceEpoch~/1000;
+    createdAt = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    changedAt = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    // айди устройства
     lastUpdatedBy = 0;
   }
 
@@ -38,7 +39,7 @@ class Task {
 }
 
 enum Importance {
-  basic ,
-  low ,
+  basic,
+  low,
   important,
 }

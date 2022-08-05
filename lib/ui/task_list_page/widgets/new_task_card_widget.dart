@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
 import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/navigation/navigation_controller.dart';
@@ -24,6 +26,7 @@ class _NewTaskCardState extends State<NewTaskCard> {
 
   @override
   Widget build(BuildContext context) {
+    TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
     return ListTile(
       contentPadding: const EdgeInsets.only(
         left: 16,
@@ -40,9 +43,9 @@ class _NewTaskCardState extends State<NewTaskCard> {
             child: TextField(
               controller: textEditingController,
               onEditingComplete: () {
-                textEditingController.clear();
                 FocusScope.of(context).requestFocus(FocusNode());
-                // создание новой стандартной заметки
+                taskListCubit.addNewFastTask(textEditingController.text);
+                textEditingController.clear();
               },
               textInputAction: TextInputAction.done,
               textAlignVertical: TextAlignVertical.top,

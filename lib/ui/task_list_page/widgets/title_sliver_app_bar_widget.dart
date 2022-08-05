@@ -16,12 +16,13 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
     double percentOfShrinkOffset = ((expandedHeight / 2) - shrinkOffset) > 0
         ? ((expandedHeight / 2) - shrinkOffset) / (expandedHeight / 2)
         : 0;
+    TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
     return Material(
       elevation:
           percentOfShrinkOffset <= 1 / 64 ? 4 - 64 * percentOfShrinkOffset : 0,
       child:
           BlocBuilder<TaskListCubit, TaskListState>(builder: (context, state) {
-        if (state is TaskListLoaded) {
+        if (state is TaskListReady) {
           return ColoredBox(
             color: AppLigthColors.backgroundPrimary,
             child: Padding(
@@ -50,7 +51,7 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                         Opacity(
                           opacity: percentOfShrinkOffset,
                           child: Text(
-                            "Выполнено - ${BlocProvider.of<TaskListCubit>(context).getLengthOfCompletedTaskList()}",
+                            "Выполнено - ${taskListCubit.getLengthOfTaskList() - taskListCubit.getUnLengthOfCompletedTaskList()}",
                             style: AppTextStyles.title.copyWith(
                                 color: AppLigthColors.tertiary,
                                 fontSize: 1 + 19 * percentOfShrinkOffset),
@@ -67,13 +68,17 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        // отображение выполненных
-                        print(1);
+                        taskListCubit.changeCompletedTaskVisible();
                       },
-                      icon: const Icon(
-                        Icons.remove_red_eye,
-                        color: AppLigthColors.blue,
-                      ),
+                      icon: !taskListCubit.isCompletedVisible
+                          ? const Icon(
+                              Icons.visibility,
+                              color: AppLigthColors.blue,
+                            )
+                          : const Icon(
+                              Icons.visibility_off,
+                              color: AppLigthColors.blue,
+                            ),
                     ),
                   ),
                 ],

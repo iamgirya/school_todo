@@ -3,13 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
+import 'package:school_todo/models/task_model.dart';
 
 import 'task_card_widget.dart';
 
 class DismissibleTaskCard extends StatefulWidget {
-  const DismissibleTaskCard({Key? key, required this.i}) : super(key: key);
+  const DismissibleTaskCard({Key? key, required this.indexOfTask})
+      : super(key: key);
 
-  final int i;
+  final int indexOfTask;
 
   @override
   State<DismissibleTaskCard> createState() => _DismissibleTaskCardState();
@@ -21,11 +23,22 @@ class _DismissibleTaskCardState extends State<DismissibleTaskCard> {
   @override
   Widget build(BuildContext context) {
     TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
+    Task chosenTask = taskListCubit.isCompletedVisible
+        ? taskListCubit.getTask(widget.indexOfTask)
+        : taskListCubit.getUnCompletedTask(widget.indexOfTask);
     return LayoutBuilder(builder: (context, constraints) {
       return Dismissible(
-        key: Key(taskListCubit.getTask(widget.i).id.toString()),
+        key: Key(chosenTask.id.toString()),
+        confirmDismiss: (directional) async {
+          if (directional.name == "endToStart") {
+            return true;
+          } else {
+            taskListCubit.changeTaskComplete(chosenTask);
+            return false;
+          }
+        },
         onDismissed: (direction) {
-          taskListCubit.deleteTask(widget.i);
+          taskListCubit.deleteTask(chosenTask);
         },
         secondaryBackground: ValueListenableBuilder<double>(
           valueListenable: valueNotifier,
@@ -72,7 +85,7 @@ class _DismissibleTaskCardState extends State<DismissibleTaskCard> {
         onUpdate: (details) {
           valueNotifier.value = details.progress;
         },
-        child: TaskCard(task: taskListCubit.getTask(widget.i)),
+        child: TaskCard(task: chosenTask),
       );
     });
   }

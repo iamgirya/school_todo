@@ -9,6 +9,7 @@ import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/styles/app_fonts.dart';
 import 'package:school_todo/ui/task_list_page/widgets/task_card_widget.dart';
 import 'package:school_todo/ui/task_list_page/widgets/task_list_widget.dart';
+import 'package:school_todo/core/container_class.dart';
 
 import 'widgets/title_sliver_app_bar_widget.dart';
 
@@ -19,7 +20,10 @@ class TaskListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        TaskListCubit cubit = TaskListCubit();
+        TaskListCubit cubit = TaskListCubit(
+            localRepo: Cont.localTaskSavesRepository,
+            globalRepo: Cont.globalTaskSavesRepository,
+            cubitsConnectorRepo: Cont.cubitsConnectorRepository);
         cubit.loadTaskList();
         return cubit;
       },

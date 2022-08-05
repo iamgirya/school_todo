@@ -24,20 +24,15 @@ class TaskCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-              height: 24,
-              width: 24,
-              child: IconButton(
-                onPressed: () {},
-                // Понять в каких случаях и сделать ещё и красные квадратики
-                icon: task.done
-                    ? const Icon(
-                        Icons.check_box,
-                        color: AppLigthColors.green,
-                      )
-                    : const Icon(Icons.check_box_outline_blank),
-                padding: EdgeInsets.zero,
-                color: AppLigthColors.gray,
-              )),
+            height: 24,
+            width: 24,
+            child: task.done
+                ? const Icon(
+                    Icons.check_box,
+                    color: AppLigthColors.green,
+                  )
+                : const Icon(Icons.check_box_outline_blank),
+          ),
           const SizedBox(
             width: 12,
           ),

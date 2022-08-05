@@ -2,25 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/navigation/navigation_controller.dart';
+import 'package:school_todo/repositories/cubits_connectror_repository.dart';
+import 'package:school_todo/repositories/global_task_repository.dart';
+import 'package:school_todo/repositories/local_task_repository.dart';
 import '../../models/task_model.dart';
 import 'editing_task_state.dart';
 
 class EditingTaskCubit extends Cubit<EditingTaskState> {
-  EditingTaskCubit(Task? task)
-      : super(EditingTaskReady(editingTask: task ?? Task.empty())) {
+  EditingTaskCubit({Task? initTask, required this.cubitsConnectorRepo})
+      : super(EditingTaskReady(editingTask: initTask ?? Task.empty())) {
     textController = TextEditingController();
-    if (task != null) {
-      textController.text = task.text;
-      if (task.deadline != null) {
+    if (initTask != null) {
+      textController.text = initTask.text;
+      if (initTask.deadline != null) {
         switchValue = true;
       }
     }
   }
 
+  final ICubitsConnectorRepository cubitsConnectorRepo;
+
   late TextEditingController textController;
   bool switchValue = false;
 
-  bool _stateIsHasData() => state is EditingTaskHasData;
+  bool get _stateIsHasData => state is EditingTaskHasData;
 
   int dateToUnix(DateTime date) => date.millisecondsSinceEpoch ~/ 1000;
 
@@ -44,7 +49,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   }
 
   void onTapeOnDate(BuildContext context) async {
-    if (_stateIsHasData()) {
+    if (_stateIsHasData) {
       if (taskModel.deadline != null && switchValue) {
         emit(EditingTaskWaitingChanges(editingTask: taskModel));
         await _selectDeadLine(context);
@@ -54,7 +59,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   }
 
   void changeSwitch(BuildContext context) async {
-    if (_stateIsHasData()) {
+    if (_stateIsHasData) {
       switchValue = !switchValue;
       emit(EditingTaskWaitingChanges(editingTask: taskModel));
       if (switchValue && taskModel.deadline == null) {
@@ -65,7 +70,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   }
 
   void changeImportance(Importance? importance) {
-    if (importance != null && _stateIsHasData()) {
+    if (importance != null && _stateIsHasData) {
       emit(EditingTaskWaitingChanges(editingTask: taskModel));
       taskModel.importance = importance;
       emit(EditingTaskReady(editingTask: taskModel));
@@ -73,21 +78,20 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   }
 
   void deleteTask(BuildContext context) {
-    if (_stateIsHasData()) {
-      taskModel.text = textController.text;
-
-      // удаление из локального хранилища
-      Cont.localTaskList.remove(taskModel);
+    if (_stateIsHasData) {
+      cubitsConnectorRepo.deleteTask(taskModel);
     }
     context.read<NavigationController>().pop();
   }
 
   void saveTask(BuildContext context) {
-    if (_stateIsHasData()) {
+    if (_stateIsHasData) {
       taskModel.text = textController.text;
+      taskModel.changedAt = dateToUnix(DateTime.now());
+      // получение айди устройства
+      taskModel.lastUpdatedBy = 1;
 
-      // внесение в локальное хранилище
-      Cont.localTaskList.add(taskModel);
+      cubitsConnectorRepo.addNewTask(taskModel);
     }
 
     context.read<NavigationController>().pop();

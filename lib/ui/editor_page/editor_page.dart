@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
+import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/styles/app_fonts.dart';
 import 'package:school_todo/ui/editor_page/widgets/importance_choose_widget.dart';
@@ -23,7 +24,10 @@ class EditorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        EditingTaskCubit editingTaskCubit = EditingTaskCubit(editingTask);
+        EditingTaskCubit editingTaskCubit = EditingTaskCubit(
+          initTask: editingTask,
+          cubitsConnectorRepo: Cont.cubitsConnectorRepository,
+        );
         saveTask = editingTaskCubit.saveTask;
         return editingTaskCubit;
       },
@@ -60,7 +64,8 @@ class EditorPage extends StatelessWidget {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
+          padding:
+              const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
           child: ListView(
             children: const [
               TaskTextField(),
@@ -86,7 +91,3 @@ class EditorPage extends StatelessWidget {
     );
   }
 }
-
-
-
-
