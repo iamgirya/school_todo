@@ -1,3 +1,5 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -41,12 +43,27 @@ class TaskListPage extends StatelessWidget {
               ),
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              context.read<NavigationController>().navigateTo("editorPage");
-            },
-            tooltip: 'Create new task',
-            child: const Icon(Icons.add),
+          floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (kDebugMode)
+                FloatingActionButton(
+                  onPressed: () {
+                    // кнопка для вызова краша
+                    FirebaseCrashlytics.instance.log("Crash by crashButton");
+                    FirebaseCrashlytics.instance.crash();
+                  },
+                  heroTag: null,
+                  child: const Icon(Icons.car_crash),
+                ),
+              FloatingActionButton(
+                onPressed: () {
+                  context.read<NavigationController>().navigateTo("editorPage");
+                },
+                heroTag: null,
+                child: const Icon(Icons.add),
+              ),
+            ],
           ),
         ),
       ),

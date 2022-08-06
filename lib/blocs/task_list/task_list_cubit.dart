@@ -52,8 +52,16 @@ class TaskListCubit extends Cubit<TaskListState> {
 
   Task getUnCompletedTask(int index) {
     if (_isStateHasData) {
-      var l = loadedTasks.where((element) => !element.done).toList();
-      return l[index];
+      int unCompletedIndex = -1;
+      for (int i = 0; i < loadedTasks.length; i++) {
+        if (!loadedTasks[i].done) {
+          unCompletedIndex++;
+          if (unCompletedIndex == index) {
+            return loadedTasks[i];
+          }
+        }
+      }
+      throw Error();
     } else {
       throw Error();
     }

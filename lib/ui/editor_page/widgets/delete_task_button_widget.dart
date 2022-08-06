@@ -23,7 +23,6 @@ class DeleteTaskButton extends StatelessWidget {
           child: TextButton(
             style: TextButton.styleFrom(padding: EdgeInsets.zero),
             onPressed: () {
-              // диалог подтверждения
               logger.info("Delete task");
               BlocProvider.of<EditingTaskCubit>(context).deleteTask(context);
             },

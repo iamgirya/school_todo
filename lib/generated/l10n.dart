@@ -169,6 +169,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Да`
+  String get yesWord {
+    return Intl.message(
+      'Да',
+      name: 'yesWord',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Вы уверены, что хотите удалить задачу?`
+  String get dialogAcceptedDeleting {
+    return Intl.message(
+      'Вы уверены, что хотите удалить задачу?',
+      name: 'dialogAcceptedDeleting',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

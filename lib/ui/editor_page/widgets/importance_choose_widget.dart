@@ -36,7 +36,6 @@ class ImportanceChoose extends StatelessWidget {
                   EditingTaskCubit editingTaskCubit =
                       BlocProvider.of<EditingTaskCubit>(context);
                   return ButtonTheme(
-                    alignedDropdown: true,
                     child: DropdownButton(
                       // понять, как растянуть на всю линию и при этом оставить нормальное всплывающее меню
                       style: AppTextStyles.subhead

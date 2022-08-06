@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:school_todo/core/firebase.dart';
 import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/navigation/root_names_container.dart';
 import 'package:school_todo/ui/task_list_page/task_list_page.dart';
@@ -16,8 +17,10 @@ import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runZonedGuarded(() {
+  runZonedGuarded(() async {
     debugRepaintRainbowEnabled = false;
+
+    iniFirebase();
 
     initLogger();
     logger.info('Start main');
@@ -38,9 +41,7 @@ class MyApp extends StatelessWidget {
       value: navigationController,
       child: MaterialApp(
         localizationsDelegates: const [
-          // 1
           S.delegate,
-          // 2
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,

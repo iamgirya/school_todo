@@ -31,7 +31,12 @@ class TaskCard extends StatelessWidget {
                     Icons.check_box,
                     color: AppLigthColors.green,
                   )
-                : const Icon(Icons.check_box_outline_blank),
+                : task.importance == Importance.important
+                    ? Icon(
+                        Icons.check_box_outline_blank,
+                        color: AppLigthColors.importTaskColor,
+                      )
+                    : const Icon(Icons.check_box_outline_blank),
           ),
           const SizedBox(
             width: 12,

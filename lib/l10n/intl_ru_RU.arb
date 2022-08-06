@@ -11,5 +11,7 @@
   "editorImportanceImportant": "!!Высокий",
   "editorImportanceLow": "Низкий",
   "noWord": "Нет",
-  "editorTextTaskHint": "Что-то надо сделать..."
+  "editorTextTaskHint": "Что-то надо сделать...",
+  "yesWord": "Да",
+  "dialogAcceptedDeleting": "Вы уверены, что хотите удалить задачу?"
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:school_todo/repositories/cubits_connectror_repository.dart';
 import 'package:school_todo/repositories/local_task_repository.dart';
@@ -15,22 +16,23 @@ abstract class Cont {
       GlobalTaskSavesRepository();
 
   static String? convertUnixToStringDate(int? unix) {
-    // вывод названия месяца
     if (unix != null) {
-      DateTime tmpTime = DateTime.fromMillisecondsSinceEpoch(unix * 1000);
+      DateFormat dateFormat = DateFormat("d MMM yyyy");
 
-      return "${tmpTime.day} ${tmpTime.month} ${tmpTime.year}";
+      return dateFormat
+          .format(DateTime.fromMillisecondsSinceEpoch(unix * 1000));
     } else {
       return null;
     }
   }
 
+  // временный список для тестирования
   static List<Task> localTaskList = [
     Task(
         id: 0,
         text: "text",
         importance: Importance.basic,
-        deadline: 10,
+        deadline: 1000000,
         done: false,
         color: null,
         createdAt: 12,

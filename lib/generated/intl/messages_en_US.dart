@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "dialogAcceptedDeleting": MessageLookupByLibrary.simpleMessage(
+            "Are you sure, that you want to delete task?"),
         "editorDeadlineTitle":
             MessageLookupByLibrary.simpleMessage("Do before"),
         "editorDeleteButton": MessageLookupByLibrary.simpleMessage("Delete"),
@@ -39,6 +41,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noWord": MessageLookupByLibrary.simpleMessage("No"),
         "taskListFastTaskHint": MessageLookupByLibrary.simpleMessage("New"),
         "taskListTitleCompleted": m0,
-        "taskListTitleName": MessageLookupByLibrary.simpleMessage("My business")
+        "taskListTitleName":
+            MessageLookupByLibrary.simpleMessage("My business"),
+        "yesWord": MessageLookupByLibrary.simpleMessage("Yes")
       };
 }

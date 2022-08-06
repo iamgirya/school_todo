@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "197756551218",
+    "project_id": "school-todo-f5cca",
+    "storage_bucket": "school-todo-f5cca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197756551218:android:a87443384abfd78ae07c2b",
+        "android_client_info": {
+          "package_name": "com.example.school_todo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197756551218-5c9ra94ipa7fon8b0563sdf6ai37nn77.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzlERlUhf6PNDWGebBqBGoAQIgckqzHcU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "197756551218-5c9ra94ipa7fon8b0563sdf6ai37nn77.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "197756551218-4mkavi4olgs2jl9kedouan9m93jj7psf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.schoolTodo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -16,13 +16,13 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    double percentOfShrinkOffset = ((expandedHeight / 2) - shrinkOffset) > 0
-        ? ((expandedHeight / 2) - shrinkOffset) / (expandedHeight / 2)
-        : 0;
+    double diff = expandedHeight - kToolbarHeight;
+    double t = (diff - shrinkOffset) / diff;
+    double percentOfShrinkOffset = t > 0 ? t : 0;
     TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
     return Material(
       elevation:
-          percentOfShrinkOffset <= 1 / 64 ? 4 - 64 * percentOfShrinkOffset : 0,
+          percentOfShrinkOffset <= 0.05 ? 5 - 100 * percentOfShrinkOffset : 0,
       child:
           BlocBuilder<TaskListCubit, TaskListState>(builder: (context, state) {
         if (state is TaskListReady) {
@@ -50,7 +50,7 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                       const Expanded(
                         child: SizedBox(),
                       ),
-                      if (percentOfShrinkOffset > 0)
+                      if (percentOfShrinkOffset > 0.2)
                         Opacity(
                           opacity: percentOfShrinkOffset,
                           child: Text(

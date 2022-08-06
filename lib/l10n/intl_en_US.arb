@@ -11,5 +11,7 @@
   "editorImportanceImportant": "!!High",
   "editorImportanceLow": "Low",
   "noWord": "No",
-  "editorTextTaskHint": "Something to do..."
+  "editorTextTaskHint": "Something to do...",
+  "yesWord": "Yes",
+  "dialogAcceptedDeleting": "Are you sure, that you want to delete task?"
 }
