@@ -4,6 +4,7 @@ import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_state.dart';
 import 'package:school_todo/core/container_class.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../models/task_model.dart';
 import '../../../styles/app_colors.dart';
 import '../../../styles/app_fonts.dart';
@@ -29,8 +30,8 @@ class DeadlineChoose extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Сделать до",
+                    Text(
+                      S.of(context).editorDeadlineTitle,
                       style: AppTextStyles.body,
                     ),
                     GestureDetector(
@@ -39,7 +40,7 @@ class DeadlineChoose extends StatelessWidget {
                       },
                       child: Text(
                         Cont.convertUnixToStringDate(taskModel.deadline) ??
-                            "Нет",
+                            S.of(context).noWord,
                         style: AppTextStyles.button.copyWith(
                           color: taskModel.deadline != null &&
                                   editingTaskCubit.switchValue

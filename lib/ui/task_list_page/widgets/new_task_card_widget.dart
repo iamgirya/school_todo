@@ -9,6 +9,9 @@ import 'package:school_todo/navigation/root_names_container.dart';
 import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/styles/app_fonts.dart';
 
+import '../../../core/logger.dart';
+import '../../../generated/l10n.dart';
+
 class NewTaskCard extends StatefulWidget {
   const NewTaskCard({Key? key}) : super(key: key);
 
@@ -46,6 +49,9 @@ class _NewTaskCardState extends State<NewTaskCard> {
                 FocusScope.of(context).requestFocus(FocusNode());
                 taskListCubit.addNewFastTask(textEditingController.text);
                 textEditingController.clear();
+
+                logger.info(
+                    "Add fast task with text: ${textEditingController.text}");
               },
               textInputAction: TextInputAction.done,
               textAlignVertical: TextAlignVertical.top,
@@ -55,7 +61,7 @@ class _NewTaskCardState extends State<NewTaskCard> {
               cursorColor: AppLigthColors.blue,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
-                hintText: "Новое",
+                hintText: S.of(context).taskListFastTaskHint,
                 hintStyle:
                     AppTextStyles.body.copyWith(color: AppLigthColors.tertiary),
                 border: InputBorder.none,

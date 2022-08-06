@@ -63,6 +63,7 @@ class TaskListCubit extends Cubit<TaskListState> {
     if (_isStateHasData) {
       emit(TaskListWaitingChanges(loadedTasks: loadedTasks));
       if (!loadedTasks.contains(data)) {
+        data.id = getLengthOfTaskList();
         loadedTasks.add(data);
       }
       emit(TaskListReady(loadedTasks: loadedTasks));

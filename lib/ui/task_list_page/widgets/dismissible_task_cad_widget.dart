@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
 import 'package:school_todo/models/task_model.dart';
 
+import '../../../core/logger.dart';
 import 'task_card_widget.dart';
 
 class DismissibleTaskCard extends StatefulWidget {
@@ -31,9 +32,12 @@ class _DismissibleTaskCardState extends State<DismissibleTaskCard> {
         key: Key(chosenTask.id.toString()),
         confirmDismiss: (directional) async {
           if (directional.name == "endToStart") {
+            logger.info("Delete task with index: ${chosenTask.id}");
             return true;
           } else {
             taskListCubit.changeTaskComplete(chosenTask);
+            logger.info(
+                "Change task with index ${chosenTask.id} complete to: ${chosenTask.done}");
             return false;
           }
         },

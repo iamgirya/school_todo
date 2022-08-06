@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
 import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/styles/app_fonts.dart';
+import 'package:school_todo/ui/editor_page/widgets/delete_task_button_widget.dart';
 import 'package:school_todo/ui/editor_page/widgets/importance_choose_widget.dart';
 import 'package:school_todo/ui/editor_page/widgets/task_text_field_widget.dart';
 
+import '../../core/logger.dart';
+import '../../generated/l10n.dart';
 import '../../models/task_model.dart';
 import '../../navigation/navigation_controller.dart';
-import 'widgets/clouse_button_widget.dart';
 import 'widgets/deadline_choose_widget.dart';
 
-class EditorPage extends StatelessWidget {
-  EditorPage({Key? key, this.editingTask}) : super(key: key);
+class EditorPage extends StatefulWidget {
+  const EditorPage({Key? key, this.editingTask}) : super(key: key);
 
-  // выглядит как костыль, а как исправить
   final Task? editingTask;
+
+  @override
+  State<EditorPage> createState() => _EditorPageState();
+}
+
+class _EditorPageState extends State<EditorPage> {
+  // костыль
   late void Function(BuildContext) saveTask;
 
   @override
@@ -25,7 +32,7 @@ class EditorPage extends StatelessWidget {
     return BlocProvider(
       create: (context) {
         EditingTaskCubit editingTaskCubit = EditingTaskCubit(
-          initTask: editingTask,
+          initTask: widget.editingTask,
           cubitsConnectorRepo: Cont.cubitsConnectorRepository,
         );
         saveTask = editingTaskCubit.saveTask;
@@ -52,10 +59,14 @@ class EditorPage extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
+                logger.info("Save task");
+                // Вот здесь я должен получить Блок из провайдера через BlocProvider.of<EditingTaskCubit>(context);
+
+                // вместо этого я использую вызов функции, записанную в переменную
                 saveTask(context);
               },
               child: Text(
-                "СОХРАНИТЬ",
+                S.of(context).editorSaveButton,
                 style: AppTextStyles.button.copyWith(
                   color: AppLigthColors.blue,
                 ),
@@ -83,7 +94,7 @@ class EditorPage extends StatelessWidget {
                 height: 0.5,
                 color: AppLigthColors.separator,
               ),
-              ClouseButton(),
+              DeleteTaskButton(),
             ],
           ),
         ),

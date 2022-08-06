@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_state.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../models/task_model.dart';
 import '../../../styles/app_colors.dart';
 import '../../../styles/app_fonts.dart';
@@ -23,8 +24,8 @@ class ImportanceChoose extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Важность",
+            Text(
+              S.of(context).editorImportanceTitle,
               style: AppTextStyles.body,
             ),
             BlocBuilder<EditingTaskCubit, EditingTaskState>(
@@ -32,7 +33,8 @@ class ImportanceChoose extends StatelessWidget {
               builder: ((context, state) {
                 if (state is EditingTaskHasData) {
                   Task taskModel = state.editingTask;
-                  EditingTaskCubit editingTaskCubit = BlocProvider.of<EditingTaskCubit>(context);
+                  EditingTaskCubit editingTaskCubit =
+                      BlocProvider.of<EditingTaskCubit>(context);
                   return ButtonTheme(
                     alignedDropdown: true,
                     child: DropdownButton(
@@ -44,7 +46,7 @@ class ImportanceChoose extends StatelessWidget {
                       underline: const SizedBox(),
                       isDense: true,
                       hint: Text(
-                        "Нет",
+                        S.of(context).editorImportanceBasic,
                         style: AppTextStyles.subhead
                             .copyWith(color: AppLigthColors.tertiary),
                       ),
@@ -52,7 +54,7 @@ class ImportanceChoose extends StatelessWidget {
                         DropdownMenuItem<Importance>(
                           value: Importance.basic,
                           child: Text(
-                            "Нет",
+                            S.of(context).editorImportanceBasic,
                             style: AppTextStyles.subhead
                                 .copyWith(color: AppLigthColors.primary),
                           ),
@@ -60,7 +62,7 @@ class ImportanceChoose extends StatelessWidget {
                         DropdownMenuItem<Importance>(
                           value: Importance.low,
                           child: Text(
-                            "Низкий",
+                            S.of(context).editorImportanceLow,
                             style: AppTextStyles.subhead
                                 .copyWith(color: AppLigthColors.primary),
                           ),
@@ -68,7 +70,7 @@ class ImportanceChoose extends StatelessWidget {
                         DropdownMenuItem<Importance>(
                           value: Importance.important,
                           child: Text(
-                            "!! Высокий",
+                            S.of(context).editorImportanceImportant,
                             style: AppTextStyles.subhead
                                 .copyWith(color: AppLigthColors.red),
                           ),

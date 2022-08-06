@@ -1,0 +1,15 @@
+{
+  "@@locale": "en_US",
+  "taskListTitleName": "My business",
+  "taskListTitleCompleted": "Completed - {completedCount}",
+  "taskListFastTaskHint": "New",
+  "editorSaveButton": "SAVE",
+  "editorImportanceTitle": "Importance",
+  "editorDeadlineTitle": "Do before",
+  "editorDeleteButton": "Delete",
+  "editorImportanceBasic": "No",
+  "editorImportanceImportant": "!!High",
+  "editorImportanceLow": "Low",
+  "noWord": "No",
+  "editorTextTaskHint": "Something to do..."
+}

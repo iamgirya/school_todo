@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_state.dart';
-import 'package:school_todo/navigation/navigation_controller.dart';
 
-import '../../../models/task_model.dart';
+import '../../../core/logger.dart';
+import '../../../generated/l10n.dart';
 import '../../../styles/app_colors.dart';
 import '../../../styles/app_fonts.dart';
 
-class ClouseButton extends StatelessWidget {
-  const ClouseButton({
+class DeleteTaskButton extends StatelessWidget {
+  const DeleteTaskButton({
     Key? key,
   }) : super(key: key);
 
@@ -25,6 +24,7 @@ class ClouseButton extends StatelessWidget {
             style: TextButton.styleFrom(padding: EdgeInsets.zero),
             onPressed: () {
               // диалог подтверждения
+              logger.info("Delete task");
               BlocProvider.of<EditingTaskCubit>(context).deleteTask(context);
             },
             child: Row(
@@ -41,7 +41,7 @@ class ClouseButton extends StatelessWidget {
                   width: 12,
                 ),
                 Text(
-                  "Удалить",
+                  S.of(context).editorDeleteButton,
                   style: AppTextStyles.body.copyWith(
                     color: AppLigthColors.red,
                   ),

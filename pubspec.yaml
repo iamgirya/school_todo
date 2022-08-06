@@ -21,6 +21,11 @@ dependencies:
   dropdown_search: ^5.0.0
   shared_preferences: ^2.0.0
 
+  logging: ^1.0.2
+  intl: ^0.17.0
+  flutter_localizations:
+    sdk: flutter
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -37,3 +42,6 @@ flutter:
         - asset: assets/fonts/Roboto-Regular.ttf
         - asset: assets/fonts/Roboto-Italic.ttf
           style: italic
+flutter_intl:
+  main_locale: ru_RU
+  enabled: true

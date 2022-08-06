@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
 import 'package:school_todo/blocs/task_list/task_list_state.dart';
+import 'package:school_todo/core/logger.dart';
 import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/styles/app_fonts.dart';
 
+import '/generated/l10n.dart';
+
 class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
-
   TitleSliverAppBar({required this.expandedHeight});
 
   @override
@@ -40,7 +43,7 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Мои дела",
+                        S.of(context).taskListTitleName,
                         style: AppTextStyles.largeTitle.copyWith(
                             fontSize: 20 + 13 * percentOfShrinkOffset),
                       ),
@@ -51,7 +54,9 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                         Opacity(
                           opacity: percentOfShrinkOffset,
                           child: Text(
-                            "Выполнено - ${taskListCubit.getLengthOfTaskList() - taskListCubit.getUnLengthOfCompletedTaskList()}",
+                            S.of(context).taskListTitleCompleted(taskListCubit
+                                    .getLengthOfTaskList() -
+                                taskListCubit.getUnLengthOfCompletedTaskList()),
                             style: AppTextStyles.title.copyWith(
                                 color: AppLigthColors.tertiary,
                                 fontSize: 1 + 19 * percentOfShrinkOffset),
@@ -69,6 +74,8 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         taskListCubit.changeCompletedTaskVisible();
+                        logger.info(
+                            "Change completed task visible to ${taskListCubit.isCompletedVisible}");
                       },
                       icon: !taskListCubit.isCompletedVisible
                           ? const Icon(

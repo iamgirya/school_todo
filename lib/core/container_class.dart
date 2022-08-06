@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:school_todo/repositories/cubits_connectror_repository.dart';
 import 'package:school_todo/repositories/local_task_repository.dart';
 
@@ -117,7 +118,7 @@ abstract class Cont {
         lastUpdatedBy: 14),
     Task(
         id: 9,
-        text: "texter",
+        text: "tester",
         importance: Importance.important,
         deadline: null,
         done: true,
