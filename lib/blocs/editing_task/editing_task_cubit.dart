@@ -35,6 +35,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   Future<void> _selectDeadLine(BuildContext context) async {
     int? nowUnixDeadline = taskModel.deadline;
     final DateTime? picked = await showDatePicker(
+        helpText: "",
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
@@ -53,7 +54,9 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
     if (_stateIsHasData) {
       if (taskModel.deadline != null && switchValue) {
         emit(EditingTaskWaitingChanges(editingTask: taskModel));
+
         await _selectDeadLine(context);
+
         emit(EditingTaskReady(editingTask: taskModel));
       }
     }

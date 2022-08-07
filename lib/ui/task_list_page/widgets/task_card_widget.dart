@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
 import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/navigation/navigation_controller.dart';
@@ -28,17 +30,17 @@ class TaskCard extends StatelessWidget {
           SizedBox(
             height: 24,
             width: 24,
-            child: task.done
-                ? const Icon(
-                    Icons.check_box,
-                    color: AppLightColors.green,
-                  )
-                : task.importance == Importance.important
-                    ? Icon(
-                        Icons.check_box_outline_blank,
-                        color: AppLightColors.importTaskColor,
-                      )
-                    : const Icon(Icons.check_box_outline_blank),
+            child: Checkbox(
+              value: task.done,
+              activeColor: AppLightColors.green,
+              fillColor: !task.done && task.importance == Importance.important
+                  ? MaterialStateProperty.all(AppLightColors.importTaskColor)
+                  : null,
+              onChanged: (_) {
+                BlocProvider.of<TaskListCubit>(context)
+                    .changeTaskComplete(task);
+              },
+            ),
           ),
           const SizedBox(
             width: 12,

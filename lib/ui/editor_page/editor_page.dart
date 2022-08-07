@@ -8,34 +8,26 @@ import 'package:school_todo/ui/editor_page/widgets/delete_task_button_widget.dar
 import 'package:school_todo/ui/editor_page/widgets/importance_choose_widget.dart';
 import 'package:school_todo/ui/editor_page/widgets/task_text_field_widget.dart';
 
+import '../../blocs/editing_task/editing_task_state.dart';
 import '../../core/logger.dart';
 import '../../generated/l10n.dart';
 import '../../models/task_model.dart';
 import '../../navigation/navigation_controller.dart';
 import 'widgets/deadline_choose_widget.dart';
 
-class EditorPage extends StatefulWidget {
+class EditorPage extends StatelessWidget {
   const EditorPage({Key? key, this.editingTask}) : super(key: key);
 
   final Task? editingTask;
-
-  @override
-  State<EditorPage> createState() => _EditorPageState();
-}
-
-class _EditorPageState extends State<EditorPage> {
-  // костыль
-  late void Function(BuildContext) saveTask;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
         EditingTaskCubit editingTaskCubit = EditingTaskCubit(
-          initTask: widget.editingTask,
+          initTask: editingTask,
           cubitsConnectorRepo: Cont.cubitsConnectorRepository,
         );
-        saveTask = editingTaskCubit.saveTask;
         return editingTaskCubit;
       },
       child: Scaffold(
@@ -57,21 +49,21 @@ class _EditorPageState extends State<EditorPage> {
                 )),
           ),
           actions: [
-            TextButton(
-              onPressed: () {
-                logger.info("Save task");
-                // Вот здесь я должен получить Блок из провайдера через BlocProvider.of<EditingTaskCubit>(context);
-
-                // вместо этого я использую вызов функции, записанную в переменную
-                saveTask(context);
-              },
-              child: Text(
-                S.of(context).editorSaveButton,
-                style: AppTextStyles.button.copyWith(
-                  color: AppLightColors.blue,
+            BlocBuilder<EditingTaskCubit, EditingTaskState>(
+                builder: (context, snapshot) {
+              return TextButton(
+                onPressed: () {
+                  logger.info("Save task");
+                  BlocProvider.of<EditingTaskCubit>(context).saveTask(context);
+                },
+                child: Text(
+                  S.of(context).editorSaveButton,
+                  style: AppTextStyles.button.copyWith(
+                    color: AppLightColors.blue,
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
           ],
         ),
         body: Padding(
