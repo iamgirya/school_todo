@@ -33,7 +33,7 @@ class DeleteTaskButton extends StatelessWidget {
                   width: 24,
                   child: Icon(
                     Icons.delete,
-                    color: AppLigthColors.red,
+                    color: AppLightColors.red,
                   ),
                 ),
                 const SizedBox(
@@ -42,7 +42,7 @@ class DeleteTaskButton extends StatelessWidget {
                 Text(
                   S.of(context).editorDeleteButton,
                   style: AppTextStyles.body.copyWith(
-                    color: AppLigthColors.red,
+                    color: AppLightColors.red,
                   ),
                 ),
               ],

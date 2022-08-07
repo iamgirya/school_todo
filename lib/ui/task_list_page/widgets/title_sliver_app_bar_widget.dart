@@ -27,7 +27,7 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
           BlocBuilder<TaskListCubit, TaskListState>(builder: (context, state) {
         if (state is TaskListReady) {
           return ColoredBox(
-            color: AppLigthColors.backgroundPrimary,
+            color: AppLightColors.backgroundPrimary,
             child: Padding(
               padding: EdgeInsets.only(
                   bottom: 16.0,
@@ -58,7 +58,7 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                                     .getLengthOfTaskList() -
                                 taskListCubit.getUnLengthOfCompletedTaskList()),
                             style: AppTextStyles.title.copyWith(
-                                color: AppLigthColors.tertiary,
+                                color: AppLightColors.tertiary,
                                 fontSize: 1 + 19 * percentOfShrinkOffset),
                           ),
                         ),
@@ -80,11 +80,11 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                       icon: !taskListCubit.isCompletedVisible
                           ? const Icon(
                               Icons.visibility,
-                              color: AppLigthColors.blue,
+                              color: AppLightColors.blue,
                             )
                           : const Icon(
                               Icons.visibility_off,
-                              color: AppLigthColors.blue,
+                              color: AppLightColors.blue,
                             ),
                     ),
                   ),

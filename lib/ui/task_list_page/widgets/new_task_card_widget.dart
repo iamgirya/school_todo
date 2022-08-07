@@ -58,12 +58,12 @@ class _NewTaskCardState extends State<NewTaskCard> {
               maxLines: 1,
               minLines: 1,
               cursorWidth: 2,
-              cursorColor: AppLigthColors.blue,
+              cursorColor: AppLightColors.blue,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
                 hintText: S.of(context).taskListFastTaskHint,
                 hintStyle:
-                    AppTextStyles.body.copyWith(color: AppLigthColors.tertiary),
+                    AppTextStyles.body.copyWith(color: AppLightColors.tertiary),
                 border: InputBorder.none,
               ),
               style: AppTextStyles.body,

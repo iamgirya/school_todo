@@ -44,8 +44,8 @@ class DeadlineChoose extends StatelessWidget {
                         style: AppTextStyles.button.copyWith(
                           color: taskModel.deadline != null &&
                                   editingTaskCubit.switchValue
-                              ? AppLigthColors.blue
-                              : AppLigthColors.tertiary,
+                              ? AppLightColors.blue
+                              : AppLightColors.tertiary,
                         ),
                       ),
                     ),

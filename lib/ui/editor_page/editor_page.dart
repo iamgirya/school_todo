@@ -39,11 +39,11 @@ class _EditorPageState extends State<EditorPage> {
         return editingTaskCubit;
       },
       child: Scaffold(
-        backgroundColor: AppLigthColors.backgroundPrimary,
+        backgroundColor: AppLightColors.backgroundPrimary,
         appBar: AppBar(
           scrolledUnderElevation: 4,
           elevation: 0,
-          backgroundColor: AppLigthColors.backgroundPrimary,
+          backgroundColor: AppLightColors.backgroundPrimary,
           leading: SizedBox(
             height: 14,
             width: 14,
@@ -53,7 +53,7 @@ class _EditorPageState extends State<EditorPage> {
                 },
                 icon: const Icon(
                   Icons.close,
-                  color: AppLigthColors.primary,
+                  color: AppLightColors.primary,
                 )),
           ),
           actions: [
@@ -68,7 +68,7 @@ class _EditorPageState extends State<EditorPage> {
               child: Text(
                 S.of(context).editorSaveButton,
                 style: AppTextStyles.button.copyWith(
-                  color: AppLigthColors.blue,
+                  color: AppLightColors.blue,
                 ),
               ),
             ),
@@ -84,7 +84,7 @@ class _EditorPageState extends State<EditorPage> {
               ImportanceChoose(),
               Divider(
                 height: 0.5,
-                color: AppLigthColors.separator,
+                color: AppLightColors.separator,
               ),
               DeadlineChoose(),
               SizedBox(
@@ -92,7 +92,7 @@ class _EditorPageState extends State<EditorPage> {
               ),
               Divider(
                 height: 0.5,
-                color: AppLigthColors.separator,
+                color: AppLightColors.separator,
               ),
               DeleteTaskButton(),
             ],

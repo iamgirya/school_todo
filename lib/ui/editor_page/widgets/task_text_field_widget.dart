@@ -18,7 +18,7 @@ class TaskTextField extends StatelessWidget {
     return Container(
       constraints: const BoxConstraints(minHeight: 104),
       child: Card(
-        color: AppLigthColors.backgroundSecondary,
+        color: AppLightColors.backgroundSecondary,
         elevation: 2,
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -34,12 +34,12 @@ class TaskTextField extends StatelessWidget {
                   maxLines: null,
                   minLines: 2,
                   cursorWidth: 2,
-                  cursorColor: AppLigthColors.blue,
+                  cursorColor: AppLightColors.blue,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.zero,
                     hintText: S.of(context).editorTextTaskHint,
                     hintStyle: AppTextStyles.body
-                        .copyWith(color: AppLigthColors.tertiary),
+                        .copyWith(color: AppLightColors.tertiary),
                     border: InputBorder.none,
                   ),
                   controller: editingTaskCubit.textController,

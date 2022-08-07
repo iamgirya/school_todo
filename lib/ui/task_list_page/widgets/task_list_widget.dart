@@ -22,7 +22,7 @@ class TaskList extends StatelessWidget {
     return Card(
       elevation: 2,
       margin: const EdgeInsets.only(right: 8, left: 8),
-      color: AppLigthColors.backgroundSecondary,
+      color: AppLightColors.backgroundSecondary,
       child: BlocBuilder<TaskListCubit, TaskListState>(
         builder: (context, state) {
           TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);

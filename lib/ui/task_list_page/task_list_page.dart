@@ -32,7 +32,7 @@ class TaskListPage extends StatelessWidget {
       },
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: AppLigthColors.backgroundPrimary,
+          backgroundColor: AppLightColors.backgroundPrimary,
           body: CustomScrollView(
             slivers: <Widget>[
               SliverPersistentHeader(

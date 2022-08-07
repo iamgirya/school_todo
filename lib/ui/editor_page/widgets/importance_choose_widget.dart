@@ -40,7 +40,7 @@ class ImportanceChoose extends StatelessWidget {
                     child: DropdownButton(
                       // понять, как растянуть на всю линию и при этом оставить нормальное всплывающее меню
                       style: AppTextStyles.subhead
-                          .copyWith(color: AppLigthColors.tertiary),
+                          .copyWith(color: AppLightColors.tertiary),
                       value: taskModel.importance,
                       icon: const SizedBox(),
                       underline: const SizedBox(),
@@ -48,7 +48,7 @@ class ImportanceChoose extends StatelessWidget {
                       hint: Text(
                         S.of(context).editorImportanceBasic,
                         style: AppTextStyles.subhead
-                            .copyWith(color: AppLigthColors.tertiary),
+                            .copyWith(color: AppLightColors.tertiary),
                       ),
                       items: [
                         DropdownMenuItem<Importance>(
@@ -56,7 +56,7 @@ class ImportanceChoose extends StatelessWidget {
                           child: Text(
                             S.of(context).editorImportanceBasic,
                             style: AppTextStyles.subhead
-                                .copyWith(color: AppLigthColors.primary),
+                                .copyWith(color: AppLightColors.primary),
                           ),
                         ),
                         DropdownMenuItem<Importance>(
@@ -64,7 +64,7 @@ class ImportanceChoose extends StatelessWidget {
                           child: Text(
                             S.of(context).editorImportanceLow,
                             style: AppTextStyles.subhead
-                                .copyWith(color: AppLigthColors.primary),
+                                .copyWith(color: AppLightColors.primary),
                           ),
                         ),
                         DropdownMenuItem<Importance>(
@@ -72,7 +72,7 @@ class ImportanceChoose extends StatelessWidget {
                           child: Text(
                             S.of(context).editorImportanceImportant,
                             style: AppTextStyles.subhead
-                                .copyWith(color: AppLigthColors.red),
+                                .copyWith(color: AppLightColors.red),
                           ),
                         ),
                       ],

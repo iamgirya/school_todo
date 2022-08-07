@@ -31,12 +31,12 @@ class TaskCard extends StatelessWidget {
             child: task.done
                 ? const Icon(
                     Icons.check_box,
-                    color: AppLigthColors.green,
+                    color: AppLightColors.green,
                   )
                 : task.importance == Importance.important
                     ? Icon(
                         Icons.check_box_outline_blank,
-                        color: AppLigthColors.importTaskColor,
+                        color: AppLightColors.importTaskColor,
                       )
                     : const Icon(Icons.check_box_outline_blank),
           ),
@@ -62,7 +62,7 @@ class TaskCard extends StatelessWidget {
                 task.text,
                 style: task.done
                     ? AppTextStyles.body.copyWith(
-                        color: AppLigthColors.tertiary,
+                        color: AppLightColors.tertiary,
                         decoration: TextDecoration.lineThrough,
                       )
                     : AppTextStyles.body,
@@ -74,7 +74,7 @@ class TaskCard extends StatelessWidget {
                 Text(
                   Cont.convertUnixToStringDate(task.deadline)!,
                   style: AppTextStyles.subhead
-                      .copyWith(color: AppLigthColors.tertiary),
+                      .copyWith(color: AppLightColors.tertiary),
                 ),
             ],
           ),
@@ -92,7 +92,7 @@ class TaskCard extends StatelessWidget {
                     .navigateTo(RouteNames.editorPage, arguments: task);
               },
               icon: const Icon(Icons.info_outline),
-              color: AppLigthColors.gray,
+              color: AppLightColors.gray,
             ),
           ),
         ],
