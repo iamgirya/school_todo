@@ -13,6 +13,7 @@ import 'package:school_todo/styles/app_fonts.dart';
 import 'package:school_todo/ui/task_list_page/widgets/task_card_widget.dart';
 import 'package:school_todo/ui/task_list_page/widgets/task_list_widget.dart';
 
+import '../../models/task_model.dart';
 import 'widgets/title_sliver_app_bar_widget.dart';
 
 class TaskListPage extends StatelessWidget {
@@ -50,12 +51,23 @@ class TaskListPage extends StatelessWidget {
                 FloatingActionButton(
                   onPressed: () {
                     // кнопка для вызова краша
-                    FirebaseCrashlytics.instance.log("Crash by crashButton");
-                    FirebaseCrashlytics.instance.crash();
+                    Cont.globalTaskSavesRepository.getGlobalTaskList();
+                    var k = Cont.globalTaskSavesRepository
+                        .postGlobalTask(Task.empty());
+                    print(k);
                   },
                   heroTag: null,
-                  child: const Icon(Icons.car_crash),
+                  child: const Icon(Icons.transfer_within_a_station),
                 ),
+              FloatingActionButton(
+                onPressed: () {
+                  // кнопка для вызова краша
+                  FirebaseCrashlytics.instance.log("Crash by crashButton");
+                  FirebaseCrashlytics.instance.crash();
+                },
+                heroTag: null,
+                child: const Icon(Icons.car_crash),
+              ),
               FloatingActionButton(
                 onPressed: () {
                   context.read<NavigationController>().navigateTo("editorPage");

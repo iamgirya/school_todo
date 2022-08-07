@@ -10,3 +10,12 @@ enum Importance {
   @HiveField(2)
   important,
 }
+
+extension StringToEnum on String {
+  Importance toImportance() {
+    return Importance.values.firstWhere(
+      (element) => element.name == this,
+      orElse: () => throw Exception('Unknown importance $this'),
+    );
+  }
+}

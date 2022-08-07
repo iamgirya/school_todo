@@ -10,26 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dcf87de-003c-4ded-945a-cab4d1372f80" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/models/importance_model.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/models/importance_model.g.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/models/task_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/container_class.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/container_class.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/generated_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated_plugin_registrant.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/importance_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/importance_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/models/task_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/task_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/repositories/cubits_connectror_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/cubits_connector_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/repositories/local_task_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/local_task_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/widgets/importance_choose_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/widgets/importance_choose_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_card_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_card_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/title_sliver_app_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/title_sliver_app_bar_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/school_todo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/school_todo.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/global_task_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/global_task_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

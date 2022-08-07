@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:school_todo/core/container_class.dart';
@@ -49,7 +51,31 @@ class Task {
   @HiveField(8)
   late String lastUpdatedBy;
 
-  String toJson() {
-    return '{"importance":$importance,"deadline":$deadline,"text":$text}';
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "text": text,
+      "importance": importance.name,
+      "deadline": deadline,
+      "done": done,
+      "color": color?.value.toString(),
+      "created_at": createdAt,
+      "changed_at": changedAt,
+      'last_updated_by': lastUpdatedBy
+    };
+  }
+
+  static Task fromJson(Map<String, dynamic> map) {
+    return Task(
+      id: map['id'] as String,
+      text: map['text'] as String,
+      importance: (map['importance'] as String).toImportance(),
+      deadline: map['deadline'] as int?,
+      done: map['done'] as bool,
+      color: map['color'] != null ? Color(map['color'] as int) : null,
+      createdAt: map['created_at'] as int,
+      changedAt: map['changed_at'] as int,
+      lastUpdatedBy: map['last_updated_by'] as String,
+    );
   }
 }

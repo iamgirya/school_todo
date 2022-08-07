@@ -134,8 +134,7 @@ class TaskListCubit extends Cubit<TaskListState> {
 
   void loadTaskList() async {
     List<Task> localTasks = localRepo.loadLocalTasks();
-    // globalRepo.loadGlobalTasks();
-    // localTasks.addAll(Cont.localTaskList);
+    // глобалочка
     emit(TaskListReady(loadedTasks: localTasks));
   }
 
