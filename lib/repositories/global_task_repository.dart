@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'dart:io';
 
+import '../core/logger.dart';
 import '../models/task_model.dart';
 
 abstract class IGlobalTaskSavesRepository {
@@ -39,6 +40,7 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
 
   @override
   Future<Task> deleteGlobalTask(String id) async {
+    logger.info("Delete global task");
     try {
       Response<Map<String, dynamic>> response = await Dio().delete(
         "$baseUrl/list/$id",
@@ -51,18 +53,20 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
       );
       if (responseIsSuccessful(response)) {
         revision = response.data!["revision"];
+        logger.info("Success delete global task");
         return Task.fromJson(response.data!["element"]);
       } else {
         throw Error();
       }
     } catch (e) {
-      print(e);
+      logger.severe("Delete task error", [e]);
       rethrow;
     }
   }
 
   @override
   Future<Task> getGlobalTask(String id) async {
+    logger.info("Get global task");
     try {
       Response<Map<String, dynamic>> response = await Dio().get(
         "$baseUrl/list/$id",
@@ -74,18 +78,20 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
       );
       if (responseIsSuccessful(response)) {
         revision = response.data!["revision"];
+        logger.info("Success get global task");
         return Task.fromJson(response.data!["element"]);
       } else {
         throw Error();
       }
     } catch (e) {
-      print(e);
+      logger.severe("Get task error", [e]);
       rethrow;
     }
   }
 
   @override
   Future<List<Task>> getGlobalTaskList() async {
+    logger.info("Get global task list");
     try {
       Response<Map<String, dynamic>> response = await Dio().get(
         "$baseUrl/list",
@@ -102,18 +108,20 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
         for (Map<String, dynamic> task in response.data!["list"]) {
           tmpTaskList.add(Task.fromJson(task));
         }
+        logger.info("Success get global task list");
         return tmpTaskList;
       } else {
         throw Error();
       }
     } catch (e) {
-      print(e);
+      logger.severe("Get task list error", [e]);
       rethrow;
     }
   }
 
   @override
   Future<List<Task>> patchGlobalTaskList(List<Task> loadedTasks) async {
+    logger.info("Patch global task list");
     try {
       Response<Map<String, dynamic>> response = await Dio().patch(
         "$baseUrl/list",
@@ -136,18 +144,20 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
         for (Map<String, dynamic> task in response.data!["list"]) {
           tmpTaskList.add(Task.fromJson(task));
         }
+        logger.info("Success patch global task list");
         return tmpTaskList;
       } else {
         throw Error();
       }
     } catch (e) {
-      print(e);
+      logger.severe("Patch task list error", [e]);
       rethrow;
     }
   }
 
   @override
   Future<Task> postGlobalTask(Task postTask) async {
+    logger.info("Post global task");
     try {
       Response<Map<String, dynamic>> response = await Dio().post(
         "$baseUrl/list",
@@ -165,18 +175,20 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
       );
       if (responseIsSuccessful(response)) {
         revision = response.data!["revision"];
+        logger.info("Success post global task list");
         return Task.fromJson(response.data!["element"]);
       } else {
         throw Error();
       }
     } catch (e) {
-      print(e);
+      logger.severe("Post task error", [e]);
       rethrow;
     }
   }
 
   @override
   Future<Task> putGlobalTask(String id, Task putTask) async {
+    logger.info("Put global task");
     try {
       Response<Map<String, dynamic>> response = await Dio().put(
         "$baseUrl/list/$id",
@@ -194,12 +206,13 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
       );
       if (responseIsSuccessful(response)) {
         revision = response.data!["revision"];
+        logger.info("Success put global task list");
         return Task.fromJson(response.data!["element"]);
       } else {
         throw Error();
       }
     } catch (e) {
-      print(e);
+      logger.severe("Put task error", [e]);
       rethrow;
     }
   }

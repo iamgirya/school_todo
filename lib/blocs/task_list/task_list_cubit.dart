@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/core/container_class.dart';
+import 'package:school_todo/core/logger.dart';
 import 'package:school_todo/repositories/cubits_connector_repository.dart';
 import 'package:school_todo/repositories/global_task_repository.dart';
 import '../../models/task_model.dart';
@@ -27,14 +28,33 @@ class TaskListCubit extends Cubit<TaskListState> {
 
   bool get _isStateHasData => state is TaskListHasData;
 
-  void _changeState(
-      {required Function changeCallBack, required bool isNeedToLocalSave}) {
+  void _changeState({required Function changeCallBack}) {
     emit(TaskListWaitingChanges(loadedTasks: loadedTasks));
     changeCallBack();
-    if (isNeedToLocalSave) {
-      _saveTaskList();
-    }
     emit(TaskListReady(loadedTasks: loadedTasks));
+  }
+
+  Future<List<Task>> _checkLocalChanges(
+      List<Task> localTasks, List<Task> globalTasks) async {
+    bool localChanges = localTasks.length != globalTasks.length;
+    if (!localChanges) {
+      for (int i = 0; i < localTasks.length; i++) {
+        if (!globalTasks.contains(localTasks[i])) {
+          localChanges = true;
+          break;
+        }
+      }
+    }
+    logger.info(localChanges ? 'need to patch data' : 'similar data');
+
+    if (localChanges) {
+      List<Task> patchedGlobalTasks =
+          await globalRepo.patchGlobalTaskList(localTasks);
+      localRepo.saveLocalTasks(patchedGlobalTasks);
+      return patchedGlobalTasks;
+    } else {
+      return localTasks;
+    }
   }
 
   int getLengthOfTaskList() {
@@ -83,8 +103,10 @@ class TaskListCubit extends Cubit<TaskListState> {
           Task fastTask = Task.empty();
           fastTask.text = text;
           loadedTasks.add(fastTask);
+
+          localRepo.saveLocalTasks(loadedTasks);
+          globalRepo.postGlobalTask(fastTask);
         },
-        isNeedToLocalSave: false,
       );
     }
   }
@@ -94,8 +116,10 @@ class TaskListCubit extends Cubit<TaskListState> {
       _changeState(
         changeCallBack: () {
           loadedTasks.remove(toDeleteTask);
+
+          localRepo.saveLocalTasks(loadedTasks);
+          globalRepo.deleteGlobalTask(toDeleteTask.id);
         },
-        isNeedToLocalSave: false,
       );
     }
   }
@@ -106,7 +130,6 @@ class TaskListCubit extends Cubit<TaskListState> {
         changeCallBack: () {
           isCompletedVisible = !isCompletedVisible;
         },
-        isNeedToLocalSave: false,
       );
     }
   }
@@ -116,31 +139,39 @@ class TaskListCubit extends Cubit<TaskListState> {
       _changeState(
         changeCallBack: () {
           chosenTask.done = !chosenTask.done;
+
+          localRepo.saveLocalTasks(loadedTasks);
+          globalRepo.putGlobalTask(chosenTask.id, chosenTask);
         },
-        isNeedToLocalSave: true,
       );
     }
   }
 
-  void onGetTaskFromEditor(Task data) {
+  void onGetTaskFromEditor(Task editingTask) {
     if (_isStateHasData) {
-      emit(TaskListWaitingChanges(loadedTasks: loadedTasks));
-      if (!loadedTasks.contains(data)) {
-        loadedTasks.add(data);
-      }
-      emit(TaskListReady(loadedTasks: loadedTasks));
+      _changeState(
+        changeCallBack: () {
+          if (!loadedTasks.contains(editingTask)) {
+            loadedTasks.add(editingTask);
+
+            localRepo.saveLocalTasks(loadedTasks);
+            globalRepo.postGlobalTask(editingTask);
+          } else {
+            localRepo.saveLocalTasks(loadedTasks);
+            globalRepo.putGlobalTask(editingTask.id, editingTask);
+          }
+        },
+      );
     }
   }
 
-  void loadTaskList() async {
+  Future<void> loadTaskList() async {
     List<Task> localTasks = localRepo.loadLocalTasks();
-    // глобалочка
-    emit(TaskListReady(loadedTasks: localTasks));
-  }
+    List<Task> globalTasks = await globalRepo.getGlobalTaskList();
+    if (!isClosed) {
+      localTasks = await _checkLocalChanges(localTasks, globalTasks);
 
-  void _saveTaskList() {
-    if (_isStateHasData) {
-      localRepo.saveLocalTasks(loadedTasks);
+      emit(TaskListReady(loadedTasks: localTasks));
     }
   }
 }

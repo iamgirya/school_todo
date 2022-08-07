@@ -51,23 +51,12 @@ class TaskListPage extends StatelessWidget {
                 FloatingActionButton(
                   onPressed: () {
                     // кнопка для вызова краша
-                    Cont.globalTaskSavesRepository.getGlobalTaskList();
-                    var k = Cont.globalTaskSavesRepository
-                        .postGlobalTask(Task.empty());
-                    print(k);
+                    FirebaseCrashlytics.instance.log("Crash by crashButton");
+                    FirebaseCrashlytics.instance.crash();
                   },
                   heroTag: null,
-                  child: const Icon(Icons.transfer_within_a_station),
+                  child: const Icon(Icons.car_crash),
                 ),
-              FloatingActionButton(
-                onPressed: () {
-                  // кнопка для вызова краша
-                  FirebaseCrashlytics.instance.log("Crash by crashButton");
-                  FirebaseCrashlytics.instance.crash();
-                },
-                heroTag: null,
-                child: const Icon(Icons.car_crash),
-              ),
               FloatingActionButton(
                 onPressed: () {
                   context.read<NavigationController>().navigateTo("editorPage");

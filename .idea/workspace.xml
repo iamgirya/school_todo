@@ -12,9 +12,9 @@
     <list default="true" id="8dcf87de-003c-4ded-945a-cab4d1372f80" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/importance_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/importance_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/models/task_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/task_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/repositories/global_task_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/global_task_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/local_task_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/local_task_repository.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

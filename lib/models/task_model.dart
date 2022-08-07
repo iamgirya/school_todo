@@ -78,4 +78,15 @@ class Task {
       lastUpdatedBy: map['last_updated_by'] as String,
     );
   }
+
+  @override
+  bool operator ==(covariant Task other) {
+    if (identical(this, other)) return true;
+    return other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode;
+  }
 }

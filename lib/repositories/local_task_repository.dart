@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:school_todo/core/logger.dart';
 
 import '../models/importance_model.dart';
 import '../models/task_model.dart';
@@ -40,6 +41,7 @@ class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
 
   @override
   List<Task> loadLocalTasks() {
+    logger.info("Local load task");
     return (Hive.box(tasksBoxName).get(tasksBoxKey) as Iterable)
         .map((e) => e as Task)
         .toList();
@@ -47,6 +49,7 @@ class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
 
   @override
   Future<void> saveLocalTasks(List<Task> taskList) async {
+    logger.info("Local save task");
     await Hive.box(tasksBoxName).put(tasksBoxKey, taskList);
   }
 }
