@@ -8,6 +8,8 @@ import 'package:school_todo/navigation/root_names_container.dart';
 import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/styles/app_fonts.dart';
 
+import '../../../models/importance_model.dart';
+
 class TaskCard extends StatelessWidget {
   const TaskCard({Key? key, required this.task}) : super(key: key);
 

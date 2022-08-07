@@ -16,9 +16,9 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    double diff = expandedHeight - kToolbarHeight;
-    double t = (diff - shrinkOffset) / diff;
-    double percentOfShrinkOffset = t > 0 ? t : 0;
+    double delta = expandedHeight - kToolbarHeight;
+    double percentOfShrinkOffset =
+        (delta - shrinkOffset) / delta > 0 ? (delta - shrinkOffset) / delta : 0;
     TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
     return Material(
       elevation:

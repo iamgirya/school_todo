@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/core/container_class.dart';
-import 'package:school_todo/navigation/navigation_controller.dart';
-import 'package:school_todo/repositories/cubits_connectror_repository.dart';
+import 'package:school_todo/repositories/cubits_connector_repository.dart';
 import 'package:school_todo/repositories/global_task_repository.dart';
 import '../../models/task_model.dart';
 import '../../repositories/local_task_repository.dart';
@@ -14,7 +13,7 @@ class TaskListCubit extends Cubit<TaskListState> {
       required this.globalRepo,
       required this.cubitsConnectorRepo})
       : super(TaskListOnStart()) {
-    cubitsConnectorRepo.setCallBackOnNewTask(addNewTask);
+    cubitsConnectorRepo.setCallBackOnNewTask(onGetTaskFromEditor);
     cubitsConnectorRepo.setCallBackOnDeleteTask(deleteTask);
   }
 
@@ -27,6 +26,16 @@ class TaskListCubit extends Cubit<TaskListState> {
   List<Task> get loadedTasks => (state as TaskListHasData).loadedTasks;
 
   bool get _isStateHasData => state is TaskListHasData;
+
+  void _changeState(
+      {required Function changeCallBack, required bool isNeedToLocalSave}) {
+    emit(TaskListWaitingChanges(loadedTasks: loadedTasks));
+    changeCallBack();
+    if (isNeedToLocalSave) {
+      _saveTaskList();
+    }
+    emit(TaskListReady(loadedTasks: loadedTasks));
+  }
 
   int getLengthOfTaskList() {
     if (_isStateHasData) {
@@ -67,55 +76,72 @@ class TaskListCubit extends Cubit<TaskListState> {
     }
   }
 
-  void addNewTask(Task data) {
+  void addNewFastTask(String text) {
+    if (_isStateHasData) {
+      _changeState(
+        changeCallBack: () {
+          Task fastTask = Task.empty();
+          fastTask.text = text;
+          loadedTasks.add(fastTask);
+        },
+        isNeedToLocalSave: false,
+      );
+    }
+  }
+
+  void deleteTask(Task toDeleteTask) {
+    if (_isStateHasData) {
+      _changeState(
+        changeCallBack: () {
+          loadedTasks.remove(toDeleteTask);
+        },
+        isNeedToLocalSave: false,
+      );
+    }
+  }
+
+  void changeCompletedTaskVisible() {
+    if (_isStateHasData) {
+      _changeState(
+        changeCallBack: () {
+          isCompletedVisible = !isCompletedVisible;
+        },
+        isNeedToLocalSave: false,
+      );
+    }
+  }
+
+  void changeTaskComplete(Task chosenTask) {
+    if (_isStateHasData) {
+      _changeState(
+        changeCallBack: () {
+          chosenTask.done = !chosenTask.done;
+        },
+        isNeedToLocalSave: true,
+      );
+    }
+  }
+
+  void onGetTaskFromEditor(Task data) {
     if (_isStateHasData) {
       emit(TaskListWaitingChanges(loadedTasks: loadedTasks));
       if (!loadedTasks.contains(data)) {
-        data.id = getLengthOfTaskList();
         loadedTasks.add(data);
       }
       emit(TaskListReady(loadedTasks: loadedTasks));
     }
   }
 
-  void addNewFastTask(String text) {
-    if (_isStateHasData) {
-      emit(TaskListWaitingChanges(loadedTasks: loadedTasks));
-      Task fastTask = Task.empty();
-      fastTask.text = text;
-      loadedTasks.add(fastTask);
-      emit(TaskListReady(loadedTasks: loadedTasks));
-    }
+  void loadTaskList() async {
+    List<Task> localTasks = localRepo.loadLocalTasks();
+    // globalRepo.loadGlobalTasks();
+    // localTasks.addAll(Cont.localTaskList);
+    emit(TaskListReady(loadedTasks: localTasks));
   }
 
-  void deleteTask(Task toDeleteTask) {
+  void _saveTaskList() {
     if (_isStateHasData) {
-      emit(TaskListWaitingChanges(loadedTasks: loadedTasks));
-      loadedTasks.remove(toDeleteTask);
-      emit(TaskListReady(loadedTasks: loadedTasks));
+      localRepo.saveLocalTasks(loadedTasks);
     }
-  }
-
-  void changeCompletedTaskVisible() {
-    if (_isStateHasData) {
-      isCompletedVisible = !isCompletedVisible;
-      emit(TaskListWaitingChanges(loadedTasks: loadedTasks));
-      emit(TaskListReady(loadedTasks: loadedTasks));
-    }
-  }
-
-  void changeTaskComplete(Task chosenTask) {
-    if (_isStateHasData) {
-      emit(TaskListWaitingChanges(loadedTasks: loadedTasks));
-      chosenTask.done = !chosenTask.done;
-      emit(TaskListReady(loadedTasks: loadedTasks));
-    }
-  }
-
-  void loadTaskList() {
-    //загрузка из глобала и из локала
-    List<Task> tmp = [];
-    tmp.addAll(Cont.localTaskList);
-    emit(TaskListReady(loadedTasks: tmp));
   }
 }
