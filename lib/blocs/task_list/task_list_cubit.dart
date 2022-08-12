@@ -27,7 +27,7 @@ class TaskListCubit extends Cubit<TaskListState> {
 
   bool isCompletedVisible = false;
 
-  bool isOfflineMode = false;
+  bool get isOfflineMode => globalRepo.isOffline;
 
   List<Task> get loadedTasks => (state as TaskListHasData).loadedTasks;
 
@@ -54,19 +54,17 @@ class TaskListCubit extends Cubit<TaskListState> {
     }
     logger.info(localChanges ? 'need to patch data' : 'similar data');
 
-    if (isOfflineMode) {
-      return localTasks;
-    } else {
+    if (!isOfflineMode) {
       if (localChanges) {
-        List<Task> patchedGlobalTasks =
+        List<Task>? patchedGlobalTasks =
         await globalRepo.patchGlobalTaskList(localTasks);
-        localRepo.saveLocalTasks(patchedGlobalTasks);
-        return patchedGlobalTasks;
-      } else {
-        return localTasks;
+        if (patchedGlobalTasks != null) {
+          localRepo.saveLocalTasks(patchedGlobalTasks);
+          return patchedGlobalTasks;
+        }
       }
     }
-
+    return localTasks;
   }
 
   int getLengthOfTaskList() {
@@ -214,11 +212,14 @@ class TaskListCubit extends Cubit<TaskListState> {
       emit(TaskListReady(loadedTasks: localTasks));
     } else {
       List<Task> localTasks = localRepo.loadLocalTasks();
-      List<Task> globalTasks = await globalRepo.getGlobalTaskList();
+      List<Task>? globalTasks = await globalRepo.getGlobalTaskList();
       if (!isClosed) {
-        localTasks = await _checkLocalChanges(localTasks, globalTasks);
-
-        emit(TaskListReady(loadedTasks: localTasks));
+        if (globalTasks == null) {
+          emit(TaskListLoadError());
+        } else {
+          localTasks = await _checkLocalChanges(localTasks, globalTasks);
+          emit(TaskListReady(loadedTasks: localTasks));
+        }
       }
     }
   }

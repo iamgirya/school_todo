@@ -50,7 +50,8 @@ class TaskListPage extends StatelessWidget {
                 FloatingActionButton(
                   onPressed: () {
                     // кнопка для вызова ошибки
-                    FirebaseCrashlytics.instance.crash();
+                    //FirebaseCrashlytics.instance.crash();
+                    throw Error();
                   },
                   heroTag: null,
                   child: const Icon(Icons.error),

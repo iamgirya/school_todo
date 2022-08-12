@@ -12,6 +12,8 @@ class TaskListError extends TaskListState {
 
 class TaskListOnStart extends TaskListState {}
 
+class TaskListLoadError extends TaskListState {}
+
 class TaskListHasData extends TaskListState {
   final List<Task> loadedTasks;
 

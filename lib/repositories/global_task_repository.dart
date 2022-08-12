@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 
@@ -10,24 +11,63 @@ abstract class IGlobalTaskSavesRepository {
 
   static const String apiToken = "Puding";
 
-  Future<List<Task>> getGlobalTaskList();
-  Future<List<Task>> patchGlobalTaskList(List<Task> loadedTasks);
+  get isOffline => true;
 
-  Future<Task> getGlobalTask(String id);
-  Future<Task> postGlobalTask(Task postTask);
-  Future<Task> putGlobalTask(String id, Task putTask);
-  Future<Task> deleteGlobalTask(String id);
+  Future<List<Task>?> getGlobalTaskList();
+  Future<List<Task>?> patchGlobalTaskList(List<Task> loadedTasks);
+
+  Future<Task?> getGlobalTask(String id);
+  Future<Task?> postGlobalTask(Task postTask);
+  Future<Task?> putGlobalTask(String id, Task putTask);
+  Future<Task?> deleteGlobalTask(String id);
 }
 
 class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
   String get baseUrl => IGlobalTaskSavesRepository.baseUrl;
   String get apiToken => IGlobalTaskSavesRepository.apiToken;
 
+  bool _isOffline = false;
+  @override
+  bool get isOffline => _isOffline;
+  set isOffline(bool value) {
+    _isOffline = value;
+  }
+
   int _revision = 0;
   int get revision => _revision;
   set revision(int newRevision) {
     if (newRevision > _revision) {
       _revision = newRevision;
+    }
+  }
+
+  bool _isOfflineCheck() {
+    logger.info("App is offline, request denied");
+    return isOffline;
+  }
+
+  void _onError(error) {
+    if (error is DioError) {
+      if (error.response?.statusCode == 400) {
+        logger.severe("Error: wrong request", [error]);
+      } else if (error.response?.statusCode == 401) {
+        logger.severe("Error: wrong authorization", [error]);
+        isOffline = true;
+      } else if (error.response?.statusCode == 404) {
+        logger.severe("Error: element not found", [error]);
+      } else if ((error.response?.statusCode) != null && (error.response?.statusCode)! >= 500) {
+        logger.severe("Error: server error", [error]);
+        isOffline = true;
+      } if (error.error is SocketException) {
+        logger.severe("Error: lost Internet connection", [error]);
+        isOffline = true;
+      } else {
+        logger.severe("Error: unknown request error", [error]);
+        isOffline = true;
+      }
+    } else {
+      logger.severe("Error: unknown error", [error]);
+      isOffline = true;
     }
   }
 
@@ -38,7 +78,10 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
   }
 
   @override
-  Future<Task> deleteGlobalTask(String id) async {
+  Future<Task?> deleteGlobalTask(String id) async {
+    if (_isOfflineCheck()) {
+      return null;
+    }
     logger.info("Delete global task");
     try {
       Response<Map<String, dynamic>> response = await Dio().delete(
@@ -57,14 +100,18 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
       } else {
         throw Error();
       }
-    } catch (e) {
-      logger.severe("Delete task error", [e]);
-      rethrow;
+    } catch (error) {
+      _onError(error);
+      return null;
     }
+
   }
 
   @override
-  Future<Task> getGlobalTask(String id) async {
+  Future<Task?> getGlobalTask(String id) async {
+    if (_isOfflineCheck()) {
+      return null;
+    }
     logger.info("Get global task");
     try {
       Response<Map<String, dynamic>> response = await Dio().get(
@@ -82,14 +129,17 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
       } else {
         throw Error();
       }
-    } catch (e) {
-      logger.severe("Get task error", [e]);
-      rethrow;
+    } catch (error) {
+      _onError(error);
+      return null;
     }
   }
 
   @override
-  Future<List<Task>> getGlobalTaskList() async {
+  Future<List<Task>?> getGlobalTaskList() async {
+    if (_isOfflineCheck()) {
+      return null;
+    }
     logger.info("Get global task list");
     try {
       Response<Map<String, dynamic>> response = await Dio().get(
@@ -112,14 +162,17 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
       } else {
         throw Error();
       }
-    } catch (e) {
-      logger.severe("Get task list error", [e]);
-      rethrow;
+    } catch (error) {
+      _onError(error);
+      return null;
     }
   }
 
   @override
-  Future<List<Task>> patchGlobalTaskList(List<Task> loadedTasks) async {
+  Future<List<Task>?> patchGlobalTaskList(List<Task> loadedTasks) async {
+    if (_isOfflineCheck()) {
+      return null;
+    }
     logger.info("Patch global task list");
     try {
       Response<Map<String, dynamic>> response = await Dio().patch(
@@ -148,14 +201,17 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
       } else {
         throw Error();
       }
-    } catch (e) {
-      logger.severe("Patch task list error", [e]);
-      rethrow;
+    } catch (error) {
+      _onError(error);
+      return null;
     }
   }
 
   @override
-  Future<Task> postGlobalTask(Task postTask) async {
+  Future<Task?> postGlobalTask(Task postTask) async {
+    if (_isOfflineCheck()) {
+      return null;
+    }
     logger.info("Post global task");
     try {
       Response<Map<String, dynamic>> response = await Dio().post(
@@ -179,14 +235,17 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
       } else {
         throw Error();
       }
-    } catch (e) {
-      logger.severe("Post task error", [e]);
-      rethrow;
+    } catch (error) {
+      _onError(error);
+      return null;
     }
   }
 
   @override
-  Future<Task> putGlobalTask(String id, Task putTask) async {
+  Future<Task?> putGlobalTask(String id, Task putTask) async {
+    if (_isOfflineCheck()) {
+      return null;
+    }
     logger.info("Put global task");
     try {
       Response<Map<String, dynamic>> response = await Dio().put(
@@ -210,9 +269,9 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
       } else {
         throw Error();
       }
-    } catch (e) {
-      logger.severe("Put task error", [e]);
-      rethrow;
+    } catch (error) {
+      _onError(error);
+      return null;
     }
   }
 }

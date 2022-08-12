@@ -13,20 +13,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dcf87de-003c-4ded-945a-cab4d1372f80" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/blocs/task_list/task_list_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/task_list/task_list_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/error_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/error_handler.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/firebase.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/firebase.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/firebase_options.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/firebase_options.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/navigation/navigation_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/navigation/navigation_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/global_task_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/global_task_repository.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/macos/firebase_app_id_file.json" beforeDir="false" afterPath="$PROJECT_DIR$/macos/firebase_app_id_file.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,18 +104,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/repositories/global_task_repository.dart</url>
-          <line>151</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/repositories/global_task_repository.dart</url>
-          <line>148</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint suspend="THREAD" type="dart-exception" />
       </default-breakpoints>
