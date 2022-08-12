@@ -1,3 +1,4 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/core/logger.dart';
@@ -128,6 +129,7 @@ class TaskListCubit extends Cubit<TaskListState> {
           if (!isOfflineMode) {
             globalRepo.postGlobalTask(fastTask);
           }
+          AppMetrica.reportEvent("Add new fast task");
         },
       );
     }
@@ -143,6 +145,7 @@ class TaskListCubit extends Cubit<TaskListState> {
           if (!isOfflineMode) {
             globalRepo.deleteGlobalTask(toDeleteTask.id);
           }
+          AppMetrica.reportEvent("Delete task");
         },
       );
     }
@@ -170,6 +173,11 @@ class TaskListCubit extends Cubit<TaskListState> {
           if (!isOfflineMode) {
             globalRepo.putGlobalTask(chosenTask.id, chosenTask);
           }
+          if (chosenTask.done) {
+            AppMetrica.reportEvent("Task complete");
+          } else {
+            AppMetrica.reportEvent("Task incomplete");
+          }
         },
       );
     }
@@ -187,6 +195,7 @@ class TaskListCubit extends Cubit<TaskListState> {
             if (!isOfflineMode) {
               globalRepo.postGlobalTask(editingTask);
             }
+            AppMetrica.reportEvent("Add new editing task");
           } else {
             loadedTasks[indexOfEditedTask] = editingTask;
             localRepo.saveLocalTasks(loadedTasks);

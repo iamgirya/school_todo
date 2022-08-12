@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,9 @@ void main() {
     ErrorHandler.init();
 
     await initServiceLocator();
+
+    AppMetrica.activate(AppMetricaConfig("cf303739-8f4b-4b02-8f9f-c25c437db3a9", logs: true));
+
 
     runApp(const MyApp());
   }, ErrorHandler.recordError);

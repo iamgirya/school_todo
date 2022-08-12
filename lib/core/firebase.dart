@@ -14,15 +14,13 @@ void initFirebase() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    Platform.isAndroid
-        ? await Firebase.initializeApp()
-        : await Firebase.initializeApp(
+    await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
-      fetchTimeout: const Duration(seconds: 1),
-      minimumFetchInterval: const Duration(seconds: 10),
+      fetchTimeout: const Duration(seconds: 10),
+      minimumFetchInterval: const Duration(seconds: 5),
     ));
     await remoteConfig.fetchAndActivate();
     AppLightColors.importTaskColor =

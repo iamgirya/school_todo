@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +50,7 @@ class TaskListPage extends StatelessWidget {
                 FloatingActionButton(
                   onPressed: () {
                     // кнопка для вызова ошибки
-                    throw Error();
+                    FirebaseCrashlytics.instance.crash();
                   },
                   heroTag: null,
                   child: const Icon(Icons.error),
