@@ -28,65 +28,63 @@ class ImportanceChoose extends StatelessWidget {
               Task taskModel = state.editingTask;
               EditingTaskCubit editingTaskCubit =
                   BlocProvider.of<EditingTaskCubit>(context);
-              return ButtonTheme(
-                child: PopupMenuButton<Importance>(
-                    tooltip: "",
-                    child: SizedBox(
-                      width: Size.infinite.width,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            S.of(context).editorImportanceTitle,
-                            style: AppTextStyles.body,
-                          ),
-                          Text(
-                            taskModel.importance == Importance.basic
-                                ? S.of(context).editorImportanceBasic
-                                : taskModel.importance == Importance.low
-                                    ? S.of(context).editorImportanceLow
-                                    : S.of(context).editorImportanceImportant,
-                            style: AppTextStyles.subhead.copyWith(
-                                color:
-                                    taskModel.importance == Importance.important
-                                        ? AppLightColors.red
-                                        : AppLightColors.primary),
-                          ),
-                        ],
-                      ),
+              return PopupMenuButton<Importance>(
+                  tooltip: "",
+                  child: SizedBox(
+                    width: Size.infinite.width,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          S.of(context).editorImportanceTitle,
+                          style: AppTextStyles.body,
+                        ),
+                        Text(
+                          taskModel.importance == Importance.basic
+                              ? S.of(context).editorImportanceBasic
+                              : taskModel.importance == Importance.low
+                                  ? S.of(context).editorImportanceLow
+                                  : S.of(context).editorImportanceImportant,
+                          style: AppTextStyles.subhead.copyWith(
+                              color:
+                                  taskModel.importance == Importance.important
+                                      ? AppLightColors.red
+                                      : AppLightColors.primary),
+                        ),
+                      ],
                     ),
-                    onSelected: (Importance item) {
-                      editingTaskCubit.changeImportance(item);
-                    },
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<Importance>>[
-                          PopupMenuItem<Importance>(
-                            value: Importance.basic,
-                            child: Text(
-                              S.of(context).editorImportanceBasic,
-                              style: AppTextStyles.subhead
-                                  .copyWith(color: AppLightColors.primary),
-                            ),
+                  ),
+                  onSelected: (Importance item) {
+                    editingTaskCubit.changeImportance(item);
+                  },
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<Importance>>[
+                        PopupMenuItem<Importance>(
+                          value: Importance.basic,
+                          child: Text(
+                            S.of(context).editorImportanceBasic,
+                            style: AppTextStyles.subhead
+                                .copyWith(color: AppLightColors.primary),
                           ),
-                          PopupMenuItem<Importance>(
-                            value: Importance.low,
-                            child: Text(
-                              S.of(context).editorImportanceLow,
-                              style: AppTextStyles.subhead
-                                  .copyWith(color: AppLightColors.primary),
-                            ),
+                        ),
+                        PopupMenuItem<Importance>(
+                          value: Importance.low,
+                          child: Text(
+                            S.of(context).editorImportanceLow,
+                            style: AppTextStyles.subhead
+                                .copyWith(color: AppLightColors.primary),
                           ),
-                          PopupMenuItem<Importance>(
-                            value: Importance.important,
-                            child: Text(
-                              S.of(context).editorImportanceImportant,
-                              style: AppTextStyles.subhead
-                                  .copyWith(color: AppLightColors.red),
-                            ),
+                        ),
+                        PopupMenuItem<Importance>(
+                          value: Importance.important,
+                          child: Text(
+                            S.of(context).editorImportanceImportant,
+                            style: AppTextStyles.subhead
+                                .copyWith(color: AppLightColors.red),
                           ),
-                        ]),
-              );
+                        ),
+                      ]);
             } else {
               return Container();
             }

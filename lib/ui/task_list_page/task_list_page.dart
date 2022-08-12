@@ -1,19 +1,15 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
+import 'package:get_it/get_it.dart';
 import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
-import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/navigation/navigation_controller.dart';
-import 'package:school_todo/navigation/root_names_container.dart';
+import 'package:school_todo/repositories/global_task_repository.dart';
+import 'package:school_todo/repositories/local_task_repository.dart';
 import 'package:school_todo/styles/app_colors.dart';
-import 'package:school_todo/styles/app_fonts.dart';
-import 'package:school_todo/ui/task_list_page/widgets/task_card_widget.dart';
 import 'package:school_todo/ui/task_list_page/widgets/task_list_widget.dart';
 
-import '../../models/task_model.dart';
+import '../../repositories/cubits_connector_repository.dart';
 import 'widgets/title_sliver_app_bar_widget.dart';
 
 class TaskListPage extends StatelessWidget {
@@ -23,10 +19,12 @@ class TaskListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
+        GetIt getIt = GetIt.instance;
         TaskListCubit cubit = TaskListCubit(
-            localRepo: Cont.localTaskSavesRepository,
-            globalRepo: Cont.globalTaskSavesRepository,
-            cubitsConnectorRepo: Cont.cubitsConnectorRepository);
+            localRepo: getIt.get<ILocalTaskSavesRepository>(),
+            globalRepo: getIt.get<IGlobalTaskSavesRepository>(),
+            cubitsConnectorRepo: getIt.get<ICubitsConnectorRepository>(),
+        );
         cubit.loadTaskList();
         return cubit;
       },
@@ -50,13 +48,13 @@ class TaskListPage extends StatelessWidget {
               if (kDebugMode)
                 FloatingActionButton(
                   onPressed: () {
-                    // кнопка для вызова краша
-                    FirebaseCrashlytics.instance.log("Crash by crashButton");
-                    FirebaseCrashlytics.instance.crash();
+                    // кнопка для вызова ошибки
+                    throw Error();
                   },
                   heroTag: null,
-                  child: const Icon(Icons.car_crash),
+                  child: const Icon(Icons.error),
                 ),
+
               FloatingActionButton(
                 onPressed: () {
                   context.read<NavigationController>().navigateTo("editorPage");

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
-import 'package:school_todo/core/container_class.dart';
+import 'package:school_todo/repositories/cubits_connector_repository.dart';
 import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/styles/app_fonts.dart';
 import 'package:school_todo/ui/editor_page/widgets/delete_task_button_widget.dart';
@@ -24,9 +25,10 @@ class EditorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
+        GetIt getIt = GetIt.instance;
         EditingTaskCubit editingTaskCubit = EditingTaskCubit(
           initTask: editingTask,
-          cubitsConnectorRepo: Cont.cubitsConnectorRepository,
+          cubitsConnectorRepo: getIt.get<ICubitsConnectorRepository>(),
         );
         return editingTaskCubit;
       },

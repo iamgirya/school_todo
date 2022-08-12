@@ -1,31 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
-import 'package:school_todo/core/container_class.dart';
-import 'package:school_todo/models/task_model.dart';
-import 'package:school_todo/navigation/navigation_controller.dart';
-import 'package:school_todo/navigation/root_names_container.dart';
 import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/styles/app_fonts.dart';
 
-import '../../../core/logger.dart';
 import '../../../generated/l10n.dart';
 
-class NewTaskCard extends StatefulWidget {
+class NewTaskCard extends StatelessWidget {
   const NewTaskCard({Key? key}) : super(key: key);
 
-  @override
-  State<NewTaskCard> createState() => _NewTaskCardState();
-}
-
-class _NewTaskCardState extends State<NewTaskCard> {
-  TextEditingController textEditingController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +27,10 @@ class _NewTaskCardState extends State<NewTaskCard> {
           ),
           Expanded(
             child: TextField(
-              controller: textEditingController,
+              controller: taskListCubit.getFastTaskTextEditingController,
               onEditingComplete: () {
                 FocusScope.of(context).requestFocus(FocusNode());
-                taskListCubit.addNewFastTask(textEditingController.text);
-                textEditingController.clear();
-
-                logger.info(
-                    "Add fast task with text: ${textEditingController.text}");
+                taskListCubit.addNewFastTask();
               },
               textInputAction: TextInputAction.done,
               textAlignVertical: TextAlignVertical.top,

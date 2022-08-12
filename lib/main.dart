@@ -8,9 +8,9 @@ import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/navigation/root_names_container.dart';
 import 'package:school_todo/ui/task_list_page/task_list_page.dart';
 
-import 'core/container_class.dart';
 import 'core/error_handler.dart';
 import 'core/logger.dart';
+import 'core/service_locator.dart';
 import 'navigation/navigation_controller.dart';
 import 'ui/editor_page/editor_page.dart';
 
@@ -21,16 +21,14 @@ void main() {
   runZonedGuarded(() async {
     debugRepaintRainbowEnabled = false;
 
-    iniFirebase();
+    initFirebase();
 
     initLogger();
     logger.info('Start main');
 
     ErrorHandler.init();
 
-    Cont.readDeviceId();
-
-    await Cont.localTaskSavesRepository.initLocalTaskSavesRepository();
+    await initServiceLocator();
 
     runApp(const MyApp());
   }, ErrorHandler.recordError);
@@ -73,7 +71,6 @@ class MyApp extends StatelessWidget {
           return null;
         },
         theme: ThemeData(
-          primarySwatch: Colors.blue,
         ),
         home: const TaskListPage(),
       ),

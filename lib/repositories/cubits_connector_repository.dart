@@ -1,15 +1,10 @@
-import 'dart:async';
-
 import '../models/task_model.dart';
 
 abstract class ICubitsConnectorRepository {
-  late void Function(Task) _onNewTask;
 
   void addNewTask(Task newTask);
 
   void setCallBackOnNewTask(void Function(Task) callBack);
-
-  late void Function(Task) _onDeleteTask;
 
   void deleteTask(Task toDeleteTask);
 
@@ -17,7 +12,6 @@ abstract class ICubitsConnectorRepository {
 }
 
 class SimpleCubitsConnectorRepository implements ICubitsConnectorRepository {
-  @override
   late void Function(Task newTask) _onNewTask;
 
   @override
@@ -30,7 +24,6 @@ class SimpleCubitsConnectorRepository implements ICubitsConnectorRepository {
     _onNewTask = callBack;
   }
 
-  @override
   late void Function(Task toDeleteTask) _onDeleteTask;
 
   @override

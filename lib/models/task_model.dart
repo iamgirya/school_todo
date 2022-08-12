@@ -1,92 +1,54 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
-import 'package:school_todo/core/container_class.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
+import 'package:school_todo/core/device_id_holder.dart';
 
 import 'importance_model.dart';
+
 part 'task_model.g.dart';
+part 'task_model.freezed.dart';
 
-@HiveType(typeId: 0)
-class Task {
-  Task({
-    required this.id,
-    required this.text,
-    required this.importance,
-    required this.deadline,
-    required this.done,
-    required this.color,
-    required this.createdAt,
-    required this.changedAt,
-    required this.lastUpdatedBy,
-  });
+@freezed
+class Task with _$Task {
+  const Task._();
 
-  Task.empty() {
-    id = '${DateTime.now().millisecondsSinceEpoch}${Cont.getDeviceId}';
-    text = "";
-    importance = Importance.basic;
-    done = false;
-    createdAt = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    changedAt = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    // айди устройства
-    lastUpdatedBy = Cont.getDeviceId;
+  @HiveType(typeId: 0)
+  const factory Task({
+    @HiveField(0) required String id,
+    @HiveField(1) required String text,
+    @HiveField(2) required Importance importance,
+    @HiveField(3) int? deadline,
+    @HiveField(4) required bool done,
+    @HiveField(5) int? color,
+    @HiveField(6) required int createdAt,
+    @HiveField(7) required int changedAt,
+    @HiveField(8) required String lastUpdatedBy,
+  }) = _Task;
+
+  factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
+
+  String? getConvertUnixToStringDate() {
+    if (deadline != null) {
+      DateFormat dateFormat = DateFormat("d MMM yyyy");
+      return dateFormat
+          .format(DateTime.fromMillisecondsSinceEpoch(deadline! * 1000));
+    } else {
+      return null;
+    }
   }
 
-  @HiveField(0)
-  late String id;
-  @HiveField(1)
-  late String text;
-  @HiveField(2)
-  late Importance importance;
-  @HiveField(3)
-  int? deadline;
-  @HiveField(4)
-  late bool done;
-  @HiveField(5)
-  Color? color;
-  @HiveField(6)
-  late int createdAt;
-  @HiveField(7)
-  late int changedAt;
-  @HiveField(8)
-  late String lastUpdatedBy;
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "text": text,
-      "importance": importance.name,
-      "deadline": deadline,
-      "done": done,
-      "color": color?.value.toString(),
-      "created_at": createdAt,
-      "changed_at": changedAt,
-      'last_updated_by': lastUpdatedBy
-    };
-  }
-
-  static Task fromJson(Map<String, dynamic> map) {
-    return Task(
-      id: map['id'] as String,
-      text: map['text'] as String,
-      importance: (map['importance'] as String).toImportance(),
-      deadline: map['deadline'] as int?,
-      done: map['done'] as bool,
-      color: map['color'] != null ? Color(map['color'] as int) : null,
-      createdAt: map['created_at'] as int,
-      changedAt: map['changed_at'] as int,
-      lastUpdatedBy: map['last_updated_by'] as String,
-    );
-  }
-
-  @override
-  bool operator ==(covariant Task other) {
-    if (identical(this, other)) return true;
-    return other.id == id;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode;
+  static Task empty(String? text) {
+    GetIt getIt = GetIt.instance;
+    return Task(id: '${DateTime.now().millisecondsSinceEpoch}${getIt.get<DeviceIdHolder>().getDeviceId}',
+        text: text ?? "",
+        importance: Importance.basic,
+        deadline: null,
+        done: false,
+        color: null,
+        createdAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+        changedAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+        lastUpdatedBy: getIt.get<DeviceIdHolder>().getDeviceId);
   }
 }

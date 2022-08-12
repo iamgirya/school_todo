@@ -6,23 +6,23 @@ part of 'task_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class TaskAdapter extends TypeAdapter<Task> {
+class TaskAdapter extends TypeAdapter<_$_Task> {
   @override
   final int typeId = 0;
 
   @override
-  Task read(BinaryReader reader) {
+  _$_Task read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Task(
+    return _$_Task(
       id: fields[0] as String,
       text: fields[1] as String,
       importance: fields[2] as Importance,
       deadline: fields[3] as int?,
       done: fields[4] as bool,
-      color: fields[5] as Color?,
+      color: fields[5] as int?,
       createdAt: fields[6] as int,
       changedAt: fields[7] as int,
       lastUpdatedBy: fields[8] as String,
@@ -30,7 +30,7 @@ class TaskAdapter extends TypeAdapter<Task> {
   }
 
   @override
-  void write(BinaryWriter writer, Task obj) {
+  void write(BinaryWriter writer, _$_Task obj) {
     writer
       ..writeByte(9)
       ..writeByte(0)
@@ -63,3 +63,37 @@ class TaskAdapter extends TypeAdapter<Task> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$_Task _$$_TaskFromJson(Map<String, dynamic> json) => _$_Task(
+      id: json['id'] as String,
+      text: json['text'] as String,
+      importance: $enumDecode(_$ImportanceEnumMap, json['importance']),
+      deadline: json['deadline'] as int?,
+      done: json['done'] as bool,
+      color: json['color'] as int?,
+      createdAt: json['created_at'] as int,
+      changedAt: json['changed_at'] as int,
+      lastUpdatedBy: json['last_updated_by'] as String,
+    );
+
+Map<String, dynamic> _$$_TaskToJson(_$_Task instance) => <String, dynamic>{
+      'id': instance.id,
+      'text': instance.text,
+      'importance': _$ImportanceEnumMap[instance.importance]!,
+      'deadline': instance.deadline,
+      'done': instance.done,
+      'color': instance.color,
+      'created_at': instance.createdAt,
+      'changed_at': instance.changedAt,
+      'last_updated_by': instance.lastUpdatedBy,
+    };
+
+const _$ImportanceEnumMap = {
+  Importance.basic: 'basic',
+  Importance.low: 'low',
+  Importance.important: 'important',
+};

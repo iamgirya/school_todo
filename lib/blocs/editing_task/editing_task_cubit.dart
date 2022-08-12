@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:school_todo/core/container_class.dart';
-import 'package:school_todo/generated/l10n.dart';
+import 'package:get_it/get_it.dart';
 import 'package:school_todo/navigation/navigation_controller.dart';
 import 'package:school_todo/repositories/cubits_connector_repository.dart';
-import '../../core/logger.dart';
+import '../../core/device_id_holder.dart';
 import '../../models/importance_model.dart';
 import '../../models/task_model.dart';
 import 'editing_task_state.dart';
 
 class EditingTaskCubit extends Cubit<EditingTaskState> {
   EditingTaskCubit({Task? initTask, required this.cubitsConnectorRepo})
-      : super(EditingTaskReady(editingTask: initTask ?? Task.empty())) {
+      : super(EditingTaskReady(editingTask: initTask ?? Task.empty(""))) {
     textController = TextEditingController();
     if (initTask != null) {
       textController.text = initTask.text;
@@ -31,6 +30,9 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   int dateToUnix(DateTime date) => date.millisecondsSinceEpoch ~/ 1000;
 
   Task get taskModel => (state as EditingTaskHasData).editingTask;
+  set taskModel (Task value) {
+    emit(EditingTaskReady(editingTask: value));
+  }
 
   Future<void> _selectDeadLine(BuildContext context) async {
     int? nowUnixDeadline = taskModel.deadline;
@@ -43,7 +45,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
     if (picked != null) {
       int pickedUnix = dateToUnix(picked);
       if (pickedUnix != nowUnixDeadline) {
-        taskModel.deadline = pickedUnix;
+        taskModel = taskModel.copyWith(deadline: pickedUnix);
       }
     } else if (nowUnixDeadline == null) {
       switchValue = false;
@@ -76,8 +78,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   void changeImportance(Importance? importance) {
     if (importance != null && _stateIsHasData) {
       emit(EditingTaskWaitingChanges(editingTask: taskModel));
-      taskModel.importance = importance;
-      emit(EditingTaskReady(editingTask: taskModel));
+      taskModel = taskModel.copyWith(importance: importance);
     }
   }
 
@@ -89,12 +90,15 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   }
 
   void saveTask(BuildContext context) {
+    GetIt getIt = GetIt.instance;
     if (_stateIsHasData) {
-      taskModel.text = textController.text;
-      taskModel.changedAt = dateToUnix(DateTime.now());
-      taskModel.lastUpdatedBy = Cont.getDeviceId;
+      Task savedTaskModel = taskModel.copyWith(
+          text: textController.text,
+          changedAt: dateToUnix(DateTime.now()),
+          lastUpdatedBy: getIt.get<DeviceIdHolder>().getDeviceId,
+      );
 
-      cubitsConnectorRepo.addNewTask(taskModel);
+      cubitsConnectorRepo.addNewTask(savedTaskModel);
     }
 
     context.read<NavigationController>().pop();

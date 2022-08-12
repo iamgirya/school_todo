@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ class ErrorHandler {
   }
 
   static void recordError(Object error, StackTrace stackTrace) {
+    //FirebaseCrashlytics.instance.log(message); recordError(error, stackTrace);
     logger.severe(
       error.toString(),
       error,
@@ -18,6 +20,7 @@ class ErrorHandler {
   }
 
   static void _recordFlutterError(FlutterErrorDetails error) {
+    //FirebaseCrashlytics.instance.recordFlutterError;
     logger.severe(error.toStringShort(), error.exception, error.stack);
   }
 

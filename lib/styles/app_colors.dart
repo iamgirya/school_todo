@@ -18,5 +18,5 @@ abstract class AppLightColors {
   static const Color backgroundSecondary = Color(0xFFFFFFFF);
   static const Color backgroundElevated = Color(0xFFFFFFFF);
 
-  static Color? importTaskColor;
+  static Color importTaskColor = const Color(0xFFFF3B30);
 }

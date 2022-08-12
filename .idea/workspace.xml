@@ -5,29 +5,57 @@
       <config />
     </shared>
   </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dcf87de-003c-4ded-945a-cab4d1372f80" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/device_id_holder.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/service_locator.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/models/task_model.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis_options.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/analysis_options.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/google-services.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/firebase_app_id_file.json" beforeDir="false" afterPath="$PROJECT_DIR$/ios/firebase_app_id_file.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/container_class.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/error_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/error_handler.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/firebase.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/firebase.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/firebase_options.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/firebase_options.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/generated/intl/messages_all.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated/intl/messages_all.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/generated/intl/messages_en_US.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated/intl/messages_en_US.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/generated/intl/messages_ru_RU.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated/intl/messages_ru_RU.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/generated/l10n.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated/l10n.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/generated_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated_plugin_registrant.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/importance_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/importance_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/task_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/task_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/task_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/task_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/navigation/navigation_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/navigation/navigation_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/cubits_connector_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/cubits_connector_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/global_task_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/global_task_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/styles/app_colors.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/styles/app_colors.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/editor_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/editor_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/widgets/deadline_choose_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/widgets/deadline_choose_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/widgets/delete_task_confirn_dialog.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/widgets/importance_choose_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/widgets/importance_choose_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/widgets/task_text_field_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/widgets/task_text_field_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/dismissible_task_cad_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/dismissible_task_cad_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/new_task_card_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/new_task_card_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_card_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_card_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_list_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_list_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/title_sliver_app_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/title_sliver_app_bar_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/macos/firebase_app_id_file.json" beforeDir="false" afterPath="$PROJECT_DIR$/macos/firebase_app_id_file.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/widget_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/widget_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,12 +90,17 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Documents/GitHub/flutter" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="show.migrate.to.gradle.popup" value="false" />
@@ -106,6 +139,18 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/repositories/global_task_repository.dart</url>
+          <line>151</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/repositories/global_task_repository.dart</url>
+          <line>148</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint suspend="THREAD" type="dart-exception" />
       </default-breakpoints>

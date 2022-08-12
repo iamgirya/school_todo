@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/core/logger.dart';
 import 'package:school_todo/repositories/cubits_connector_repository.dart';
 import 'package:school_todo/repositories/global_task_repository.dart';
@@ -16,7 +15,10 @@ class TaskListCubit extends Cubit<TaskListState> {
       : super(TaskListOnStart()) {
     cubitsConnectorRepo.setCallBackOnNewTask(onGetTaskFromEditor);
     cubitsConnectorRepo.setCallBackOnDeleteTask(deleteTask);
+    fastTaskTextEditingController = TextEditingController();
   }
+
+  late TextEditingController fastTaskTextEditingController;
 
   final ILocalTaskSavesRepository localRepo;
   final IGlobalTaskSavesRepository globalRepo;
@@ -24,9 +26,13 @@ class TaskListCubit extends Cubit<TaskListState> {
 
   bool isCompletedVisible = false;
 
+  bool isOfflineMode = false;
+
   List<Task> get loadedTasks => (state as TaskListHasData).loadedTasks;
 
   bool get _isStateHasData => state is TaskListHasData;
+
+  TextEditingController get getFastTaskTextEditingController => fastTaskTextEditingController;
 
   void _changeState({required Function changeCallBack}) {
     emit(TaskListWaitingChanges(loadedTasks: loadedTasks));
@@ -47,14 +53,19 @@ class TaskListCubit extends Cubit<TaskListState> {
     }
     logger.info(localChanges ? 'need to patch data' : 'similar data');
 
-    if (localChanges) {
-      List<Task> patchedGlobalTasks =
-          await globalRepo.patchGlobalTaskList(localTasks);
-      localRepo.saveLocalTasks(patchedGlobalTasks);
-      return patchedGlobalTasks;
-    } else {
+    if (isOfflineMode) {
       return localTasks;
+    } else {
+      if (localChanges) {
+        List<Task> patchedGlobalTasks =
+        await globalRepo.patchGlobalTaskList(localTasks);
+        localRepo.saveLocalTasks(patchedGlobalTasks);
+        return patchedGlobalTasks;
+      } else {
+        return localTasks;
+      }
     }
+
   }
 
   int getLengthOfTaskList() {
@@ -96,16 +107,27 @@ class TaskListCubit extends Cubit<TaskListState> {
     }
   }
 
-  void addNewFastTask(String text) {
+  void addNewFastTask([String? text]) {
     if (_isStateHasData) {
       _changeState(
         changeCallBack: () {
-          Task fastTask = Task.empty();
-          fastTask.text = text;
+          Task fastTask;
+
+          if (text == null) {
+            fastTask = Task.empty(getFastTaskTextEditingController.text);
+            getFastTaskTextEditingController.clear();
+            logger.info(
+                "Add fast task with text: ${getFastTaskTextEditingController.text}");
+          } else {
+            fastTask = Task.empty(text);
+          }
+
           loadedTasks.add(fastTask);
 
           localRepo.saveLocalTasks(loadedTasks);
-          globalRepo.postGlobalTask(fastTask);
+          if (!isOfflineMode) {
+            globalRepo.postGlobalTask(fastTask);
+          }
         },
       );
     }
@@ -118,7 +140,9 @@ class TaskListCubit extends Cubit<TaskListState> {
           loadedTasks.remove(toDeleteTask);
 
           localRepo.saveLocalTasks(loadedTasks);
-          globalRepo.deleteGlobalTask(toDeleteTask.id);
+          if (!isOfflineMode) {
+            globalRepo.deleteGlobalTask(toDeleteTask.id);
+          }
         },
       );
     }
@@ -138,10 +162,14 @@ class TaskListCubit extends Cubit<TaskListState> {
     if (_isStateHasData) {
       _changeState(
         changeCallBack: () {
-          chosenTask.done = !chosenTask.done;
+          chosenTask = chosenTask.copyWith(done: !chosenTask.done);
+          int indexOfEditedTask = loadedTasks.indexWhere((element) => element.id == chosenTask.id);
+          loadedTasks[indexOfEditedTask] = chosenTask;
 
           localRepo.saveLocalTasks(loadedTasks);
-          globalRepo.putGlobalTask(chosenTask.id, chosenTask);
+          if (!isOfflineMode) {
+            globalRepo.putGlobalTask(chosenTask.id, chosenTask);
+          }
         },
       );
     }
@@ -151,14 +179,20 @@ class TaskListCubit extends Cubit<TaskListState> {
     if (_isStateHasData) {
       _changeState(
         changeCallBack: () {
-          if (!loadedTasks.contains(editingTask)) {
+          int indexOfEditedTask = loadedTasks.indexWhere((element) => element.id == editingTask.id);
+          if (indexOfEditedTask == -1) {
             loadedTasks.add(editingTask);
 
             localRepo.saveLocalTasks(loadedTasks);
-            globalRepo.postGlobalTask(editingTask);
+            if (!isOfflineMode) {
+              globalRepo.postGlobalTask(editingTask);
+            }
           } else {
+            loadedTasks[indexOfEditedTask] = editingTask;
             localRepo.saveLocalTasks(loadedTasks);
-            globalRepo.putGlobalTask(editingTask.id, editingTask);
+            if (!isOfflineMode) {
+              globalRepo.putGlobalTask(editingTask.id, editingTask);
+            }
           }
         },
       );
@@ -166,12 +200,17 @@ class TaskListCubit extends Cubit<TaskListState> {
   }
 
   Future<void> loadTaskList() async {
-    List<Task> localTasks = localRepo.loadLocalTasks();
-    List<Task> globalTasks = await globalRepo.getGlobalTaskList();
-    if (!isClosed) {
-      localTasks = await _checkLocalChanges(localTasks, globalTasks);
-
+    if (isOfflineMode) {
+      List<Task> localTasks = localRepo.loadLocalTasks();
       emit(TaskListReady(loadedTasks: localTasks));
+    } else {
+      List<Task> localTasks = localRepo.loadLocalTasks();
+      List<Task> globalTasks = await globalRepo.getGlobalTaskList();
+      if (!isClosed) {
+        localTasks = await _checkLocalChanges(localTasks, globalTasks);
+
+        emit(TaskListReady(loadedTasks: localTasks));
+      }
     }
   }
 }
