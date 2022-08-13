@@ -41,8 +41,13 @@ class TaskListPage extends StatelessWidget {
                 delegate: TitleSliverAppBar(expandedHeight: 132),
                 pinned: true,
               ),
-              const SliverToBoxAdapter(
-                child: TaskList(),
+              SliverToBoxAdapter(
+                child: Column(
+                  children: const [
+                    TaskList(),
+                    SizedBox(height: 8,),
+                  ],
+                ),
               ),
             ],
           ),

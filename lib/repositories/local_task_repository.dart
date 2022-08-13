@@ -26,6 +26,8 @@ class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
       dir = await getExternalStorageDirectory();
     } else if (Platform.isIOS) {
       dir = await getApplicationSupportDirectory();
+    } else {
+      dir = await getTemporaryDirectory();
     }
     Hive.init(dir!.path);
 

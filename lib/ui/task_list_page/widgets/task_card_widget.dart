@@ -61,30 +61,34 @@ class TaskCard extends StatelessWidget {
             const SizedBox(
               width: 8,
             ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                task.text,
-                style: task.done
-                    ? AppTextStyles.body.copyWith(
-                        color: theme.tertiary,
-                        decoration: TextDecoration.lineThrough,
-                      )
-                    : AppTextStyles.body,
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              if (task.deadline != null)
-                Text(
-                  task.getConvertUnixToStringDate()!,
-                  style: AppTextStyles.subhead
-                      .copyWith(color: theme.tertiary),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                  Text(
+                    task.text,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: task.done
+                        ? AppTextStyles.body.copyWith(
+                            color: theme.tertiary,
+                            decoration: TextDecoration.lineThrough,
+                          )
+                        : AppTextStyles.body,
+                  ),
+                const SizedBox(
+                  height: 4,
                 ),
-            ],
+                if (task.deadline != null)
+                  Text(
+                    task.getConvertUnixToStringDate()!,
+                    style: AppTextStyles.subhead
+                        .copyWith(color: theme.tertiary),
+                  ),
+              ],
+            ),
           ),
-          const Spacer(),
+          const SizedBox(width: 12,),
           SizedBox(
             height: 24,
             width: 24,

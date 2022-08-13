@@ -45,7 +45,7 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                       Text(
                         S.of(context).taskListTitleName,
                         style: AppTextStyles.largeTitle.copyWith(
-                            fontSize: 20 + 13 * percentOfShrinkOffset),
+                            fontSize: 20 + 13 * percentOfShrinkOffset * percentOfShrinkOffset),
                       ),
                       const Spacer(),
                       if (percentOfShrinkOffset > 0.2)

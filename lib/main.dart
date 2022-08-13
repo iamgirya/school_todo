@@ -8,7 +8,6 @@ import 'package:school_todo/core/firebase.dart';
 import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/navigation/root_names_container.dart';
 import 'package:school_todo/ui/task_list_page/task_list_page.dart';
-import 'package:flutter/scheduler.dart';
 
 import 'core/error_handler.dart';
 import 'core/logger.dart';
@@ -20,8 +19,9 @@ import 'ui/editor_page/editor_page.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+
+
 void main() {
-  timeDilation = 5.0;
   runZonedGuarded(() async {
     debugRepaintRainbowEnabled = false;
 
