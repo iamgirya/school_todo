@@ -12,6 +12,7 @@ class NewTaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
     TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
     return ListTile(
       contentPadding: const EdgeInsets.only(
@@ -37,12 +38,12 @@ class NewTaskCard extends StatelessWidget {
               maxLines: 1,
               minLines: 1,
               cursorWidth: 2,
-              cursorColor: AppLightColors.blue,
+              cursorColor: theme.blue,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
                 hintText: S.of(context).taskListFastTaskHint,
                 hintStyle:
-                    AppTextStyles.body.copyWith(color: AppLightColors.tertiary),
+                    AppTextStyles.body.copyWith(color: theme.tertiary),
                 border: InputBorder.none,
               ),
               style: AppTextStyles.body,

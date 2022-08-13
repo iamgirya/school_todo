@@ -23,6 +23,7 @@ class EditorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
     return BlocProvider(
       create: (context) {
         GetIt getIt = GetIt.instance;
@@ -33,11 +34,11 @@ class EditorPage extends StatelessWidget {
         return editingTaskCubit;
       },
       child: Scaffold(
-        backgroundColor: AppLightColors.backgroundPrimary,
+        backgroundColor: theme.backgroundPrimary,
         appBar: AppBar(
           scrolledUnderElevation: 4,
           elevation: 0,
-          backgroundColor: AppLightColors.backgroundPrimary,
+          backgroundColor: theme.backgroundPrimary,
           leading: SizedBox(
             height: 14,
             width: 14,
@@ -45,9 +46,9 @@ class EditorPage extends StatelessWidget {
                 onPressed: () {
                   context.read<NavigationController>().pop();
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.close,
-                  color: AppLightColors.primary,
+                  color: theme.primary,
                 )),
           ),
           actions: [
@@ -61,7 +62,7 @@ class EditorPage extends StatelessWidget {
                 child: Text(
                   S.of(context).editorSaveButton,
                   style: AppTextStyles.button.copyWith(
-                    color: AppLightColors.blue,
+                    color: theme.blue,
                   ),
                 ),
               );
@@ -72,23 +73,23 @@ class EditorPage extends StatelessWidget {
           padding:
               const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
           child: ListView(
-            children: const [
-              TaskTextField(),
-              SizedBox(height: 28),
-              ImportanceChoose(),
+            children: [
+              const TaskTextField(),
+              const SizedBox(height: 28),
+              const ImportanceChoose(),
               Divider(
                 height: 0.5,
-                color: AppLightColors.separator,
+                color: theme.separator,
               ),
-              DeadlineChoose(),
-              SizedBox(
+              const DeadlineChoose(),
+              const SizedBox(
                 height: 24,
               ),
               Divider(
                 height: 0.5,
-                color: AppLightColors.separator,
+                color: theme.separator,
               ),
-              DeleteTaskButton(),
+              const DeleteTaskButton(),
             ],
           ),
         ),

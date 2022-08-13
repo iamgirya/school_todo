@@ -13,6 +13,7 @@ class DeadlineChoose extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
     return SizedBox(
       height: 72,
       width: Size.infinite.width,
@@ -33,27 +34,28 @@ class DeadlineChoose extends StatelessWidget {
                       S.of(context).editorDeadlineTitle,
                       style: AppTextStyles.body,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        editingTaskCubit.onTapeOnDate(context);
-                      },
-                      child: Text(
-                        taskModel.getConvertUnixToStringDate() ??
-                            S.of(context).noWord,
-                        style: AppTextStyles.button.copyWith(
-                          color: taskModel.deadline != null &&
-                                  editingTaskCubit.switchValue
-                              ? AppLightColors.blue
-                              : AppLightColors.tertiary,
+                    if (taskModel.deadline != null)
+                      GestureDetector(
+                        onTap: () {
+                          editingTaskCubit.onTapeOnDate(context);
+                        },
+                        child: Text(
+                          taskModel.getConvertUnixToStringDate() ??
+                              S.of(context).noWord,
+                          style: AppTextStyles.button.copyWith(
+                            color: taskModel.deadline != null &&
+                                    editingTaskCubit.switchValue
+                                ? theme.blue
+                                : theme.tertiary,
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
-                const Expanded(
-                  child: SizedBox(),
-                ),
+                const Spacer(),
                 Switch(
+                  activeColor: theme.blue,
+                  activeTrackColor: theme.blue!.withOpacity(0.3),
                   value: editingTaskCubit.switchValue,
                   onChanged: (value) {
                     editingTaskCubit.changeSwitch(context);

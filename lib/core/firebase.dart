@@ -4,27 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:school_todo/core/logger.dart';
 
 import '../firebase_options.dart';
-import '../styles/app_colors.dart';
 
 final remoteConfig = FirebaseRemoteConfig.instance;
 
 void initFirebase() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+  } catch (error) {
+    logger.severe("Ошибка подключения Firebase", [error]);
+  }
+}
 
+Future<Color> getImportantColor() async {
+  try {
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(seconds: 10),
       minimumFetchInterval: const Duration(seconds: 5),
     ));
     await remoteConfig.fetchAndActivate();
-    AppLightColors.importTaskColor =
-        Color(remoteConfig.getInt("importantColor"));
+    return Color(remoteConfig.getInt("importantColor"));
   } catch (error) {
-    logger.severe("Ошибка подключения Firebase", [error]);
-    AppLightColors.importTaskColor = AppLightColors.red;
+    logger.severe("Ошибка подключения Remote Config", [error]);
+    return Colors.red;
   }
+
 }

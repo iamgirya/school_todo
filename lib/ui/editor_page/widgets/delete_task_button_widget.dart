@@ -15,8 +15,9 @@ class DeleteTaskButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
+    EditingTaskCubit editingTaskCubit = BlocProvider.of<EditingTaskCubit>(context);
     return BlocBuilder<EditingTaskCubit, EditingTaskState>(
-      buildWhen: (previous, current) => false,
       builder: (context, state) {
         return SizedBox(
           height: 48,
@@ -24,16 +25,16 @@ class DeleteTaskButton extends StatelessWidget {
             style: TextButton.styleFrom(padding: EdgeInsets.zero),
             onPressed: () {
               logger.info("Delete task");
-              BlocProvider.of<EditingTaskCubit>(context).deleteTask(context);
+              editingTaskCubit.deleteTask(context);
             },
             child: Row(
               children: [
-                const SizedBox(
+                SizedBox(
                   height: 24,
                   width: 24,
                   child: Icon(
                     Icons.delete,
-                    color: AppLightColors.red,
+                    color: editingTaskCubit.textController.text == "" ? theme.disable : theme.red,
                   ),
                 ),
                 const SizedBox(
@@ -42,7 +43,7 @@ class DeleteTaskButton extends StatelessWidget {
                 Text(
                   S.of(context).editorDeleteButton,
                   style: AppTextStyles.body.copyWith(
-                    color: AppLightColors.red,
+                    color: editingTaskCubit.textController.text == "" ? theme.disable : theme.red,
                   ),
                 ),
               ],

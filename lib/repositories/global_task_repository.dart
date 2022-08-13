@@ -42,7 +42,9 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
   }
 
   bool _isOfflineCheck() {
-    logger.info("App is offline, request denied");
+    if (isOffline) {
+      logger.info("App is offline, request denied");
+    }
     return isOffline;
   }
 

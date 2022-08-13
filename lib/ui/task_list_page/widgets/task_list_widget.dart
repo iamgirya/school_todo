@@ -11,10 +11,11 @@ class TaskList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
     return Card(
       elevation: 2,
       margin: const EdgeInsets.only(right: 8, left: 8),
-      color: AppLightColors.backgroundSecondary,
+      color: theme.backgroundSecondary,
       child: BlocBuilder<TaskListCubit, TaskListState>(
         builder: (context, state) {
           TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);

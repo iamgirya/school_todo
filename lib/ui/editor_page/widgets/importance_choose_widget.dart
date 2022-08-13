@@ -16,6 +16,7 @@ class ImportanceChoose extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
     return SizedBox(
       height: 72,
       width: Size.infinite.width,
@@ -49,8 +50,8 @@ class ImportanceChoose extends StatelessWidget {
                           style: AppTextStyles.subhead.copyWith(
                               color:
                                   taskModel.importance == Importance.important
-                                      ? AppLightColors.red
-                                      : AppLightColors.primary),
+                                      ? theme.red
+                                      : taskModel.importance == Importance.basic ? theme.tertiary : theme.primary),
                         ),
                       ],
                     ),
@@ -65,7 +66,7 @@ class ImportanceChoose extends StatelessWidget {
                           child: Text(
                             S.of(context).editorImportanceBasic,
                             style: AppTextStyles.subhead
-                                .copyWith(color: AppLightColors.primary),
+                                .copyWith(color: theme.primary),
                           ),
                         ),
                         PopupMenuItem<Importance>(
@@ -73,7 +74,7 @@ class ImportanceChoose extends StatelessWidget {
                           child: Text(
                             S.of(context).editorImportanceLow,
                             style: AppTextStyles.subhead
-                                .copyWith(color: AppLightColors.primary),
+                                .copyWith(color: theme.primary),
                           ),
                         ),
                         PopupMenuItem<Importance>(
@@ -81,7 +82,7 @@ class ImportanceChoose extends StatelessWidget {
                           child: Text(
                             S.of(context).editorImportanceImportant,
                             style: AppTextStyles.subhead
-                                .copyWith(color: AppLightColors.red),
+                                .copyWith(color: theme.red),
                           ),
                         ),
                       ]);

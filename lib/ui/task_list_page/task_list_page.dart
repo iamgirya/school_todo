@@ -14,10 +14,13 @@ import '../../repositories/cubits_connector_repository.dart';
 import 'widgets/title_sliver_app_bar_widget.dart';
 
 class TaskListPage extends StatelessWidget {
-  const TaskListPage({Key? key}) : super(key: key);
+  const TaskListPage({Key? key, required this.toggleTheme,}) : super(key: key);
+
+  final void Function() toggleTheme;
 
   @override
   Widget build(BuildContext context) {
+    ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
     return BlocProvider(
       create: (context) {
         GetIt getIt = GetIt.instance;
@@ -31,7 +34,7 @@ class TaskListPage extends StatelessWidget {
       },
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: AppLightColors.backgroundPrimary,
+          backgroundColor: theme.backgroundPrimary,
           body: CustomScrollView(
             slivers: <Widget>[
               SliverPersistentHeader(
@@ -51,7 +54,7 @@ class TaskListPage extends StatelessWidget {
                   onPressed: () {
                     // кнопка для вызова ошибки
                     //FirebaseCrashlytics.instance.crash();
-                    throw Error();
+                    toggleTheme();
                   },
                   heroTag: null,
                   child: const Icon(Icons.error),
@@ -62,7 +65,8 @@ class TaskListPage extends StatelessWidget {
                   context.read<NavigationController>().navigateTo("editorPage");
                 },
                 heroTag: null,
-                child: const Icon(Icons.add),
+                backgroundColor: theme.blue,
+                child: const Icon(Icons.add, color: Colors.white ,),
               ),
             ],
           ),

@@ -17,6 +17,7 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
     return ListTile(
       contentPadding: const EdgeInsets.only(
         left: 16,
@@ -30,13 +31,13 @@ class TaskCard extends StatelessWidget {
             width: 18,
             child: ColoredBox(
               color: !task.done && task.importance == Importance.important
-                  ? AppLightColors.importTaskColor.withOpacity(0.16)
-                  : AppLightColors.importTaskColor.withOpacity(0.0),
+                  ? theme.importTaskColor!.withOpacity(0.16)
+                  : theme.importTaskColor!.withOpacity(0.0),
               child: Checkbox(
                 value: task.done,
-                activeColor: AppLightColors.green,
+                activeColor: theme.green,
                 fillColor: !task.done && task.importance == Importance.important
-                    ? MaterialStateProperty.all(AppLightColors.importTaskColor)
+                    ? MaterialStateProperty.all(theme.importTaskColor)
                     : null,
                 onChanged: (_) {
                   BlocProvider.of<TaskListCubit>(context)
@@ -67,7 +68,7 @@ class TaskCard extends StatelessWidget {
                 task.text,
                 style: task.done
                     ? AppTextStyles.body.copyWith(
-                        color: AppLightColors.tertiary,
+                        color: theme.tertiary,
                         decoration: TextDecoration.lineThrough,
                       )
                     : AppTextStyles.body,
@@ -79,13 +80,11 @@ class TaskCard extends StatelessWidget {
                 Text(
                   task.getConvertUnixToStringDate()!,
                   style: AppTextStyles.subhead
-                      .copyWith(color: AppLightColors.tertiary),
+                      .copyWith(color: theme.tertiary),
                 ),
             ],
           ),
-          const Expanded(
-            child: SizedBox(),
-          ),
+          const Spacer(),
           SizedBox(
             height: 24,
             width: 24,
@@ -97,7 +96,7 @@ class TaskCard extends StatelessWidget {
                     .navigateTo(RouteNames.editorPage, arguments: task);
               },
               icon: const Icon(Icons.info_outline),
-              color: AppLightColors.gray,
+              color: theme.gray,
             ),
           ),
         ],

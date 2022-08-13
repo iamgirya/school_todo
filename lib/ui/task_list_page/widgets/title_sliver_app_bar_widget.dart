@@ -15,6 +15,7 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
+    ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
     double delta = expandedHeight - kToolbarHeight;
     double percentOfShrinkOffset =
         (delta - shrinkOffset) / delta > 0 ? (delta - shrinkOffset) / delta : 0;
@@ -26,7 +27,7 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
           BlocBuilder<TaskListCubit, TaskListState>(builder: (context, state) {
         if (state is TaskListReady) {
           return ColoredBox(
-            color: AppLightColors.backgroundPrimary,
+            color: theme.backgroundPrimary!,
             child: Padding(
               padding: EdgeInsets.only(
                   bottom: 16.0,
@@ -46,9 +47,7 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                         style: AppTextStyles.largeTitle.copyWith(
                             fontSize: 20 + 13 * percentOfShrinkOffset),
                       ),
-                      const Expanded(
-                        child: SizedBox(),
-                      ),
+                      const Spacer(),
                       if (percentOfShrinkOffset > 0.2)
                         Opacity(
                           opacity: percentOfShrinkOffset,
@@ -57,15 +56,13 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                                     .getLengthOfTaskList() -
                                 taskListCubit.getUnLengthOfCompletedTaskList()),
                             style: AppTextStyles.title.copyWith(
-                                color: AppLightColors.tertiary,
+                                color: theme.tertiary,
                                 fontSize: 1 + 19 * percentOfShrinkOffset),
                           ),
                         ),
                     ],
                   ),
-                  const Expanded(
-                    child: SizedBox(),
-                  ),
+                  const Spacer(),
                   SizedBox(
                     width: 24,
                     height: 24,
@@ -77,13 +74,13 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                             "Change completed task visible to ${taskListCubit.isCompletedVisible}");
                       },
                       icon: !taskListCubit.isCompletedVisible
-                          ? const Icon(
+                          ? Icon(
                               Icons.visibility,
-                              color: AppLightColors.blue,
+                              color: theme.blue,
                             )
-                          : const Icon(
+                          : Icon(
                               Icons.visibility_off,
-                              color: AppLightColors.blue,
+                              color: theme.blue,
                             ),
                     ),
                   ),

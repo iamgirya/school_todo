@@ -12,6 +12,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   EditingTaskCubit({Task? initTask, required this.cubitsConnectorRepo})
       : super(EditingTaskReady(editingTask: initTask ?? Task.empty(""))) {
     textController = TextEditingController();
+    textController.addListener(_onStartOrEndInput);
     if (initTask != null) {
       textController.text = initTask.text;
       if (initTask.deadline != null) {
@@ -24,6 +25,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
 
   late TextEditingController textController;
   bool switchValue = false;
+  bool _taskCanBeDeleted = false;
 
   bool get _stateIsHasData => state is EditingTaskHasData;
 
@@ -32,6 +34,16 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   Task get taskModel => (state as EditingTaskHasData).editingTask;
   set taskModel (Task value) {
     emit(EditingTaskReady(editingTask: value));
+  }
+
+  void _onStartOrEndInput() {
+    if (!_taskCanBeDeleted && textController.text != "" || _taskCanBeDeleted && textController.text == "") {
+      _taskCanBeDeleted = !_taskCanBeDeleted;
+      if (_stateIsHasData) {
+        emit(EditingTaskWaitingChanges(editingTask: taskModel));
+        emit(EditingTaskReady(editingTask: taskModel));
+      }
+    }
   }
 
   Future<void> _selectDeadLine(BuildContext context) async {
