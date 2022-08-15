@@ -29,13 +29,11 @@ class _DismissibleTaskCardState extends State<DismissibleTaskCard> {
       return Dismissible(
         key: Key(chosenTask.id.toString()),
         confirmDismiss: (directional) async {
-          if (directional.name == "endToStart") {
-            logger.info("Delete task with index: ${chosenTask.id}");
+          if (directional.name == 'endToStart') {
+            logger.info('Delete task with index: ${chosenTask.id}');
             return true;
           } else {
             taskListCubit.changeTaskComplete(chosenTask);
-            logger.info(
-                "Change task with index ${chosenTask.id} complete to: ${chosenTask.done}");
             return false;
           }
         },

@@ -10,12 +10,12 @@ class NavigationController {
 
 
   void navigateTo(String page, {Object? arguments}) async {
-    AppMetrica.reportEventWithMap("Open Screen", {"screenName" : RouteNames.editorPage});
+    AppMetrica.reportEventWithMap('Open Screen', {'screenName' : RouteNames.editorPage});
     _key1.currentState?.pushNamed(page, arguments: arguments);
   }
 
   void pop([Object? result]) {
-    AppMetrica.reportEventWithMap("Open Screen", {"screenName" : RouteNames.taskListPage});
+    AppMetrica.reportEventWithMap('Open Screen', {'screenName' : RouteNames.taskListPage});
     _key1.currentState?.pop(result);
   }
 

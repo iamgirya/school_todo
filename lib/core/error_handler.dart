@@ -11,7 +11,7 @@ class ErrorHandler {
   }
 
   static void recordError(Object error, StackTrace stackTrace) {
-    //FirebaseCrashlytics.instance.recordError(error, stackTrace);
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
     logger.severe(
       error.toString(),
       error,
@@ -20,7 +20,7 @@ class ErrorHandler {
   }
 
   static void _recordFlutterError(FlutterErrorDetails error) {
-    //FirebaseCrashlytics.instance.recordFlutterError(error);
+    FirebaseCrashlytics.instance.recordFlutterError(error);
     logger.severe(error.toStringShort(), error.exception, error.stack);
   }
 

@@ -35,7 +35,7 @@ void main() {
 
     await initServiceLocator();
 
-    AppMetrica.activate(const AppMetricaConfig("cf303739-8f4b-4b02-8f9f-c25c437db3a9", logs: true));
+    AppMetrica.activate(const AppMetricaConfig('cf303739-8f4b-4b02-8f9f-c25c437db3a9', logs: true));
 
     runApp(MyApp(importantColor: importantColor));
   }, ErrorHandler.recordError);
@@ -52,6 +52,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isLightTheme = true;
+  final navigationController = NavigationController();
 
   void toggleTheme() {
     setState(() => isLightTheme = !isLightTheme);
@@ -59,7 +60,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final navigationController = NavigationController();
     return Provider<NavigationController>.value(
       value: navigationController,
       child: MaterialApp(
@@ -77,14 +77,14 @@ class _MyAppState extends State<MyApp> {
               return MaterialPageRoute(builder: (_) {
                 Task? initTask = settings.arguments as Task?;
                 logger.info(
-                    "Open editor with task index: ${initTask == null ? "new" : initTask.id.toString()}");
+                    'Open editor with task index: ${initTask == null ? 'new' : initTask.id.toString()}');
                 return EditorPage(
                   editingTask: (settings.arguments as Task?),
                 );
               });
             case RouteNames.taskListPage:
               return MaterialPageRoute(builder: (_) {
-                logger.info("Open task list");
+                logger.info('Open task list');
                 return TaskListPage(toggleTheme: toggleTheme);
               });
           }

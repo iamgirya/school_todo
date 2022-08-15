@@ -16,8 +16,8 @@ abstract class ILocalTaskSavesRepository {
 }
 
 class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
-  static const String tasksBoxName = "tasks";
-  static const String tasksBoxKey = "tasks";
+  static const String tasksBoxName = 'tasks';
+  static const String tasksBoxKey = 'tasks';
 
   @override
   Future<void> initLocalTaskSavesRepository() async {
@@ -43,7 +43,7 @@ class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
 
   @override
   List<Task> loadLocalTasks() {
-    logger.info("Local load task");
+    logger.info('Local load task');
     return (Hive.box(tasksBoxName).get(tasksBoxKey) as Iterable)
         .map((e) => e as Task)
         .toList();
@@ -51,7 +51,7 @@ class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
 
   @override
   Future<void> saveLocalTasks(List<Task> taskList) async {
-    logger.info("Local save task");
+    logger.info('Local save task');
     await Hive.box(tasksBoxName).put(tasksBoxKey, taskList);
   }
 }

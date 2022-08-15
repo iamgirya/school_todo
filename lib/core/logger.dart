@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 
-final logger = Logger("main");
+final logger = Logger('main');
 
 void initLogger() {
   if (kDebugMode) {

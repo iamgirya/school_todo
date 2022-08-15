@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_state.dart';
 
-import '../../../core/logger.dart';
 import '../../../generated/l10n.dart';
 import '../../../styles/app_colors.dart';
 import '../../../styles/app_fonts.dart';
@@ -24,7 +23,6 @@ class DeleteTaskButton extends StatelessWidget {
           child: TextButton(
             style: TextButton.styleFrom(padding: EdgeInsets.zero),
             onPressed: () {
-              logger.info("Delete task");
               editingTaskCubit.deleteTask(context);
             },
             child: Row(
@@ -34,7 +32,7 @@ class DeleteTaskButton extends StatelessWidget {
                   width: 24,
                   child: Icon(
                     Icons.delete,
-                    color: editingTaskCubit.textController.text == "" ? theme.disable : theme.red,
+                    color: !editingTaskCubit.taskCanBeDeleted ? theme.disable : theme.red,
                   ),
                 ),
                 const SizedBox(
@@ -43,7 +41,7 @@ class DeleteTaskButton extends StatelessWidget {
                 Text(
                   S.of(context).editorDeleteButton,
                   style: AppTextStyles.body.copyWith(
-                    color: editingTaskCubit.textController.text == "" ? theme.disable : theme.red,
+                    color: !editingTaskCubit.taskCanBeDeleted ? theme.disable : theme.red,
                   ),
                 ),
               ],

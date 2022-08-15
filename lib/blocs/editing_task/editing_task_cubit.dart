@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:school_todo/navigation/navigation_controller.dart';
 import 'package:school_todo/repositories/cubits_connector_repository.dart';
+import '../../core/container_class.dart';
 import '../../core/device_id_holder.dart';
+import '../../core/logger.dart';
 import '../../models/importance_model.dart';
 import '../../models/task_model.dart';
 import 'editing_task_state.dart';
 
 class EditingTaskCubit extends Cubit<EditingTaskState> {
   EditingTaskCubit({Task? initTask, required this.cubitsConnectorRepo})
-      : super(EditingTaskReady(editingTask: initTask ?? Task.empty(""))) {
-    textController = TextEditingController();
-    textController.addListener(_onStartOrEndInput);
+      : super(EditingTaskReady(editingTask: initTask ?? Task.empty('', deviceId: Cont.getIt.get<DeviceIdHolder>().getDeviceId))) {
     if (initTask != null) {
-      textController.text = initTask.text;
       if (initTask.deadline != null) {
         switchValue = true;
       }
@@ -23,9 +21,8 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
 
   final ICubitsConnectorRepository cubitsConnectorRepo;
 
-  late TextEditingController textController;
   bool switchValue = false;
-  bool _taskCanBeDeleted = false;
+  bool taskCanBeDeleted = false;
 
   bool get _stateIsHasData => state is EditingTaskHasData;
 
@@ -36,9 +33,9 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
     emit(EditingTaskReady(editingTask: value));
   }
 
-  void _onStartOrEndInput() {
-    if (!_taskCanBeDeleted && textController.text != "" || _taskCanBeDeleted && textController.text == "") {
-      _taskCanBeDeleted = !_taskCanBeDeleted;
+  void onStartOrEndInput(String? text) {
+    if (text != null && (!taskCanBeDeleted && text.isNotEmpty || taskCanBeDeleted && text.isEmpty)) {
+      taskCanBeDeleted = !taskCanBeDeleted;
       if (_stateIsHasData) {
         emit(EditingTaskWaitingChanges(editingTask: taskModel));
         emit(EditingTaskReady(editingTask: taskModel));
@@ -49,7 +46,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   Future<void> _selectDeadLine(BuildContext context) async {
     int? nowUnixDeadline = taskModel.deadline;
     final DateTime? picked = await showDatePicker(
-        helpText: "",
+        helpText: '',
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
@@ -96,21 +93,22 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
 
   void deleteTask(BuildContext context) {
     if (_stateIsHasData) {
+      logger.info('Delete task');
       cubitsConnectorRepo.deleteTask(taskModel);
     }
     context.read<NavigationController>().pop();
   }
 
-  void saveTask(BuildContext context) {
-    GetIt getIt = GetIt.instance;
+  void saveTask(BuildContext context, String text) {
     if (_stateIsHasData) {
       Task savedTaskModel = taskModel.copyWith(
-          text: textController.text,
+          text: text,
           changedAt: dateToUnix(DateTime.now()),
-          lastUpdatedBy: getIt.get<DeviceIdHolder>().getDeviceId,
+          lastUpdatedBy: Cont.getIt.get<DeviceIdHolder>().getDeviceId,
       );
 
       cubitsConnectorRepo.addNewTask(savedTaskModel);
+      logger.info('Save task');
     }
 
     context.read<NavigationController>().pop();

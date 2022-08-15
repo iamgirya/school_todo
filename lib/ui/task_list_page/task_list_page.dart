@@ -1,8 +1,6 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
 import 'package:school_todo/navigation/navigation_controller.dart';
 import 'package:school_todo/repositories/global_task_repository.dart';
@@ -10,6 +8,7 @@ import 'package:school_todo/repositories/local_task_repository.dart';
 import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/ui/task_list_page/widgets/task_list_widget.dart';
 
+import '../../core/container_class.dart';
 import '../../repositories/cubits_connector_repository.dart';
 import 'widgets/title_sliver_app_bar_widget.dart';
 
@@ -23,11 +22,10 @@ class TaskListPage extends StatelessWidget {
     ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
     return BlocProvider(
       create: (context) {
-        GetIt getIt = GetIt.instance;
         TaskListCubit cubit = TaskListCubit(
-            localRepo: getIt.get<ILocalTaskSavesRepository>(),
-            globalRepo: getIt.get<IGlobalTaskSavesRepository>(),
-            cubitsConnectorRepo: getIt.get<ICubitsConnectorRepository>(),
+            localRepo: Cont.getIt.get<ILocalTaskSavesRepository>(),
+            globalRepo: Cont.getIt.get<IGlobalTaskSavesRepository>(),
+            cubitsConnectorRepo: Cont.getIt.get<ICubitsConnectorRepository>(),
         );
         cubit.loadTaskList();
         return cubit;
@@ -67,7 +65,7 @@ class TaskListPage extends StatelessWidget {
 
               FloatingActionButton(
                 onPressed: () {
-                  context.read<NavigationController>().navigateTo("editorPage");
+                  context.read<NavigationController>().navigateTo('editorPage');
                 },
                 heroTag: null,
                 backgroundColor: theme.blue,

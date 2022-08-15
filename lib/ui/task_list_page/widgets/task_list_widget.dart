@@ -21,23 +21,20 @@ class TaskList extends StatelessWidget {
           TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
           if (state is TaskListReady) {
             int listLength = taskListCubit.isCompletedVisible
-                ? taskListCubit.getLengthOfTaskList() + 3
-                : taskListCubit.getUnLengthOfCompletedTaskList() + 3;
-            return ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              itemCount: listLength,
-              itemBuilder: (context, index) {
-                if (index == 0 || index == listLength - 1) {
-                  return const SizedBox(
-                    height: 8,
-                  );
-                } else if (index == listLength - 2) {
-                  return const NewTaskCard();
-                } else {
-                  return DismissibleTaskCard(indexOfTask: index - 1);
-                }
-              },
+                ? taskListCubit.getLengthOfTaskList()
+                : taskListCubit.getUnLengthOfCompletedTaskList();
+            return Column(
+              children: [
+                const SizedBox(
+                  height: 8,
+                ),
+                for (int index = 0; index < listLength; index++)
+                  DismissibleTaskCard(indexOfTask: index),
+                NewTaskCard(),
+                const SizedBox(
+                  height: 8,
+                ),
+              ],
             );
           } else {
             return Container();

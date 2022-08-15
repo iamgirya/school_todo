@@ -1,9 +1,7 @@
-import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:school_todo/core/device_id_holder.dart';
 
 import 'importance_model.dart';
 
@@ -31,7 +29,7 @@ class Task with _$Task {
 
   String? getConvertUnixToStringDate() {
     if (deadline != null) {
-      DateFormat dateFormat = DateFormat("d MMM yyyy");
+      DateFormat dateFormat = DateFormat('d MMM yyyy');
       return dateFormat
           .format(DateTime.fromMillisecondsSinceEpoch(deadline! * 1000));
     } else {
@@ -39,16 +37,15 @@ class Task with _$Task {
     }
   }
 
-  static Task empty(String? text) {
-    GetIt getIt = GetIt.instance;
-    return Task(id: '${DateTime.now().millisecondsSinceEpoch}${getIt.get<DeviceIdHolder>().getDeviceId}',
-        text: text ?? "",
+  static Task empty(String? text, {required String deviceId}) {
+    return Task(id: '${DateTime.now().millisecondsSinceEpoch}$deviceId',
+        text: text ?? '',
         importance: Importance.basic,
         deadline: null,
         done: false,
         color: null,
         createdAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
         changedAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
-        lastUpdatedBy: getIt.get<DeviceIdHolder>().getDeviceId);
+        lastUpdatedBy: deviceId);
   }
 }

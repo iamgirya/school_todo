@@ -14,7 +14,7 @@ void initFirebase() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
   } catch (error) {
-    logger.severe("Ошибка подключения Firebase", [error]);
+    logger.severe('Ошибка подключения Firebase', [error]);
   }
 }
 
@@ -25,9 +25,9 @@ Future<Color> getImportantColor() async {
       minimumFetchInterval: const Duration(seconds: 5),
     ));
     await remoteConfig.fetchAndActivate();
-    return Color(remoteConfig.getInt("importantColor"));
+    return Color(remoteConfig.getInt('importantColor'));
   } catch (error) {
-    logger.severe("Ошибка подключения Remote Config", [error]);
+    logger.severe('Ошибка подключения Remote Config', [error]);
     return Colors.red;
   }
 

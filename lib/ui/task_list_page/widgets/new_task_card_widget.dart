@@ -7,8 +7,9 @@ import 'package:school_todo/styles/app_fonts.dart';
 import '../../../generated/l10n.dart';
 
 class NewTaskCard extends StatelessWidget {
-  const NewTaskCard({Key? key}) : super(key: key);
+  NewTaskCard({Key? key,}) : super(key: key);
 
+  final TextEditingController fastTaskTextEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +29,10 @@ class NewTaskCard extends StatelessWidget {
           ),
           Expanded(
             child: TextField(
-              controller: taskListCubit.getFastTaskTextEditingController,
+              controller: fastTaskTextEditingController,
               onEditingComplete: () {
                 FocusScope.of(context).requestFocus(FocusNode());
-                taskListCubit.addNewFastTask();
+                taskListCubit.addNewFastTask(fastTaskTextEditingController);
               },
               textInputAction: TextInputAction.done,
               textAlignVertical: TextAlignVertical.top,

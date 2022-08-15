@@ -5,7 +5,7 @@ abstract class AppTextStyles {
     fontSize: 32,
     fontWeight: FontWeight.w500,
     height: 1.1875,
-    fontFamily: "Roboto",
+    fontFamily: 'Roboto',
   );
   
   static const TextStyle title = TextStyle(
@@ -13,7 +13,7 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w500,
     height: 1.6,
     letterSpacing: 0.5,
-    fontFamily: "Roboto",
+    fontFamily: 'Roboto',
   );
 
   static const TextStyle button = TextStyle(
@@ -21,21 +21,21 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w500,
     height: 1.71,
     letterSpacing: 0.16,
-    fontFamily: "Roboto",
+    fontFamily: 'Roboto',
   );
 
   static const TextStyle body = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     height: 1.25,
-    fontFamily: "Roboto",
+    fontFamily: 'Roboto',
   );
 
   static const TextStyle subhead = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     height: 1.43,
-    fontFamily: "Roboto",
+    fontFamily: 'Roboto',
   );
 
 }

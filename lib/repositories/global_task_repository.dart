@@ -9,7 +9,7 @@ import '../models/task_model.dart';
 abstract class IGlobalTaskSavesRepository {
   static const String baseUrl = 'https://beta.mrdekk.ru/todobackend';
 
-  static const String apiToken = "Puding";
+  static const String apiToken = 'Puding';
 
   get isOffline => true;
 
@@ -43,7 +43,7 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
 
   bool _isOfflineCheck() {
     if (isOffline) {
-      logger.info("App is offline, request denied");
+      logger.info('App is offline, request denied');
     }
     return isOffline;
   }
@@ -51,24 +51,24 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
   void _onError(error) {
     if (error is DioError) {
       if (error.response?.statusCode == 400) {
-        logger.severe("Error: wrong request", [error]);
+        logger.severe('Error: wrong request', [error]);
       } else if (error.response?.statusCode == 401) {
-        logger.severe("Error: wrong authorization", [error]);
+        logger.severe('Error: wrong authorization', [error]);
         isOffline = true;
       } else if (error.response?.statusCode == 404) {
-        logger.severe("Error: element not found", [error]);
+        logger.severe('Error: element not found', [error]);
       } else if ((error.response?.statusCode) != null && (error.response?.statusCode)! >= 500) {
-        logger.severe("Error: server error", [error]);
+        logger.severe('Error: server error', [error]);
         isOffline = true;
       } if (error.error is SocketException) {
-        logger.severe("Error: lost Internet connection", [error]);
+        logger.severe('Error: lost Internet connection', [error]);
         isOffline = true;
       } else {
-        logger.severe("Error: unknown request error", [error]);
+        logger.severe('Error: unknown request error', [error]);
         isOffline = true;
       }
     } else {
-      logger.severe("Error: unknown error", [error]);
+      logger.severe('Error: unknown error', [error]);
       isOffline = true;
     }
   }
@@ -84,21 +84,21 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
     if (_isOfflineCheck()) {
       return null;
     }
-    logger.info("Delete global task");
+    logger.info('Delete global task');
     try {
       Response<Map<String, dynamic>> response = await Dio().delete(
-        "$baseUrl/list/$id",
+        '$baseUrl/list/$id',
         options: Options(
           headers: {
-            "X-Last-Known-Revision": revision,
-            "Authorization": "Bearer $apiToken",
+            'X-Last-Known-Revision': revision,
+            'Authorization': 'Bearer $apiToken',
           },
         ),
       );
       if (responseIsSuccessful(response)) {
-        revision = response.data!["revision"];
-        logger.info("Success delete global task");
-        return Task.fromJson(response.data!["element"]);
+        revision = response.data!['revision'];
+        logger.info('Success delete global task');
+        return Task.fromJson(response.data!['element']);
       } else {
         throw Error();
       }
@@ -114,20 +114,20 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
     if (_isOfflineCheck()) {
       return null;
     }
-    logger.info("Get global task");
+    logger.info('Get global task');
     try {
       Response<Map<String, dynamic>> response = await Dio().get(
-        "$baseUrl/list/$id",
+        '$baseUrl/list/$id',
         options: Options(
           headers: {
-            "Authorization": "Bearer $apiToken",
+            'Authorization': 'Bearer $apiToken',
           },
         ),
       );
       if (responseIsSuccessful(response)) {
-        revision = response.data!["revision"];
-        logger.info("Success get global task");
-        return Task.fromJson(response.data!["element"]);
+        revision = response.data!['revision'];
+        logger.info('Success get global task');
+        return Task.fromJson(response.data!['element']);
       } else {
         throw Error();
       }
@@ -142,24 +142,24 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
     if (_isOfflineCheck()) {
       return null;
     }
-    logger.info("Get global task list");
+    logger.info('Get global task list');
     try {
       Response<Map<String, dynamic>> response = await Dio().get(
-        "$baseUrl/list",
+        '$baseUrl/list',
         options: Options(
           headers: {
-            "Authorization": "Bearer $apiToken",
+            'Authorization': 'Bearer $apiToken',
           },
         ),
       );
       List<Task> tmpTaskList = [];
 
       if (responseIsSuccessful(response)) {
-        revision = response.data!["revision"];
-        for (Map<String, dynamic> task in response.data!["list"]) {
+        revision = response.data!['revision'];
+        for (Map<String, dynamic> task in response.data!['list']) {
           tmpTaskList.add(Task.fromJson(task));
         }
-        logger.info("Success get global task list");
+        logger.info('Success get global task list');
         return tmpTaskList;
       } else {
         throw Error();
@@ -175,30 +175,30 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
     if (_isOfflineCheck()) {
       return null;
     }
-    logger.info("Patch global task list");
+    logger.info('Patch global task list');
     try {
       Response<Map<String, dynamic>> response = await Dio().patch(
-        "$baseUrl/list",
+        '$baseUrl/list',
         options: Options(
           headers: {
-            "Authorization": "Bearer $apiToken",
-            "X-Last-Known-Revision": revision,
-            "Content-Type": "application/json",
+            'Authorization': 'Bearer $apiToken',
+            'X-Last-Known-Revision': revision,
+            'Content-Type': 'application/json',
           },
         ),
         data: jsonEncode({
-          "status": "ok",
-          "list": loadedTasks.map((e) => e.toJson()).toList(),
+          'status': 'ok',
+          'list': loadedTasks.map((e) => e.toJson()).toList(),
         }),
       );
       List<Task> tmpTaskList = [];
 
       if (responseIsSuccessful(response)) {
-        revision = response.data!["revision"];
-        for (Map<String, dynamic> task in response.data!["list"]) {
+        revision = response.data!['revision'];
+        for (Map<String, dynamic> task in response.data!['list']) {
           tmpTaskList.add(Task.fromJson(task));
         }
-        logger.info("Success patch global task list");
+        logger.info('Success patch global task list');
         return tmpTaskList;
       } else {
         throw Error();
@@ -214,26 +214,26 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
     if (_isOfflineCheck()) {
       return null;
     }
-    logger.info("Post global task");
+    logger.info('Post global task');
     try {
       Response<Map<String, dynamic>> response = await Dio().post(
-        "$baseUrl/list",
+        '$baseUrl/list',
         options: Options(
           headers: {
-            "X-Last-Known-Revision": revision,
-            "Authorization": "Bearer $apiToken",
-            "Content-Type": "application/json",
+            'X-Last-Known-Revision': revision,
+            'Authorization': 'Bearer $apiToken',
+            'Content-Type': 'application/json',
           },
         ),
         data: jsonEncode({
-          "status": "ok",
-          "element": postTask.toJson(),
+          'status': 'ok',
+          'element': postTask.toJson(),
         }),
       );
       if (responseIsSuccessful(response)) {
-        revision = response.data!["revision"];
-        logger.info("Success post global task list");
-        return Task.fromJson(response.data!["element"]);
+        revision = response.data!['revision'];
+        logger.info('Success post global task list');
+        return Task.fromJson(response.data!['element']);
       } else {
         throw Error();
       }
@@ -248,26 +248,26 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
     if (_isOfflineCheck()) {
       return null;
     }
-    logger.info("Put global task");
+    logger.info('Put global task');
     try {
       Response<Map<String, dynamic>> response = await Dio().put(
-        "$baseUrl/list/$id",
+        '$baseUrl/list/$id',
         options: Options(
           headers: {
-            "X-Last-Known-Revision": revision,
-            "Authorization": "Bearer $apiToken",
-            "Content-Type": "application/json",
+            'X-Last-Known-Revision': revision,
+            'Authorization': 'Bearer $apiToken',
+            'Content-Type': 'application/json',
           },
         ),
         data: jsonEncode({
-          "status": "ok",
-          "element": putTask.toJson(),
+          'status': 'ok',
+          'element': putTask.toJson(),
         }),
       );
       if (responseIsSuccessful(response)) {
-        revision = response.data!["revision"];
-        logger.info("Success put global task list");
-        return Task.fromJson(response.data!["element"]);
+        revision = response.data!['revision'];
+        logger.info('Success put global task list');
+        return Task.fromJson(response.data!['element']);
       } else {
         throw Error();
       }

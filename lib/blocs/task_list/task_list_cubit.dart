@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/core/logger.dart';
 import 'package:school_todo/repositories/cubits_connector_repository.dart';
 import 'package:school_todo/repositories/global_task_repository.dart';
+import '../../core/container_class.dart';
+import '../../core/device_id_holder.dart';
 import '../../models/task_model.dart';
 import '../../repositories/local_task_repository.dart';
 import 'task_list_state.dart';
@@ -16,10 +18,8 @@ class TaskListCubit extends Cubit<TaskListState> {
       : super(TaskListOnStart()) {
     cubitsConnectorRepo.setCallBackOnNewTask(onGetTaskFromEditor);
     cubitsConnectorRepo.setCallBackOnDeleteTask(deleteTask);
-    fastTaskTextEditingController = TextEditingController();
   }
 
-  late TextEditingController fastTaskTextEditingController;
 
   final ILocalTaskSavesRepository localRepo;
   final IGlobalTaskSavesRepository globalRepo;
@@ -32,8 +32,6 @@ class TaskListCubit extends Cubit<TaskListState> {
   List<Task> get loadedTasks => (state as TaskListHasData).loadedTasks;
 
   bool get _isStateHasData => state is TaskListHasData;
-
-  TextEditingController get getFastTaskTextEditingController => fastTaskTextEditingController;
 
   void _changeState({required Function changeCallBack}) {
     emit(TaskListWaitingChanges(loadedTasks: loadedTasks));
@@ -106,20 +104,15 @@ class TaskListCubit extends Cubit<TaskListState> {
     }
   }
 
-  void addNewFastTask([String? text]) {
+  void addNewFastTask(TextEditingController fastTaskTextEditingController) {
     if (_isStateHasData) {
       _changeState(
         changeCallBack: () {
-          Task fastTask;
 
-          if (text == null) {
-            fastTask = Task.empty(getFastTaskTextEditingController.text);
-            getFastTaskTextEditingController.clear();
-            logger.info(
-                "Add fast task with text: ${getFastTaskTextEditingController.text}");
-          } else {
-            fastTask = Task.empty(text);
-          }
+          Task fastTask = Task.empty(fastTaskTextEditingController.text, deviceId: Cont.getIt.get<DeviceIdHolder>().getDeviceId);
+          fastTaskTextEditingController.clear();
+          logger.info(
+              'Add fast task with text: ${fastTaskTextEditingController.text}');
 
           loadedTasks.add(fastTask);
 
@@ -127,7 +120,7 @@ class TaskListCubit extends Cubit<TaskListState> {
           if (!isOfflineMode) {
             globalRepo.postGlobalTask(fastTask);
           }
-          AppMetrica.reportEvent("Add new fast task");
+          AppMetrica.reportEvent('Add new fast task');
         },
       );
     }
@@ -143,7 +136,7 @@ class TaskListCubit extends Cubit<TaskListState> {
           if (!isOfflineMode) {
             globalRepo.deleteGlobalTask(toDeleteTask.id);
           }
-          AppMetrica.reportEvent("Delete task");
+          AppMetrica.reportEvent('Delete task');
         },
       );
     }
@@ -156,6 +149,9 @@ class TaskListCubit extends Cubit<TaskListState> {
           isCompletedVisible = !isCompletedVisible;
         },
       );
+
+      logger.info(
+          'Change completed task visible to $isCompletedVisible');
     }
   }
 
@@ -172,12 +168,14 @@ class TaskListCubit extends Cubit<TaskListState> {
             globalRepo.putGlobalTask(chosenTask.id, chosenTask);
           }
           if (chosenTask.done) {
-            AppMetrica.reportEvent("Task complete");
+            AppMetrica.reportEvent('Task complete');
           } else {
-            AppMetrica.reportEvent("Task incomplete");
+            AppMetrica.reportEvent('Task incomplete');
           }
         },
       );
+      logger.info(
+          'Change task with index ${chosenTask.id} complete to: ${chosenTask.done}');
     }
   }
 
@@ -193,7 +191,7 @@ class TaskListCubit extends Cubit<TaskListState> {
             if (!isOfflineMode) {
               globalRepo.postGlobalTask(editingTask);
             }
-            AppMetrica.reportEvent("Add new editing task");
+            AppMetrica.reportEvent('Add new editing task');
           } else {
             loadedTasks[indexOfEditedTask] = editingTask;
             localRepo.saveLocalTasks(loadedTasks);

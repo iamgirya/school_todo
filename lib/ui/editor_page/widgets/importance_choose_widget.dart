@@ -30,7 +30,7 @@ class ImportanceChoose extends StatelessWidget {
               EditingTaskCubit editingTaskCubit =
                   BlocProvider.of<EditingTaskCubit>(context);
               return PopupMenuButton<Importance>(
-                  tooltip: "",
+                  tooltip: '',
                   child: SizedBox(
                     width: Size.infinite.width,
                     child: Column(

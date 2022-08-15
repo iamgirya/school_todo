@@ -16,7 +16,6 @@ class DeadlineChoose extends StatelessWidget {
     ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
     return SizedBox(
       height: 72,
-      width: Size.infinite.width,
       child: BlocBuilder<EditingTaskCubit, EditingTaskState>(
         builder: (context, state) {
           if (state is EditingTaskHasData) {

@@ -5,7 +5,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 class DeviceIdHolder {
   String? _deviceId;
 
-  String get getDeviceId => _deviceId ?? "Unknown device";
+  String get getDeviceId => _deviceId ?? 'Unknown device';
 
   void readDeviceId() async {
     var deviceInfo = DeviceInfoPlugin();
