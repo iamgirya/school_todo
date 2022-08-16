@@ -2,42 +2,36 @@ import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/core/logger.dart';
-import 'package:school_todo/repositories/cubits_connector_repository.dart';
-import 'package:school_todo/repositories/global_task_repository.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../core/container_class.dart';
 import '../../core/device_id_holder.dart';
 import '../../models/task_model.dart';
 import '../../repositories/local_task_repository.dart';
-import 'task_list_state.dart';
+
+import '../../repositories/cubits_connector_repository.dart';
+import '../../repositories/global_task_repository.dart';
+
+part 'task_list_state.dart';
+part 'task_list_cubit.freezed.dart';
 
 class TaskListCubit extends Cubit<TaskListState> {
   TaskListCubit(
       {required this.localRepo,
-      required this.globalRepo,
-      required this.cubitsConnectorRepo})
-      : super(TaskListOnStart()) {
+        required this.globalRepo,
+        required this.cubitsConnectorRepo})
+      : super(const TaskListState.initial()) {
     cubitsConnectorRepo.setCallBackOnNewTask(onGetTaskFromEditor);
     cubitsConnectorRepo.setCallBackOnDeleteTask(deleteTask);
   }
 
-
   final ILocalTaskSavesRepository localRepo;
   final IGlobalTaskSavesRepository globalRepo;
   final ICubitsConnectorRepository cubitsConnectorRepo;
-
-  bool isCompletedVisible = false;
-
   bool get isOfflineMode => globalRepo.isOffline;
 
-  List<Task> get loadedTasks => (state as TaskListHasData).loadedTasks;
-
-  bool get _isStateHasData => state is TaskListHasData;
-
-  void _changeState({required Function changeCallBack}) {
-    emit(TaskListWaitingChanges(loadedTasks: loadedTasks));
-    changeCallBack();
-    emit(TaskListReady(loadedTasks: loadedTasks));
-  }
+  List<Task> get loadedTasks => (state as TaskListLoadedState).loadedTasks;
+  bool get isCompletedVisible => (state as TaskListLoadedState).isCompletedVisible;
 
   Future<List<Task>> _checkLocalChanges(
       List<Task> localTasks, List<Task> globalTasks) async {
@@ -66,21 +60,21 @@ class TaskListCubit extends Cubit<TaskListState> {
   }
 
   int getLengthOfTaskList() {
-    if (_isStateHasData) {
+    if (state is TaskListLoadedState) {
       return loadedTasks.length;
     }
     return 0;
   }
 
   int getUnLengthOfCompletedTaskList() {
-    if (_isStateHasData) {
+    if (state is TaskListLoadedState) {
       return loadedTasks.where((element) => !element.done).length;
     }
     return 0;
   }
 
   Task getTask(int index) {
-    if (_isStateHasData) {
+    if (state is TaskListLoadedState) {
       return loadedTasks[index];
     } else {
       throw Error();
@@ -88,7 +82,7 @@ class TaskListCubit extends Cubit<TaskListState> {
   }
 
   Task getUnCompletedTask(int index) {
-    if (_isStateHasData) {
+    if (state is TaskListLoadedState) {
       int unCompletedIndex = -1;
       for (int i = 0; i < loadedTasks.length; i++) {
         if (!loadedTasks[i].done) {
@@ -105,118 +99,106 @@ class TaskListCubit extends Cubit<TaskListState> {
   }
 
   void addNewFastTask(TextEditingController fastTaskTextEditingController) {
-    if (_isStateHasData) {
-      _changeState(
-        changeCallBack: () {
+    if (state is TaskListLoadedState && fastTaskTextEditingController.text.isNotEmpty) {
+      Task fastTask = Task.empty(fastTaskTextEditingController.text, deviceId: Cont.getIt.get<DeviceIdHolder>().getDeviceId);
+      fastTaskTextEditingController.clear();
+      logger.info(
+          'Add fast task with text: ${fastTaskTextEditingController.text}');
+      List<Task> newLoadedTasks = List<Task>.from(loadedTasks)..add(fastTask);
 
-          Task fastTask = Task.empty(fastTaskTextEditingController.text, deviceId: Cont.getIt.get<DeviceIdHolder>().getDeviceId);
-          fastTaskTextEditingController.clear();
-          logger.info(
-              'Add fast task with text: ${fastTaskTextEditingController.text}');
-
-          loadedTasks.add(fastTask);
-
-          localRepo.saveLocalTasks(loadedTasks);
-          if (!isOfflineMode) {
-            globalRepo.postGlobalTask(fastTask);
-          }
-          AppMetrica.reportEvent('Add new fast task');
-        },
-      );
+      localRepo.saveLocalTasks(loadedTasks);
+      if (!isOfflineMode) {
+        globalRepo.postGlobalTask(fastTask);
+      }
+      AppMetrica.reportEvent('Add new fast task');
+      emit(TaskListState.loaded(loadedTasks: newLoadedTasks, isCompletedVisible: isCompletedVisible));
     }
   }
 
   void deleteTask(Task toDeleteTask) {
-    if (_isStateHasData) {
-      _changeState(
-        changeCallBack: () {
-          loadedTasks.remove(toDeleteTask);
+    if (state is TaskListLoadedState) {
+      int indexOfDeletingTask = loadedTasks.indexWhere((element) => element.id == toDeleteTask.id);
+      List<Task> newLoadedTasks = List<Task>.from(loadedTasks)..removeAt(indexOfDeletingTask);
 
-          localRepo.saveLocalTasks(loadedTasks);
-          if (!isOfflineMode) {
-            globalRepo.deleteGlobalTask(toDeleteTask.id);
-          }
-          AppMetrica.reportEvent('Delete task');
-        },
-      );
+      localRepo.saveLocalTasks(loadedTasks);
+      if (!isOfflineMode) {
+        globalRepo.deleteGlobalTask(toDeleteTask.id);
+      }
+      AppMetrica.reportEvent('Delete task');
+
+      emit(TaskListState.loaded(loadedTasks: newLoadedTasks, isCompletedVisible: isCompletedVisible));
     }
   }
 
   void changeCompletedTaskVisible() {
-    if (_isStateHasData) {
-      _changeState(
-        changeCallBack: () {
-          isCompletedVisible = !isCompletedVisible;
-        },
-      );
-
+    if (state is TaskListLoadedState) {
+      emit(TaskListState.loaded(loadedTasks: loadedTasks, isCompletedVisible: !isCompletedVisible));
       logger.info(
           'Change completed task visible to $isCompletedVisible');
     }
   }
 
   void changeTaskComplete(Task chosenTask) {
-    if (_isStateHasData) {
-      _changeState(
-        changeCallBack: () {
-          chosenTask = chosenTask.copyWith(done: !chosenTask.done);
-          int indexOfEditedTask = loadedTasks.indexWhere((element) => element.id == chosenTask.id);
-          loadedTasks[indexOfEditedTask] = chosenTask;
+    if (state is TaskListLoadedState) {
+      chosenTask = chosenTask.copyWith(done: !chosenTask.done);
+      int indexOfEditedTask = loadedTasks.indexWhere((element) => element.id == chosenTask.id);
 
-          localRepo.saveLocalTasks(loadedTasks);
-          if (!isOfflineMode) {
-            globalRepo.putGlobalTask(chosenTask.id, chosenTask);
-          }
-          if (chosenTask.done) {
-            AppMetrica.reportEvent('Task complete');
-          } else {
-            AppMetrica.reportEvent('Task incomplete');
-          }
-        },
-      );
+      List<Task> newLoadedTasks = List<Task>.from(loadedTasks);
+      newLoadedTasks[indexOfEditedTask] = chosenTask;
+
+      localRepo.saveLocalTasks(loadedTasks);
+      if (!isOfflineMode) {
+        globalRepo.putGlobalTask(chosenTask.id, chosenTask);
+      }
+      if (chosenTask.done) {
+        AppMetrica.reportEvent('Task complete');
+      } else {
+        AppMetrica.reportEvent('Task incomplete');
+      }
       logger.info(
           'Change task with index ${chosenTask.id} complete to: ${chosenTask.done}');
+      emit(TaskListState.loaded(loadedTasks: newLoadedTasks, isCompletedVisible: isCompletedVisible));
     }
   }
 
   void onGetTaskFromEditor(Task editingTask) {
-    if (_isStateHasData) {
-      _changeState(
-        changeCallBack: () {
-          int indexOfEditedTask = loadedTasks.indexWhere((element) => element.id == editingTask.id);
-          if (indexOfEditedTask == -1) {
-            loadedTasks.add(editingTask);
+    if (state is TaskListLoadedState) {
+      int indexOfEditedTask = loadedTasks.indexWhere((element) => element.id == editingTask.id);
+      List<Task> newLoadedTasks;
+      if (indexOfEditedTask == -1) {
+        newLoadedTasks = List<Task>.from(loadedTasks)..add(editingTask);
 
-            localRepo.saveLocalTasks(loadedTasks);
-            if (!isOfflineMode) {
-              globalRepo.postGlobalTask(editingTask);
-            }
-            AppMetrica.reportEvent('Add new editing task');
-          } else {
-            loadedTasks[indexOfEditedTask] = editingTask;
-            localRepo.saveLocalTasks(loadedTasks);
-            if (!isOfflineMode) {
-              globalRepo.putGlobalTask(editingTask.id, editingTask);
-            }
-          }
-        },
-      );
+        localRepo.saveLocalTasks(loadedTasks);
+        if (!isOfflineMode) {
+          globalRepo.postGlobalTask(editingTask);
+        }
+        AppMetrica.reportEvent('Add new editing task');
+      } else {
+        newLoadedTasks = List<Task>.from(loadedTasks);
+        newLoadedTasks[indexOfEditedTask] = editingTask;
+
+        localRepo.saveLocalTasks(loadedTasks);
+        if (!isOfflineMode) {
+          globalRepo.putGlobalTask(editingTask.id, editingTask);
+        }
+      }
+      emit(TaskListState.loaded(loadedTasks: newLoadedTasks, isCompletedVisible: isCompletedVisible));
     }
   }
 
-  Future<void> loadTaskList() async {
+  Future<void> initialLoadTaskList() async {
     if (isOfflineMode) {
       List<Task> localTasks = localRepo.loadLocalTasks();
-      emit(TaskListReady(loadedTasks: localTasks));
+      emit(TaskListState.loaded(loadedTasks: localTasks, isCompletedVisible: false));
     } else {
       List<Task> localTasks = localRepo.loadLocalTasks();
       List<Task>? globalTasks = await globalRepo.getGlobalTaskList();
       if (!isClosed) {
         if (globalTasks == null) {
-          emit(TaskListLoadError());
+          emit(const TaskListState.error(message: ''));
         } else {
           localTasks = await _checkLocalChanges(localTasks, globalTasks);
-          emit(TaskListReady(loadedTasks: localTasks));
+          emit(TaskListState.loaded(loadedTasks: localTasks, isCompletedVisible: false));
         }
       }
     }

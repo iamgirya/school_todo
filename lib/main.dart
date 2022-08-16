@@ -25,7 +25,7 @@ void main() {
   runZonedGuarded(() async {
     debugRepaintRainbowEnabled = false;
 
-    initFirebase();
+    await initFirebase();
     Color importantColor = await getImportantColor();
 
     initLogger();

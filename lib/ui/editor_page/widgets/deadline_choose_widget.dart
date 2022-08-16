@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
-import 'package:school_todo/blocs/editing_task/editing_task_state.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../models/task_model.dart';
@@ -18,7 +17,7 @@ class DeadlineChoose extends StatelessWidget {
       height: 72,
       child: BlocBuilder<EditingTaskCubit, EditingTaskState>(
         builder: (context, state) {
-          if (state is EditingTaskHasData) {
+          if (state is EditingTaskLoadedState) {
             Task taskModel = state.editingTask;
             EditingTaskCubit editingTaskCubit =
                 BlocProvider.of<EditingTaskCubit>(context);

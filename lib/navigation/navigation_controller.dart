@@ -9,7 +9,7 @@ class NavigationController {
   GlobalKey<NavigatorState> get key => _key1;
 
 
-  void navigateTo(String page, {Object? arguments}) async {
+  void navigateTo(String page, {Object? arguments}) {
     AppMetrica.reportEventWithMap('Open Screen', {'screenName' : RouteNames.editorPage});
     _key1.currentState?.pushNamed(page, arguments: arguments);
   }

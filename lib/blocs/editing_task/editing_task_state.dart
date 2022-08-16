@@ -1,29 +1,40 @@
-import 'package:flutter/material.dart';
-import '../../models/task_model.dart';
+part of 'editing_task_cubit.dart';
 
-
-@immutable
-abstract class EditingTaskState  {
+@freezed
+class EditingTaskState with _$EditingTaskState {
+  const factory EditingTaskState.error({
+    required String message
+  }) = EditingTaskErrorState;
+  const factory EditingTaskState.loading() = EditingTaskLoadingState;
+  const factory EditingTaskState.loaded({
+    required Task editingTask,
+    required bool switchValue,
+    required bool taskCanBeDeleted,
+  }) = EditingTaskLoadedState;
 }
 
-class EditingTaskError extends EditingTaskState {
-  final String message;
-
-  EditingTaskError({required this.message});
-}
-
-class EditingTaskHasData extends EditingTaskState {
-  final Task editingTask;
-
-  EditingTaskHasData({required this.editingTask});
-}
-
-class EditingTaskWaitingChanges extends EditingTaskHasData {
-
-  EditingTaskWaitingChanges({required Task editingTask}) : super(editingTask: editingTask);
-}
-
-class EditingTaskReady extends EditingTaskHasData {
-
-  EditingTaskReady({required Task editingTask}) : super(editingTask: editingTask);
-}
+// @immutable
+// abstract class EditingTaskState  {
+// }
+//
+// class EditingTaskError extends EditingTaskState {
+//   final String message;
+//
+//   EditingTaskError({required this.message});
+// }
+//
+// class EditingTaskHasData extends EditingTaskState {
+//   final Task editingTask;
+//
+//   EditingTaskHasData({required this.editingTask});
+// }
+//
+// class EditingTaskWaitingChanges extends EditingTaskHasData {
+//
+//   EditingTaskWaitingChanges({required Task editingTask}) : super(editingTask: editingTask);
+// }
+//
+// class EditingTaskReady extends EditingTaskHasData {
+//
+//   EditingTaskReady({required Task editingTask}) : super(editingTask: editingTask);
+// }

@@ -8,7 +8,6 @@ import 'package:school_todo/ui/editor_page/widgets/delete_task_button_widget.dar
 import 'package:school_todo/ui/editor_page/widgets/importance_choose_widget.dart';
 import 'package:school_todo/ui/editor_page/widgets/task_text_field_widget.dart';
 
-import '../../blocs/editing_task/editing_task_state.dart';
 import '../../core/container_class.dart';
 import '../../generated/l10n.dart';
 import '../../models/task_model.dart';

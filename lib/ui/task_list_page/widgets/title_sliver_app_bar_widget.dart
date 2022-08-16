@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
-import 'package:school_todo/blocs/task_list/task_list_state.dart';
 import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/styles/app_fonts.dart';
 
@@ -25,7 +24,6 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
             percentOfShrinkOffset <= 0.05 ? 5 - 100 * percentOfShrinkOffset : 0,
         child:
             BlocBuilder<TaskListCubit, TaskListState>(builder: (context, state) {
-          if (state is TaskListReady) {
             return ColoredBox(
               color: theme.backgroundPrimary!,
               child: Padding(
@@ -48,12 +46,12 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                               fontSize: 20 + 13 * percentOfShrinkOffset * percentOfShrinkOffset),
                         ),
                         const Spacer(),
-                        if (percentOfShrinkOffset > 0.2)
+                        if (state is TaskListLoadedState && percentOfShrinkOffset > 0.2)
                           Opacity(
                             opacity: percentOfShrinkOffset,
                             child: Text(
                               S.of(context).taskListTitleCompleted(taskListCubit
-                                      .getLengthOfTaskList() -
+                                  .getLengthOfTaskList() -
                                   taskListCubit.getUnLengthOfCompletedTaskList()),
                               style: AppTextStyles.title.copyWith(
                                   color: theme.tertiary,
@@ -63,34 +61,30 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                       ],
                     ),
                     const Spacer(),
-                    SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          taskListCubit.changeCompletedTaskVisible();
-                        },
-                        icon: !taskListCubit.isCompletedVisible
-                            ? Icon(
-                                Icons.visibility,
-                                color: theme.blue,
-                              )
-                            : Icon(
-                                Icons.visibility_off,
-                                color: theme.blue,
-                              ),
+                    if (state is TaskListLoadedState)
+                      SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            taskListCubit.changeCompletedTaskVisible();
+                          },
+                          icon: !taskListCubit.isCompletedVisible
+                              ? Icon(
+                            Icons.visibility,
+                            color: theme.blue,
+                          )
+                              : Icon(
+                            Icons.visibility_off,
+                            color: theme.blue,
+                          ),
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
             );
-          } else {
-            return ColoredBox(
-                color: theme.backgroundPrimary!,
-            );
-          }
         }),
       ),
     );

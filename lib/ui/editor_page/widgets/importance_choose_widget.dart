@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
-import 'package:school_todo/blocs/editing_task/editing_task_state.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../models/importance_model.dart';
@@ -25,7 +24,7 @@ class ImportanceChoose extends StatelessWidget {
         child: BlocBuilder<EditingTaskCubit, EditingTaskState>(
           buildWhen: (previous, current) => true,
           builder: ((context, state) {
-            if (state is EditingTaskHasData) {
+            if (state is EditingTaskLoadedState) {
               Task taskModel = state.editingTask;
               EditingTaskCubit editingTaskCubit =
                   BlocProvider.of<EditingTaskCubit>(context);

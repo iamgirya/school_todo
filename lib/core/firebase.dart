@@ -7,7 +7,7 @@ import '../firebase_options.dart';
 
 final remoteConfig = FirebaseRemoteConfig.instance;
 
-void initFirebase() async {
+Future<void> initFirebase() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await Firebase.initializeApp(

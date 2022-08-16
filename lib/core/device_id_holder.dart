@@ -7,7 +7,7 @@ class DeviceIdHolder {
 
   String get getDeviceId => _deviceId ?? 'Unknown device';
 
-  void readDeviceId() async {
+  Future<void> readDeviceId() async {
     var deviceInfo = DeviceInfoPlugin();
     if (Platform.isIOS) {
       var iosDeviceInfo = await deviceInfo.iosInfo;
