@@ -13,24 +13,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dcf87de-003c-4ded-945a-cab4d1372f80" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.freezed.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.freezed.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_state.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/blocs/task_list/task_list_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/task_list/task_list_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/device_id_holder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/device_id_holder.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/firebase.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/firebase.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/navigation/navigation_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/navigation/navigation_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/editor_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/editor_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/widgets/deadline_choose_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/widgets/deadline_choose_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/widgets/delete_task_button_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/widgets/delete_task_button_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/widgets/importance_choose_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/widgets/importance_choose_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/global_task_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/global_task_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/local_task_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/local_task_repository.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_list_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_list_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/title_sliver_app_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/title_sliver_app_bar_widget.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

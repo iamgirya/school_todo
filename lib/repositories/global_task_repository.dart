@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -11,7 +12,7 @@ abstract class IGlobalTaskSavesRepository {
 
   static const String apiToken = 'Puding';
 
-  get isOffline => true;
+
 
   Future<List<Task>?> getGlobalTaskList();
   Future<List<Task>?> patchGlobalTaskList(List<Task> loadedTasks);
@@ -20,18 +21,17 @@ abstract class IGlobalTaskSavesRepository {
   Future<Task?> postGlobalTask(Task postTask);
   Future<Task?> putGlobalTask(String id, Task putTask);
   Future<Task?> deleteGlobalTask(String id);
+
+  bool get isOffline;
+  int getRevision();
 }
 
 class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
   String get baseUrl => IGlobalTaskSavesRepository.baseUrl;
   String get apiToken => IGlobalTaskSavesRepository.apiToken;
 
-  bool _isOffline = false;
   @override
-  bool get isOffline => _isOffline;
-  set isOffline(bool value) {
-    _isOffline = value;
-  }
+  bool isOffline = false;
 
   int _revision = 0;
   int get revision => _revision;
@@ -41,9 +41,17 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
     }
   }
 
-  bool _isOfflineCheck() {
+  Future<bool> _isOfflineCheck() async {
     if (isOffline) {
-      logger.info('App is offline, request denied');
+      try {
+        final result = await InternetAddress.lookup('example.com');
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          logger.info('Connection reset, request accepted');
+          isOffline = false;
+        }
+      } on SocketException catch (_) {
+        logger.info('App is offline, request denied');
+      }
     }
     return isOffline;
   }
@@ -67,26 +75,35 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
         logger.severe('Error: unknown request error', [error]);
         isOffline = true;
       }
+    } else if (error is TimeoutException) {
+      logger.severe('Error: lost connection with server', [error]);
+      isOffline = true;
     } else {
       logger.severe('Error: unknown error', [error]);
       isOffline = true;
     }
   }
 
-  bool responseIsSuccessful(Response<Map<String, dynamic>> response) {
+  bool _responseIsSuccessful(Response response) {
     return response.statusCode != null &&
         response.statusCode! >= 200 &&
         response.statusCode! < 300;
   }
 
   @override
+  int getRevision() {
+    return revision;
+  }
+
+
+  @override
   Future<Task?> deleteGlobalTask(String id) async {
-    if (_isOfflineCheck()) {
+    if (await _isOfflineCheck()) {
       return null;
     }
     logger.info('Delete global task');
     try {
-      Response<Map<String, dynamic>> response = await Dio().delete(
+      Response response = await Dio().delete(
         '$baseUrl/list/$id',
         options: Options(
           headers: {
@@ -94,8 +111,8 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
             'Authorization': 'Bearer $apiToken',
           },
         ),
-      );
-      if (responseIsSuccessful(response)) {
+      ).timeout(const Duration(seconds: 3));
+      if (_responseIsSuccessful(response)) {
         revision = response.data!['revision'];
         logger.info('Success delete global task');
         return Task.fromJson(response.data!['element']);
@@ -111,20 +128,20 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
 
   @override
   Future<Task?> getGlobalTask(String id) async {
-    if (_isOfflineCheck()) {
+    if (await _isOfflineCheck()) {
       return null;
     }
     logger.info('Get global task');
     try {
-      Response<Map<String, dynamic>> response = await Dio().get(
+      Response response = await Dio().get(
         '$baseUrl/list/$id',
         options: Options(
           headers: {
             'Authorization': 'Bearer $apiToken',
           },
         ),
-      );
-      if (responseIsSuccessful(response)) {
+      ).timeout(const Duration(seconds: 3));
+      if (_responseIsSuccessful(response)) {
         revision = response.data!['revision'];
         logger.info('Success get global task');
         return Task.fromJson(response.data!['element']);
@@ -139,22 +156,23 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
 
   @override
   Future<List<Task>?> getGlobalTaskList() async {
-    if (_isOfflineCheck()) {
+    if (await _isOfflineCheck()) {
       return null;
     }
     logger.info('Get global task list');
     try {
-      Response<Map<String, dynamic>> response = await Dio().get(
+      Response response = await Dio().get(
         '$baseUrl/list',
         options: Options(
+          sendTimeout: 40,
           headers: {
             'Authorization': 'Bearer $apiToken',
           },
         ),
-      );
+      ).timeout(const Duration(seconds: 3));
       List<Task> tmpTaskList = [];
 
-      if (responseIsSuccessful(response)) {
+      if (_responseIsSuccessful(response)) {
         revision = response.data!['revision'];
         for (Map<String, dynamic> task in response.data!['list']) {
           tmpTaskList.add(Task.fromJson(task));
@@ -172,12 +190,12 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
 
   @override
   Future<List<Task>?> patchGlobalTaskList(List<Task> loadedTasks) async {
-    if (_isOfflineCheck()) {
+    if (await _isOfflineCheck()) {
       return null;
     }
     logger.info('Patch global task list');
     try {
-      Response<Map<String, dynamic>> response = await Dio().patch(
+      Response response = await Dio().patch(
         '$baseUrl/list',
         options: Options(
           headers: {
@@ -190,10 +208,10 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
           'status': 'ok',
           'list': loadedTasks.map((e) => e.toJson()).toList(),
         }),
-      );
+      ).timeout(const Duration(seconds: 3));
       List<Task> tmpTaskList = [];
 
-      if (responseIsSuccessful(response)) {
+      if (_responseIsSuccessful(response)) {
         revision = response.data!['revision'];
         for (Map<String, dynamic> task in response.data!['list']) {
           tmpTaskList.add(Task.fromJson(task));
@@ -211,12 +229,12 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
 
   @override
   Future<Task?> postGlobalTask(Task postTask) async {
-    if (_isOfflineCheck()) {
+    if (await _isOfflineCheck()) {
       return null;
     }
     logger.info('Post global task');
     try {
-      Response<Map<String, dynamic>> response = await Dio().post(
+      Response response = await Dio().post(
         '$baseUrl/list',
         options: Options(
           headers: {
@@ -229,8 +247,8 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
           'status': 'ok',
           'element': postTask.toJson(),
         }),
-      );
-      if (responseIsSuccessful(response)) {
+      ).timeout(const Duration(seconds: 3));
+      if (_responseIsSuccessful(response)) {
         revision = response.data!['revision'];
         logger.info('Success post global task list');
         return Task.fromJson(response.data!['element']);
@@ -245,12 +263,12 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
 
   @override
   Future<Task?> putGlobalTask(String id, Task putTask) async {
-    if (_isOfflineCheck()) {
+    if (await _isOfflineCheck()) {
       return null;
     }
     logger.info('Put global task');
     try {
-      Response<Map<String, dynamic>> response = await Dio().put(
+      Response response = await Dio().put(
         '$baseUrl/list/$id',
         options: Options(
           headers: {
@@ -263,8 +281,8 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
           'status': 'ok',
           'element': putTask.toJson(),
         }),
-      );
-      if (responseIsSuccessful(response)) {
+      ).timeout(const Duration(seconds: 3));
+      if (_responseIsSuccessful(response)) {
         revision = response.data!['revision'];
         logger.info('Success put global task list');
         return Task.fromJson(response.data!['element']);

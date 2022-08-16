@@ -10,14 +10,19 @@ import '../models/task_model.dart';
 abstract class ILocalTaskSavesRepository {
   Future<void> initLocalTaskSavesRepository();
 
-  Future<void> saveLocalTasks(List<Task> addedTownList);
+  void saveLocalTasks(List<Task> addedTownList);
 
   List<Task> loadLocalTasks();
+
+  int loadLocalRevision();
+
+  void saveLocalRevision(int globalRevision);
 }
 
 class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
   static const String tasksBoxName = 'tasks';
-  static const String tasksBoxKey = 'tasks';
+  static const String tasksBoxListKey = 'tasks';
+  static const String tasksBoxRevisionKey = 'revision';
 
   @override
   Future<void> initLocalTaskSavesRepository() async {
@@ -35,23 +40,37 @@ class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
     Hive.registerAdapter(ImportanceAdapter());
 
     await Hive.openBox(tasksBoxName);
-    var tasks = Hive.box(tasksBoxName).get(tasksBoxName);
+    var tasks = Hive.box(tasksBoxName).get(tasksBoxListKey);
     if (tasks == null) {
-      Hive.box(tasksBoxName).put(tasksBoxKey, []);
+      Hive.box(tasksBoxName).put(tasksBoxListKey, []);
+    }
+    var revision = Hive.box(tasksBoxName).get(tasksBoxRevisionKey);
+    if (revision == null) {
+      Hive.box(tasksBoxName).put(tasksBoxRevisionKey, 0);
     }
   }
 
   @override
   List<Task> loadLocalTasks() {
     logger.info('Local load task');
-    return (Hive.box(tasksBoxName).get(tasksBoxKey) as Iterable)
+    return (Hive.box(tasksBoxName).get(tasksBoxListKey) as Iterable)
         .map((e) => e as Task)
         .toList();
   }
 
   @override
-  Future<void> saveLocalTasks(List<Task> taskList) async {
+  void saveLocalTasks(List<Task> taskList) {
     logger.info('Local save task');
-    await Hive.box(tasksBoxName).put(tasksBoxKey, taskList);
+    Hive.box(tasksBoxName).put(tasksBoxListKey, taskList);
+  }
+
+  @override
+  int loadLocalRevision() {
+    return (Hive.box(tasksBoxName).get(tasksBoxRevisionKey) as int);
+  }
+
+  @override
+  void saveLocalRevision(int globalRevision) {
+    Hive.box(tasksBoxName).put(tasksBoxRevisionKey, globalRevision);
   }
 }

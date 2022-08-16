@@ -30,7 +30,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   bool get taskCanBeDeleted => (state as EditingTaskLoadedState).taskCanBeDeleted;
 
   int _dateToUnix(DateTime date) => date.millisecondsSinceEpoch ~/ 1000;
-  
+
   Future<int?> _selectDeadLine(BuildContext context) async {
     int? nowUnixDeadline = editingTask.deadline;
     final DateTime? picked = await showDatePicker(

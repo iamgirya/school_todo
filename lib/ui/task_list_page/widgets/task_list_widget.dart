@@ -36,7 +36,11 @@ class TaskList extends StatelessWidget {
               ],
             );
           } else {
-            return Container();
+            return CircularProgressIndicator(
+              backgroundColor: theme.disable,
+              color: theme.green,
+
+            );
           }
         },
       ),
