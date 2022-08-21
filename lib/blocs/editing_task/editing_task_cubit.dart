@@ -17,7 +17,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
   EditingTaskCubit({Task? initTask, required this.cubitsConnectorRepo})
       : super(
       EditingTaskState.loaded(
-          editingTask: initTask ?? Task.empty('', deviceId: Cont.getIt.get<DeviceIdHolder>().getDeviceId),
+          editingTask: initTask ?? Task.empty(''),
           switchValue: initTask != null && initTask.deadline != null,
           taskCanBeDeleted: initTask != null,
       ));

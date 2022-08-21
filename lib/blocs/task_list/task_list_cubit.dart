@@ -1,11 +1,10 @@
-import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:school_todo/core/app_metrica_controller.dart';
 import 'package:school_todo/core/logger.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../core/container_class.dart';
-import '../../core/device_id_holder.dart';
 import '../../models/task_model.dart';
 import '../../repositories/local_task_repository.dart';
 
@@ -98,7 +97,7 @@ class TaskListCubit extends Cubit<TaskListState> {
 
   void addNewFastTask(TextEditingController fastTaskTextEditingController) {
     if (state is TaskListLoadedState && fastTaskTextEditingController.text.isNotEmpty) {
-      Task fastTask = Task.empty(fastTaskTextEditingController.text, deviceId: Cont.getIt.get<DeviceIdHolder>().getDeviceId);
+      Task fastTask = Task.empty(fastTaskTextEditingController.text);
       logger.info(
           'Add fast task with text: ${fastTaskTextEditingController.text}');
       fastTaskTextEditingController.clear();
@@ -111,7 +110,7 @@ class TaskListCubit extends Cubit<TaskListState> {
         }
       );
 
-      AppMetrica.reportEvent('Add new fast task');
+      Cont.getIt.get<AppMetricaController>().reportEvent('Add new fast task');
 
       emit(TaskListState.loaded(loadedTasks: newLoadedTasks, isCompletedVisible: isCompletedVisible));
     }
@@ -129,7 +128,7 @@ class TaskListCubit extends Cubit<TaskListState> {
           }
       );
 
-      AppMetrica.reportEvent('Delete task');
+      Cont.getIt.get<AppMetricaController>().reportEvent('Delete task');
 
       emit(TaskListState.loaded(loadedTasks: newLoadedTasks, isCompletedVisible: isCompletedVisible));
     }
@@ -159,9 +158,9 @@ class TaskListCubit extends Cubit<TaskListState> {
       );
 
       if (chosenTask.done) {
-        AppMetrica.reportEvent('Task complete');
+        Cont.getIt.get<AppMetricaController>().reportEvent('Task complete');
       } else {
-        AppMetrica.reportEvent('Task incomplete');
+        Cont.getIt.get<AppMetricaController>().reportEvent('Task incomplete');
       }
       logger.info(
           'Change task with index ${chosenTask.id} complete to: ${chosenTask.done}');
@@ -183,7 +182,7 @@ class TaskListCubit extends Cubit<TaskListState> {
               await globalRepo.postGlobalTask(editingTask);
             }
         );
-        AppMetrica.reportEvent('Add new editing task');
+        Cont.getIt.get<AppMetricaController>().reportEvent('Add new editing task');
       } else {
         newLoadedTasks = List<Task>.from(loadedTasks);
         newLoadedTasks[indexOfEditedTask] = editingTask;

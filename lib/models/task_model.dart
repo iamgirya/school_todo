@@ -3,6 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
+import '../core/container_class.dart';
+import '../core/device_id_holder.dart';
 import 'importance_model.dart';
 
 part 'task_model.g.dart';
@@ -37,7 +39,9 @@ class Task with _$Task {
     }
   }
 
-  static Task empty(String? text, {required String deviceId}) {
+  static Task empty(String? text) {
+    String deviceId = Cont.getIt.get<DeviceIdHolder>().getDeviceId;
+
     return Task(id: '${DateTime.now().millisecondsSinceEpoch}$deviceId',
         text: text ?? '',
         importance: Importance.basic,

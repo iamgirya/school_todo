@@ -1,20 +1,23 @@
+import 'package:mockito/mockito.dart';
+import 'package:school_todo/core/container_class.dart';
+import 'package:school_todo/core/device_id_holder.dart';
+import 'package:school_todo/repositories/cubits_connector_repository.dart';
+import 'package:school_todo/repositories/local_task_repository.dart';
 import 'package:school_todo/core/app_metrica_controller.dart';
 import 'package:school_todo/repositories/global_task_repository.dart';
 
-import '../repositories/cubits_connector_repository.dart';
-import '../repositories/local_task_repository.dart';
-import 'container_class.dart';
-import 'device_id_holder.dart';
+import 'fake_global_repository.dart';
+import 'task_list_cubit_test.mocks.dart';
 
-Future<void> initServiceLocator() async {
+Future<void> initTestingServiceLocator() async {
   //репозитории
-  Cont.getIt.registerSingleton<IGlobalTaskSavesRepository>(GlobalTaskSavesRepository());
+  Cont.getIt.registerSingleton<IGlobalTaskSavesRepository>(FakeGlobalRepository());
 
   Cont.getIt.registerSingleton<ICubitsConnectorRepository>(SimpleCubitsConnectorRepository());
 
-  ILocalTaskSavesRepository localRepo = HiveLocalTaskSavesRepository();
-  await localRepo.initLocalTaskSavesRepository();
+  ILocalTaskSavesRepository localRepo = MockILocalTaskSavesRepository();
   Cont.getIt.registerSingleton<ILocalTaskSavesRepository>(localRepo);
+  when(localRepo.loadLocalTasks()).thenAnswer((_) => []);
 
   //айди устройства
   DeviceIdHolder deviceIdHolder = DeviceIdHolder();
@@ -23,6 +26,6 @@ Future<void> initServiceLocator() async {
 
   //Аппметрика
   AppMetricaController appMetricaController = AppMetricaController();
-  appMetricaController.initAppMetric();
   Cont.getIt.registerSingleton<AppMetricaController>(appMetricaController);
 }
+

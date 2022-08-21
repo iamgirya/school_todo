@@ -1,7 +1,9 @@
-import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:school_todo/core/app_metrica_controller.dart';
 import 'package:school_todo/navigation/root_names_container.dart';
+
+import '../core/container_class.dart';
 
 class NavigationController {
   final GlobalKey<NavigatorState> _key1 = GlobalKey();
@@ -10,12 +12,12 @@ class NavigationController {
 
 
   void navigateTo(String page, {Object? arguments}) {
-    AppMetrica.reportEventWithMap('Open Screen', {'screenName' : RouteNames.editorPage});
+    Cont.getIt.get<AppMetricaController>().reportEventWithMap('Open Screen', {'screenName' : RouteNames.editorPage});
     _key1.currentState?.pushNamed(page, arguments: arguments);
   }
 
   void pop([Object? result]) {
-    AppMetrica.reportEventWithMap('Open Screen', {'screenName' : RouteNames.taskListPage});
+    Cont.getIt.get<AppMetricaController>().reportEventWithMap('Open Screen', {'screenName' : RouteNames.taskListPage});
     _key1.currentState?.pop(result);
   }
 
