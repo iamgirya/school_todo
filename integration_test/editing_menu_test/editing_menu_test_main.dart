@@ -6,7 +6,7 @@ import 'package:school_todo/core/error_handler.dart';
 import 'package:school_todo/core/logger.dart';
 import 'package:school_todo/ui/my_app.dart';
 
-import '../../mocks/testing_service_locator.dart';
+import '../testing_service_locator.dart';
 
 
 

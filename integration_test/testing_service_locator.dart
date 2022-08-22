@@ -6,8 +6,9 @@ import 'package:school_todo/repositories/local_task_repository.dart';
 import 'package:school_todo/core/app_metrica_controller.dart';
 import 'package:school_todo/repositories/global_task_repository.dart';
 
-import 'fake_global_repository.dart';
-import 'task_list_cubit_test.mocks.dart';
+import '../test/mocks/fake_global_repository.dart';
+import '../test/mocks/task_list_cubit_test.mocks.dart';
+
 
 Future<void> initTestingServiceLocator() async {
   //репозитории

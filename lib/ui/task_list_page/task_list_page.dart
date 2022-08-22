@@ -42,7 +42,7 @@ class TaskListPage extends StatelessWidget {
               SliverToBoxAdapter(
                 child: Column(
                   children: const [
-                    TaskList(),
+                    TaskList(key: Key('taskList'),),
                     SizedBox(height: 8,),
                   ],
                 ),

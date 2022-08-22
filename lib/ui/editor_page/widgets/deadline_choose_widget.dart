@@ -52,6 +52,7 @@ class DeadlineChoose extends StatelessWidget {
                 ),
                 const Spacer(),
                 Switch(
+                  key: const Key('switchKey'),
                   activeColor: theme.blue,
                   activeTrackColor: theme.blue!.withOpacity(0.3),
                   value: editingTaskCubit.switchValue,
