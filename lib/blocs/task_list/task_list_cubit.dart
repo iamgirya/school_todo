@@ -5,6 +5,7 @@ import 'package:school_todo/core/logger.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../core/container_class.dart';
+import '../../models/animated_task_model.dart';
 import '../../models/task_model.dart';
 import '../../repositories/local_task_repository.dart';
 
@@ -28,7 +29,7 @@ class TaskListCubit extends Cubit<TaskListState> {
   final IGlobalTaskSavesRepository globalRepo;
   final ICubitsConnectorRepository cubitsConnectorRepo;
 
-  List<Task> get loadedTasks => (state as TaskListLoadedState).loadedTasks;
+  List<AnimatedTask> get loadedTasks => (state as TaskListLoadedState).loadedTasks;
   bool get isCompletedVisible => (state as TaskListLoadedState).isCompletedVisible;
 
   Future<void> _doServerRequest(Future<void> Function() serverRequest) async {
@@ -65,14 +66,14 @@ class TaskListCubit extends Cubit<TaskListState> {
 
   int getUnLengthOfCompletedTaskList() {
     if (state is TaskListLoadedState) {
-      return loadedTasks.where((element) => !element.done).length;
+      return loadedTasks.where((element) => !element.task.done || (element.task.done && element.isAnimated)).length;
     }
     return 0;
   }
 
   Task getTask(int index) {
     if (state is TaskListLoadedState) {
-      return loadedTasks[index];
+      return loadedTasks[index].task;
     } else {
       throw Error();
     }
@@ -82,10 +83,10 @@ class TaskListCubit extends Cubit<TaskListState> {
     if (state is TaskListLoadedState) {
       int unCompletedIndex = -1;
       for (int i = 0; i < loadedTasks.length; i++) {
-        if (!loadedTasks[i].done) {
+        if (!loadedTasks[i].task.done || (loadedTasks[i].task.done && loadedTasks[i].isAnimated)) {
           unCompletedIndex++;
           if (unCompletedIndex == index) {
-            return loadedTasks[i];
+            return loadedTasks[i].task;
           }
         }
       }
@@ -97,31 +98,33 @@ class TaskListCubit extends Cubit<TaskListState> {
 
   void addNewFastTask(TextEditingController fastTaskTextEditingController) {
     if (state is TaskListLoadedState && fastTaskTextEditingController.text.isNotEmpty) {
-      Task fastTask = Task.empty(fastTaskTextEditingController.text);
+      AnimatedTask fastTask = AnimatedTask(task: Task.empty(fastTaskTextEditingController.text), isAnimated: false);
       logger.info(
           'Add fast task with text: ${fastTaskTextEditingController.text}');
       fastTaskTextEditingController.clear();
-      List<Task> newLoadedTasks = List<Task>.from(loadedTasks)..add(fastTask);
+      List<AnimatedTask> newLoadedTasks = List<AnimatedTask>.from(loadedTasks)..add(fastTask);
 
-      localRepo.saveLocalTasks(newLoadedTasks);
+      List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
+      localRepo.saveLocalTasks(saveTaskList);
       _doServerRequest(
         () async {
-          await globalRepo.postGlobalTask(fastTask);
+          await globalRepo.postGlobalTask(fastTask.task);
         }
       );
 
       Cont.getIt.get<AppMetricaController>().reportEvent('Add new fast task');
 
-      emit(TaskListState.loaded(loadedTasks: newLoadedTasks, isCompletedVisible: isCompletedVisible));
+      emit((state as TaskListLoadedState).copyWith(loadedTasks: newLoadedTasks));
     }
   }
 
   void deleteTask(Task toDeleteTask) {
     if (state is TaskListLoadedState) {
-      int indexOfDeletingTask = loadedTasks.indexWhere((element) => element.id == toDeleteTask.id);
-      List<Task> newLoadedTasks = List<Task>.from(loadedTasks)..removeAt(indexOfDeletingTask);
+      int indexOfDeletingTask = loadedTasks.indexWhere((element) => element.task.id == toDeleteTask.id);
+      List<AnimatedTask> newLoadedTasks = List<AnimatedTask>.from(loadedTasks)..removeAt(indexOfDeletingTask);
 
-      localRepo.saveLocalTasks(newLoadedTasks);
+      List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
+      localRepo.saveLocalTasks(saveTaskList);
       _doServerRequest(
               () async {
             await globalRepo.deleteGlobalTask(toDeleteTask.id);
@@ -130,27 +133,35 @@ class TaskListCubit extends Cubit<TaskListState> {
 
       Cont.getIt.get<AppMetricaController>().reportEvent('Delete task');
 
-      emit(TaskListState.loaded(loadedTasks: newLoadedTasks, isCompletedVisible: isCompletedVisible));
+      emit((state as TaskListLoadedState).copyWith(loadedTasks: newLoadedTasks));
     }
   }
 
   void changeCompletedTaskVisible() {
     if (state is TaskListLoadedState) {
-      emit(TaskListState.loaded(loadedTasks: loadedTasks, isCompletedVisible: !isCompletedVisible));
+      emit((state as TaskListLoadedState).copyWith(isCompletedVisible: !isCompletedVisible));
       logger.info(
           'Change completed task visible to $isCompletedVisible');
     }
   }
 
-  void changeTaskComplete(Task chosenTask) {
+  void changeTaskComplete({required Task chosenTask, Duration? animationDuration}) {
     if (state is TaskListLoadedState) {
-      chosenTask = chosenTask.copyWith(done: !chosenTask.done);
-      int indexOfEditedTask = loadedTasks.indexWhere((element) => element.id == chosenTask.id);
+      chosenTask = chosenTask.copyWith(done: !chosenTask.done, changedAt: DateTime.now().millisecondsSinceEpoch~/1000);
+      int indexOfEditedTask = loadedTasks.indexWhere((element) => element.task.id == chosenTask.id);
 
-      List<Task> newLoadedTasks = List<Task>.from(loadedTasks);
-      newLoadedTasks[indexOfEditedTask] = chosenTask;
+      List<AnimatedTask> newLoadedTasks = List<AnimatedTask>.from(loadedTasks);
+      if (animationDuration != null) {
+        AnimatedTask animatedTask = AnimatedTask(task: chosenTask, isAnimated: true);
+        newLoadedTasks[indexOfEditedTask] = animatedTask;
+        taskAnimationStop(animatedTask, animationDuration);
+      } else {
+        newLoadedTasks[indexOfEditedTask] = AnimatedTask(task: chosenTask, isAnimated: false);
+      }
 
-      localRepo.saveLocalTasks(newLoadedTasks);
+
+      List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
+      localRepo.saveLocalTasks(saveTaskList);
       _doServerRequest(
               () async {
             await globalRepo.putGlobalTask(chosenTask.id, chosenTask);
@@ -165,18 +176,25 @@ class TaskListCubit extends Cubit<TaskListState> {
       logger.info(
           'Change task with index ${chosenTask.id} complete to: ${chosenTask.done}');
 
-      emit(TaskListState.loaded(loadedTasks: newLoadedTasks, isCompletedVisible: isCompletedVisible));
+      emit((state as TaskListLoadedState).copyWith(loadedTasks: newLoadedTasks, inAnimation: false));
+    }
+  }
+
+  void onAnimationStop() {
+    if (state is TaskListLoadedState) {
+      emit((state as TaskListLoadedState).copyWith(inAnimation: false));
     }
   }
 
   void onGetTaskFromEditor(Task editingTask) {
     if (state is TaskListLoadedState) {
-      int indexOfEditedTask = loadedTasks.indexWhere((element) => element.id == editingTask.id);
-      List<Task> newLoadedTasks;
+      int indexOfEditedTask = loadedTasks.indexWhere((element) => element.task.id == editingTask.id);
+      List<AnimatedTask> newLoadedTasks;
       if (indexOfEditedTask == -1) {
-        newLoadedTasks = List<Task>.from(loadedTasks)..add(editingTask);
+        newLoadedTasks = List<AnimatedTask>.from(loadedTasks)..add(AnimatedTask(task: editingTask, isAnimated: false));
 
-        localRepo.saveLocalTasks(newLoadedTasks);
+        List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
+        localRepo.saveLocalTasks(saveTaskList);
         _doServerRequest(
                 () async {
               await globalRepo.postGlobalTask(editingTask);
@@ -184,17 +202,18 @@ class TaskListCubit extends Cubit<TaskListState> {
         );
         Cont.getIt.get<AppMetricaController>().reportEvent('Add new editing task');
       } else {
-        newLoadedTasks = List<Task>.from(loadedTasks);
-        newLoadedTasks[indexOfEditedTask] = editingTask;
+        newLoadedTasks = List<AnimatedTask>.from(loadedTasks);
+        newLoadedTasks[indexOfEditedTask] = AnimatedTask(task: editingTask, isAnimated: false);
 
-        localRepo.saveLocalTasks(newLoadedTasks);
+        List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
+        localRepo.saveLocalTasks(saveTaskList);
         _doServerRequest(
                 () async {
               await globalRepo.putGlobalTask(editingTask.id, editingTask);
             }
         );
       }
-      emit(TaskListState.loaded(loadedTasks: newLoadedTasks, isCompletedVisible: isCompletedVisible));
+      emit((state as TaskListLoadedState).copyWith(loadedTasks: newLoadedTasks));
     }
   }
 
@@ -207,7 +226,20 @@ class TaskListCubit extends Cubit<TaskListState> {
     if (globalTasks != null) {
       localTasks = _checkLocalChanges(localTasks, globalTasks);
     }
+    List<AnimatedTask> animatedTaskList = localTasks.map((e) => AnimatedTask(task: e, isAnimated: false)).toList();
+    emit(TaskListState.loaded(loadedTasks: animatedTaskList, isCompletedVisible: false, inAnimation: false));
+  }
 
-    emit(TaskListState.loaded(loadedTasks: localTasks, isCompletedVisible: false));
+  void taskAnimationStop(AnimatedTask animatedTask, Duration animationDuration) {
+    Future.delayed(animationDuration, () {
+      if (state is TaskListLoadedState) {
+        int indexOfTask = loadedTasks.indexWhere((element) => element.task.id == animatedTask.task.id);
+        if (indexOfTask != -1) {
+          List<AnimatedTask> newLoadedTasks = List<AnimatedTask>.from(loadedTasks);
+          newLoadedTasks[indexOfTask] = AnimatedTask(task: animatedTask.task, isAnimated: false);
+          emit((state as TaskListLoadedState).copyWith(loadedTasks: newLoadedTasks));
+        }
+      }
+    });
   }
 }

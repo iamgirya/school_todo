@@ -40,8 +40,8 @@ class TaskCard extends StatelessWidget {
                     ? MaterialStateProperty.all(theme.importTaskColor)
                     : null,
                 onChanged: (_) {
-                  BlocProvider.of<TaskListCubit>(context)
-                      .changeTaskComplete(task);
+                  TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
+                  taskListCubit.changeTaskComplete(chosenTask: task, animationDuration: const Duration(milliseconds: 500));
                 },
               ),
             ),

@@ -22,9 +22,9 @@ class Task with _$Task {
     @HiveField(3) int? deadline,
     @HiveField(4) required bool done,
     @HiveField(5) int? color,
-    @HiveField(6) required int createdAt,
-    @HiveField(7) required int changedAt,
-    @HiveField(8) required String lastUpdatedBy,
+    @HiveField(6) @JsonKey(name: 'created_at') required int createdAt,
+    @HiveField(7) @JsonKey(name: 'changed_at') required int changedAt,
+    @HiveField(8) @JsonKey(name: 'last_updated_by') required String lastUpdatedBy,
   }) = _Task;
 
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);

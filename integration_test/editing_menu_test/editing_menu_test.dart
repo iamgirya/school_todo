@@ -1,15 +1,11 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:school_todo/models/importance_model.dart';
 import 'package:school_todo/styles/app_colors.dart';
-import 'package:school_todo/ui/editor_page/widgets/deadline_choose_widget.dart';
-import 'package:school_todo/ui/editor_page/widgets/delete_task_button_widget.dart';
-import 'package:school_todo/ui/task_list_page/widgets/title_sliver_app_bar_widget.dart';
 
 import 'editing_menu_test_main.dart' as test_main;
 

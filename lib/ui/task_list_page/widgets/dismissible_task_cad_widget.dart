@@ -18,6 +18,7 @@ class DismissibleTaskCard extends StatefulWidget {
 
 class _DismissibleTaskCardState extends State<DismissibleTaskCard> {
   final ValueNotifier<double> valueNotifier = ValueNotifier<double>(0);
+  final animationDuration = const Duration(milliseconds: 300);
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +29,25 @@ class _DismissibleTaskCardState extends State<DismissibleTaskCard> {
     return LayoutBuilder(builder: (context, constraints) {
       return Dismissible(
         key: Key(chosenTask.id.toString()),
-        confirmDismiss: (directional) async {
-          if (directional.name == 'endToStart') {
+        confirmDismiss: (direction) async {
+          if (direction.name == 'endToStart') {
             logger.info('Delete task with index: ${chosenTask.id}');
             return true;
           } else {
-            taskListCubit.changeTaskComplete(chosenTask);
-            return false;
+            if (taskListCubit.isCompletedVisible) {
+              taskListCubit.changeTaskComplete(chosenTask: chosenTask);
+              return false;
+            } else {
+              taskListCubit.changeTaskComplete(chosenTask: chosenTask, animationDuration: animationDuration);
+              return true;
+            }
           }
         },
+        resizeDuration: animationDuration,
         onDismissed: (direction) {
-          taskListCubit.deleteTask(chosenTask);
+          if (direction.name == 'endToStart') {
+            taskListCubit.deleteTask(chosenTask);
+          }
         },
         secondaryBackground: ValueListenableBuilder<double>(
           valueListenable: valueNotifier,

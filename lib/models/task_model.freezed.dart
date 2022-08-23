@@ -33,10 +33,13 @@ mixin _$Task {
   @HiveField(5)
   int? get color => throw _privateConstructorUsedError;
   @HiveField(6)
+  @JsonKey(name: 'created_at')
   int get createdAt => throw _privateConstructorUsedError;
   @HiveField(7)
+  @JsonKey(name: 'changed_at')
   int get changedAt => throw _privateConstructorUsedError;
   @HiveField(8)
+  @JsonKey(name: 'last_updated_by')
   String get lastUpdatedBy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -55,9 +58,9 @@ abstract class $TaskCopyWith<$Res> {
       @HiveField(3) int? deadline,
       @HiveField(4) bool done,
       @HiveField(5) int? color,
-      @HiveField(6) int createdAt,
-      @HiveField(7) int changedAt,
-      @HiveField(8) String lastUpdatedBy});
+      @HiveField(6) @JsonKey(name: 'created_at') int createdAt,
+      @HiveField(7) @JsonKey(name: 'changed_at') int changedAt,
+      @HiveField(8) @JsonKey(name: 'last_updated_by') String lastUpdatedBy});
 }
 
 /// @nodoc
@@ -133,9 +136,9 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       @HiveField(3) int? deadline,
       @HiveField(4) bool done,
       @HiveField(5) int? color,
-      @HiveField(6) int createdAt,
-      @HiveField(7) int changedAt,
-      @HiveField(8) String lastUpdatedBy});
+      @HiveField(6) @JsonKey(name: 'created_at') int createdAt,
+      @HiveField(7) @JsonKey(name: 'changed_at') int changedAt,
+      @HiveField(8) @JsonKey(name: 'last_updated_by') String lastUpdatedBy});
 }
 
 /// @nodoc
@@ -205,15 +208,27 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res>
 @HiveType(typeId: 0)
 class _$_Task extends _Task with DiagnosticableTreeMixin {
   const _$_Task(
-      {@HiveField(0) required this.id,
-      @HiveField(1) required this.text,
-      @HiveField(2) required this.importance,
-      @HiveField(3) this.deadline,
-      @HiveField(4) required this.done,
-      @HiveField(5) this.color,
-      @HiveField(6) required this.createdAt,
-      @HiveField(7) required this.changedAt,
-      @HiveField(8) required this.lastUpdatedBy})
+      {@HiveField(0)
+          required this.id,
+      @HiveField(1)
+          required this.text,
+      @HiveField(2)
+          required this.importance,
+      @HiveField(3)
+          this.deadline,
+      @HiveField(4)
+          required this.done,
+      @HiveField(5)
+          this.color,
+      @HiveField(6)
+      @JsonKey(name: 'created_at')
+          required this.createdAt,
+      @HiveField(7)
+      @JsonKey(name: 'changed_at')
+          required this.changedAt,
+      @HiveField(8)
+      @JsonKey(name: 'last_updated_by')
+          required this.lastUpdatedBy})
       : super._();
 
   factory _$_Task.fromJson(Map<String, dynamic> json) => _$$_TaskFromJson(json);
@@ -238,12 +253,15 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
   final int? color;
   @override
   @HiveField(6)
+  @JsonKey(name: 'created_at')
   final int createdAt;
   @override
   @HiveField(7)
+  @JsonKey(name: 'changed_at')
   final int changedAt;
   @override
   @HiveField(8)
+  @JsonKey(name: 'last_updated_by')
   final String lastUpdatedBy;
 
   @override
@@ -314,15 +332,27 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
 
 abstract class _Task extends Task {
   const factory _Task(
-      {@HiveField(0) required final String id,
-      @HiveField(1) required final String text,
-      @HiveField(2) required final Importance importance,
-      @HiveField(3) final int? deadline,
-      @HiveField(4) required final bool done,
-      @HiveField(5) final int? color,
-      @HiveField(6) required final int createdAt,
-      @HiveField(7) required final int changedAt,
-      @HiveField(8) required final String lastUpdatedBy}) = _$_Task;
+      {@HiveField(0)
+          required final String id,
+      @HiveField(1)
+          required final String text,
+      @HiveField(2)
+          required final Importance importance,
+      @HiveField(3)
+          final int? deadline,
+      @HiveField(4)
+          required final bool done,
+      @HiveField(5)
+          final int? color,
+      @HiveField(6)
+      @JsonKey(name: 'created_at')
+          required final int createdAt,
+      @HiveField(7)
+      @JsonKey(name: 'changed_at')
+          required final int changedAt,
+      @HiveField(8)
+      @JsonKey(name: 'last_updated_by')
+          required final String lastUpdatedBy}) = _$_Task;
   const _Task._() : super._();
 
   factory _Task.fromJson(Map<String, dynamic> json) = _$_Task.fromJson;
@@ -347,12 +377,15 @@ abstract class _Task extends Task {
   int? get color;
   @override
   @HiveField(6)
+  @JsonKey(name: 'created_at')
   int get createdAt;
   @override
   @HiveField(7)
+  @JsonKey(name: 'changed_at')
   int get changedAt;
   @override
   @HiveField(8)
+  @JsonKey(name: 'last_updated_by')
   String get lastUpdatedBy;
   @override
   @JsonKey(ignore: true)

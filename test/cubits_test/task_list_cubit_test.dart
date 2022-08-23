@@ -30,7 +30,7 @@ void main() {
   setUp(() async {
     localRepo = MockILocalTaskSavesRepository();
     globalRepo = FakeGlobalRepository();
-      cubitsConnectorRepo = SimpleCubitsConnectorRepository();
+    cubitsConnectorRepo = SimpleCubitsConnectorRepository();
 
     taskListCubit = TaskListCubit(
       localRepo: localRepo,
@@ -82,7 +82,7 @@ void main() {
     expect(addedTask.deadline, null);
     expect(addedTask.done, false);
 
-    taskListCubit.changeTaskComplete(addedTask);
+    taskListCubit.changeTaskComplete(chosenTask: addedTask);
     addedTask = taskListCubit.getTask(0);
 
     expect(taskListCubit.getLengthOfTaskList(), 1);

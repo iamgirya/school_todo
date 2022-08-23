@@ -8,8 +8,9 @@ class TaskListState with _$TaskListState {
   const factory TaskListState.initial() = TaskListInitialState;
   const factory TaskListState.loading() = TaskListLoadingState;
   const factory TaskListState.loaded({
-    required List<Task> loadedTasks,
+    required List<AnimatedTask> loadedTasks,
     required bool isCompletedVisible,
+    required bool inAnimation,
   }) = TaskListLoadedState;
 }
 
