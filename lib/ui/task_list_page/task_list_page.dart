@@ -62,7 +62,14 @@ class TaskListPage extends StatelessWidget {
                   heroTag: null,
                   child: const Icon(Icons.error),
                 ),
-
+              FloatingActionButton(
+                onPressed: () {
+                  toggleTheme();
+                },
+                heroTag: null,
+                backgroundColor: theme.blue,
+                child: Icon(theme is ToDoAppDarkColors ? Icons.nightlight : Icons.sunny, color: Colors.white ,),
+              ),
               FloatingActionButton(
                 onPressed: () {
                   context.read<NavigationController>().navigateTo('editorPage');

@@ -22,69 +22,74 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
       child: Material(
         elevation:
             percentOfShrinkOffset <= 0.05 ? 5 - 100 * percentOfShrinkOffset : 0,
-        child:
-            BlocBuilder<TaskListCubit, TaskListState>(builder: (context, state) {
-            return ColoredBox(
-              color: theme.backgroundPrimary!,
-              child: Padding(
-                padding: EdgeInsets.only(
-                    bottom: 16.0,
-                    right: 24,
-                    top: 16 + 26 * percentOfShrinkOffset),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                      width: 16 + percentOfShrinkOffset * 44,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          S.of(context).taskListTitleName,
-                          style: AppTextStyles.largeTitle.copyWith(
-                              fontSize: 20 + 13 * percentOfShrinkOffset * percentOfShrinkOffset),
-                        ),
-                        const Spacer(),
-                        if (state is TaskListLoadedState && percentOfShrinkOffset > 0.2)
-                          Opacity(
-                            opacity: percentOfShrinkOffset,
-                            child: Text(
-                              S.of(context).taskListTitleCompleted(taskListCubit
-                                  .getLengthOfTaskList() -
-                                  taskListCubit.getUnLengthOfCompletedTaskList()),
-                              style: AppTextStyles.title.copyWith(
-                                  color: theme.tertiary,
-                                  fontSize: 1 + 19 * percentOfShrinkOffset),
-                            ),
-                          ),
-                      ],
-                    ),
-                    const Spacer(),
-                    if (state is TaskListLoadedState)
-                      SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () {
-                            taskListCubit.changeCompletedTaskVisible();
-                          },
-                          icon: !taskListCubit.isCompletedVisible
-                              ? Icon(
-                            Icons.visibility,
-                            color: theme.blue,
-                          )
-                              : Icon(
-                            Icons.visibility_off,
-                            color: theme.blue,
-                          ),
-                        ),
+        child: BlocBuilder<TaskListCubit, TaskListState>(
+            builder: (context, state) {
+          return ColoredBox(
+            color: theme.backgroundPrimary!,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  bottom: 16.0,
+                  right: 24,
+                  top: 16 + 26 * percentOfShrinkOffset),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    width: 16 + percentOfShrinkOffset * 44,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        S.of(context).taskListTitleName,
+                        style: AppTextStyles.largeTitle.copyWith(
+                            fontSize: 20 +
+                                13 *
+                                    percentOfShrinkOffset *
+                                    percentOfShrinkOffset),
                       ),
-                  ],
-                ),
+                      const Spacer(),
+                      if (state is TaskListLoadedState &&
+                          percentOfShrinkOffset > 0.2)
+                        Opacity(
+                          opacity: percentOfShrinkOffset,
+                          child: Text(
+                            S.of(context).taskListTitleCompleted(taskListCubit
+                                    .getLengthOfTaskList() -
+                                taskListCubit.getLengthOfUnCompletedTaskList()),
+                            style: AppTextStyles.title.copyWith(
+                                color: theme.tertiary,
+                                fontSize: 1 + 19 * percentOfShrinkOffset),
+                          ),
+                        ),
+                    ],
+                  ),
+                  const Spacer(),
+                  if (state is TaskListLoadedState)
+                    SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          taskListCubit.changeCompletedTaskVisible(
+                              const Duration(milliseconds: 500));
+                        },
+                        icon: !taskListCubit.isCompletedVisible
+                            ? Icon(
+                                Icons.visibility,
+                                color: theme.blue,
+                              )
+                            : Icon(
+                                Icons.visibility_off,
+                                color: theme.blue,
+                              ),
+                      ),
+                    ),
+                ],
               ),
-            );
+            ),
+          );
         }),
       ),
     );

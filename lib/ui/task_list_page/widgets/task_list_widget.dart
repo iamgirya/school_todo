@@ -19,9 +19,10 @@ class TaskList extends StatelessWidget {
         builder: (context, state) {
           TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
           if (state is TaskListLoadedState) {
-            int listLength = taskListCubit.isCompletedVisible
-                ? taskListCubit.getLengthOfTaskList()
-                : taskListCubit.getUnLengthOfCompletedTaskList();
+            int listLength = taskListCubit.getLengthOfTaskList();
+            // int listLength = taskListCubit.isCompletedVisible
+            //     ? taskListCubit.getLengthOfTaskList()
+            //     : taskListCubit.getUnLengthOfCompletedTaskList();
             return Column(
               children: [
                 const SizedBox(
