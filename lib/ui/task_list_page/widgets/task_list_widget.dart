@@ -40,7 +40,6 @@ class TaskList extends StatelessWidget {
             return CircularProgressIndicator(
               backgroundColor: theme.disable,
               color: theme.green,
-
             );
           }
         },

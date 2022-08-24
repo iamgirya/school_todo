@@ -67,7 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '197756551218',
     projectId: 'school-todo-f5cca',
     storageBucket: 'school-todo-f5cca.appspot.com',
-    iosClientId: '197756551218-4mkavi4olgs2jl9kedouan9m93jj7psf.apps.googleusercontent.com',
+    iosClientId:
+        '197756551218-4mkavi4olgs2jl9kedouan9m93jj7psf.apps.googleusercontent.com',
     iosBundleId: 'com.example.schoolTodo',
   );
 
@@ -77,7 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '197756551218',
     projectId: 'school-todo-f5cca',
     storageBucket: 'school-todo-f5cca.appspot.com',
-    iosClientId: '197756551218-4mkavi4olgs2jl9kedouan9m93jj7psf.apps.googleusercontent.com',
+    iosClientId:
+        '197756551218-4mkavi4olgs2jl9kedouan9m93jj7psf.apps.googleusercontent.com',
     iosBundleId: 'com.example.schoolTodo',
   );
 }

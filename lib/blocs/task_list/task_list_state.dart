@@ -2,9 +2,8 @@ part of 'task_list_cubit.dart';
 
 @freezed
 class TaskListState with _$TaskListState {
-  const factory TaskListState.error({
-    required String message
-  }) = TaskListErrorState;
+  const factory TaskListState.error({required String message}) =
+      TaskListErrorState;
   const factory TaskListState.initial() = TaskListInitialState;
   const factory TaskListState.loading() = TaskListLoadingState;
   const factory TaskListState.loaded({

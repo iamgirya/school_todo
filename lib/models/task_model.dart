@@ -24,7 +24,9 @@ class Task with _$Task {
     @HiveField(5) int? color,
     @HiveField(6) @JsonKey(name: 'created_at') required int createdAt,
     @HiveField(7) @JsonKey(name: 'changed_at') required int changedAt,
-    @HiveField(8) @JsonKey(name: 'last_updated_by') required String lastUpdatedBy,
+    @HiveField(8)
+    @JsonKey(name: 'last_updated_by')
+        required String lastUpdatedBy,
   }) = _Task;
 
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
@@ -42,7 +44,8 @@ class Task with _$Task {
   static Task empty(String? text) {
     String deviceId = Cont.getIt.get<DeviceIdHolder>().getDeviceId;
 
-    return Task(id: '${DateTime.now().millisecondsSinceEpoch}$deviceId',
+    return Task(
+        id: '${DateTime.now().millisecondsSinceEpoch}$deviceId',
         text: text ?? '',
         importance: Importance.basic,
         deadline: null,

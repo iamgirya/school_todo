@@ -236,22 +236,26 @@ class TaskListCubit extends Cubit<TaskListState> {
     List<Task>? globalTasks;
 
     localTasks = localRepo.loadLocalTasks();
-    globalTasks = await globalRepo.getGlobalTaskList();
-    if (globalTasks != null) {
-      localTasks = _checkLocalChanges(localTasks, globalTasks);
-    }
-    List<AnimatedTask> animatedTaskList = localTasks.map((e) {
-      AnimatedTask animatedTask = AnimatedTask(
-          task: e, isAnimated: !e.done, isNeedToBeVisible: !e.done);
-      if (!e.done) {
-        taskAnimationStop(animatedTask, const Duration(milliseconds: 500));
+    if (!isClosed) {
+      globalTasks = await globalRepo.getGlobalTaskList();
+      if (globalTasks != null) {
+        localTasks = _checkLocalChanges(localTasks, globalTasks);
       }
-      return animatedTask;
-    }).toList();
-    emit(TaskListState.loaded(
-        loadedTasks: animatedTaskList,
-        isCompletedVisible: false,
-        inAnimation: false));
+      List<AnimatedTask> animatedTaskList = localTasks.map((e) {
+        AnimatedTask animatedTask = AnimatedTask(
+            task: e, isAnimated: !e.done, isNeedToBeVisible: !e.done);
+        if (!e.done) {
+          taskAnimationStop(animatedTask, const Duration(milliseconds: 500));
+        }
+        return animatedTask;
+      }).toList();
+      if (!isClosed) {
+        emit(TaskListState.loaded(
+            loadedTasks: animatedTaskList,
+            isCompletedVisible: false,
+            inAnimation: false));
+      }
+    }
   }
 
   void taskAnimationStop(

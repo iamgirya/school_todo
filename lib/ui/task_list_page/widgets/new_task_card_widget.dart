@@ -7,9 +7,12 @@ import 'package:school_todo/styles/app_fonts.dart';
 import '../../../generated/l10n.dart';
 
 class NewTaskCard extends StatelessWidget {
-  NewTaskCard({Key? key,}) : super(key: key);
+  NewTaskCard({
+    Key? key,
+  }) : super(key: key);
 
-  final TextEditingController fastTaskTextEditingController = TextEditingController();
+  final TextEditingController fastTaskTextEditingController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +46,7 @@ class NewTaskCard extends StatelessWidget {
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
                 hintText: S.of(context).taskListFastTaskHint,
-                hintStyle:
-                    AppTextStyles.body.copyWith(color: theme.tertiary),
+                hintStyle: AppTextStyles.body.copyWith(color: theme.tertiary),
                 border: InputBorder.none,
               ),
               style: AppTextStyles.body,

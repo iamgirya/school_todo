@@ -50,7 +50,9 @@ class ImportanceChoose extends StatelessWidget {
                               color:
                                   taskModel.importance == Importance.important
                                       ? theme.red
-                                      : taskModel.importance == Importance.basic ? theme.tertiary : theme.primary),
+                                      : taskModel.importance == Importance.basic
+                                          ? theme.tertiary
+                                          : theme.primary),
                         ),
                       ],
                     ),

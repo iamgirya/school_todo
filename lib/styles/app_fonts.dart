@@ -7,7 +7,7 @@ abstract class AppTextStyles {
     height: 1.1875,
     fontFamily: 'Roboto',
   );
-  
+
   static const TextStyle title = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
@@ -37,5 +37,4 @@ abstract class AppTextStyles {
     height: 1.43,
     fontFamily: 'Roboto',
   );
-
 }

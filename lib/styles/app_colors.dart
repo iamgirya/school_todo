@@ -1,41 +1,43 @@
 import 'package:flutter/material.dart';
 
-class ToDoAppDarkColors extends ToDoAppColors{
-  const ToDoAppDarkColors(Color importTaskColor) : super(
-    separator: const Color(0x33FFFFFF),
-    overlay: const Color(0x52000000),
-    primary: const Color(0xFFFFFFFF),
-    secondary: const Color(0x99FFFFFF),
-    tertiary: const Color(0x66FFFFFF),
-    disable: const Color(0x26FFFFFF),
-    red: const Color(0xFFFF3B30),
-    green: const Color(0xFF34C759),
-    blue: const Color(0xFF007AFF),
-    gray: const Color(0xFF8E8E93),
-    backgroundPrimary: const Color(0xFF161618),
-    backgroundSecondary: const Color(0xFF252528),
-    backgroundElevated: const Color(0xFF3C3C3F  ),
-    importTaskColor: importTaskColor,
-  );
+class ToDoAppDarkColors extends ToDoAppColors {
+  const ToDoAppDarkColors(Color importTaskColor)
+      : super(
+          separator: const Color(0x33FFFFFF),
+          overlay: const Color(0x52000000),
+          primary: const Color(0xFFFFFFFF),
+          secondary: const Color(0x99FFFFFF),
+          tertiary: const Color(0x66FFFFFF),
+          disable: const Color(0x26FFFFFF),
+          red: const Color(0xFFFF3B30),
+          green: const Color(0xFF34C759),
+          blue: const Color(0xFF007AFF),
+          gray: const Color(0xFF8E8E93),
+          backgroundPrimary: const Color(0xFF161618),
+          backgroundSecondary: const Color(0xFF252528),
+          backgroundElevated: const Color(0xFF3C3C3F),
+          importTaskColor: importTaskColor,
+        );
 }
 
-class ToDoAppLightColors extends ToDoAppColors{
-  const ToDoAppLightColors(Color importTaskColor) : super(
-    separator: const Color(0x33000000),
-    overlay: const Color(0x0F000000),
-    primary: const Color(0xFF000000),
-    secondary: const Color(0x99000000),
-    tertiary: const Color(0x4D000000),
-    disable: const Color(0x26000000),
-    red: const Color(0xFFFF453A),
-    green: const Color(0xFF32D74B),
-    blue: const Color(0xFF0A84FF),
-    gray: const Color(0xFF8E8E93),
-    backgroundPrimary: const Color(0xFFF7F6F2),
-    backgroundSecondary: const Color(0xFFFFFFFF),
-    backgroundElevated: const Color(0xFFFFFFFF),
-    importTaskColor: importTaskColor,
-  );
+class ToDoAppLightColors extends ToDoAppColors {
+  const ToDoAppLightColors(Color importTaskColor)
+      : super(
+          separator: const Color(0x33000000),
+          overlay: const Color(0x0F000000),
+          primary: const Color(0xFF000000),
+          secondary: const Color(0x99000000),
+          tertiary: const Color(0x4D000000),
+          disable: const Color(0x26000000),
+          red: const Color(0xFFFF453A),
+          green: const Color(0xFF32D74B),
+          blue: const Color(0xFF0A84FF),
+          gray: const Color(0xFF8E8E93),
+          backgroundPrimary: const Color(0xFFF7F6F2),
+          backgroundSecondary: const Color(0xFFFFFFFF),
+          backgroundElevated: const Color(0xFFFFFFFF),
+          importTaskColor: importTaskColor,
+        );
 }
 
 class ToDoAppColors extends ThemeExtension<ToDoAppColors> {
@@ -126,10 +128,13 @@ class ToDoAppColors extends ThemeExtension<ToDoAppColors> {
       green: Color.lerp(green, other.green, t),
       blue: Color.lerp(blue, other.blue, t),
       gray: Color.lerp(gray, other.gray, t),
-      backgroundPrimary: Color.lerp(backgroundPrimary, other.backgroundPrimary, t),
-      backgroundSecondary: Color.lerp(backgroundSecondary, other.backgroundSecondary, t),
-      backgroundElevated: Color.lerp(backgroundElevated, other.backgroundElevated, t),
+      backgroundPrimary:
+          Color.lerp(backgroundPrimary, other.backgroundPrimary, t),
+      backgroundSecondary:
+          Color.lerp(backgroundSecondary, other.backgroundSecondary, t),
+      backgroundElevated:
+          Color.lerp(backgroundElevated, other.backgroundElevated, t),
       importTaskColor: Color.lerp(importTaskColor, other.importTaskColor, t),
     );
   }
- }
+}

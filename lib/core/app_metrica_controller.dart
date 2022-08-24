@@ -4,7 +4,9 @@ class AppMetricaController {
   bool isActivated = false;
 
   Future<void> initAppMetric() async {
-    await AppMetrica.activate(const AppMetricaConfig('cf303739-8f4b-4b02-8f9f-c25c437db3a9', logs: true));
+    await AppMetrica.activate(const AppMetricaConfig(
+        'cf303739-8f4b-4b02-8f9f-c25c437db3a9',
+        logs: true));
     isActivated = true;
   }
 

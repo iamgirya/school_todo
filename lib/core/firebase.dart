@@ -30,5 +30,4 @@ Future<Color> getImportantColor() async {
     logger.severe('Ошибка подключения Remote Config', [error]);
     return Colors.red;
   }
-
 }

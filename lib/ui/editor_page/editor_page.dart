@@ -11,6 +11,7 @@ import 'package:school_todo/ui/editor_page/widgets/task_text_field_widget.dart';
 import '../../core/container_class.dart';
 import '../../generated/l10n.dart';
 import '../../models/task_model.dart';
+import '../../navigation/delegate.dart';
 import '../../navigation/navigation_controller.dart';
 import 'widgets/deadline_choose_widget.dart';
 
@@ -18,7 +19,8 @@ class EditorPage extends StatelessWidget {
   EditorPage({Key? key, this.editingTask}) : super(key: key);
 
   final Task? editingTask;
-  final TextEditingController taskTextEditingController = TextEditingController();
+  final TextEditingController taskTextEditingController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,8 @@ class EditorPage extends StatelessWidget {
             width: 14,
             child: IconButton(
                 onPressed: () {
-                  context.read<NavigationController>().pop();
+                  (Router.of(context).routerDelegate as BookshelfRouterDelegate)
+                      .gotoTaskList();
                 },
                 icon: Icon(
                   Icons.close,
@@ -57,7 +60,8 @@ class EditorPage extends StatelessWidget {
                 builder: (context, snapshot) {
               return TextButton(
                 onPressed: () {
-                  BlocProvider.of<EditingTaskCubit>(context).saveTask(context, taskTextEditingController.text);
+                  BlocProvider.of<EditingTaskCubit>(context)
+                      .saveTask(context, taskTextEditingController.text);
                 },
                 child: Text(
                   S.of(context).editorSaveButton,
@@ -74,7 +78,9 @@ class EditorPage extends StatelessWidget {
               const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
           child: ListView(
             children: [
-              TaskTextField(taskTextEditingController: taskTextEditingController,),
+              TaskTextField(
+                taskTextEditingController: taskTextEditingController,
+              ),
               const SizedBox(height: 28),
               const ImportanceChoose(),
               Divider(

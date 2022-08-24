@@ -9,25 +9,26 @@ import '../../core/device_id_holder.dart';
 import '../../core/logger.dart';
 import '../../models/importance_model.dart';
 import '../../models/task_model.dart';
+import '../../navigation/delegate.dart';
 
 part 'editing_task_state.dart';
 part 'editing_task_cubit.freezed.dart';
 
 class EditingTaskCubit extends Cubit<EditingTaskState> {
   EditingTaskCubit({Task? initTask, required this.cubitsConnectorRepo})
-      : super(
-      EditingTaskState.loaded(
+      : super(EditingTaskState.loaded(
           editingTask: initTask ?? Task.empty(''),
           switchValue: initTask != null && initTask.deadline != null,
           taskCanBeDeleted: initTask != null,
-      ));
+        ));
 
   final ICubitsConnectorRepository cubitsConnectorRepo;
 
   bool get _stateIsLoaded => state is EditingTaskLoadedState;
   Task get editingTask => (state as EditingTaskLoadedState).editingTask;
   bool get switchValue => (state as EditingTaskLoadedState).switchValue;
-  bool get taskCanBeDeleted => (state as EditingTaskLoadedState).taskCanBeDeleted;
+  bool get taskCanBeDeleted =>
+      (state as EditingTaskLoadedState).taskCanBeDeleted;
 
   int _dateToUnix(DateTime date) => date.millisecondsSinceEpoch ~/ 1000;
 
@@ -50,9 +51,14 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
 
   void onStartOrEndInput(String? text) {
     if (editingTask.text.isEmpty) {
-      if (text != null && (!taskCanBeDeleted && text.isNotEmpty || taskCanBeDeleted && text.isEmpty)) {
+      if (text != null &&
+          (!taskCanBeDeleted && text.isNotEmpty ||
+              taskCanBeDeleted && text.isEmpty)) {
         if (_stateIsLoaded) {
-          emit(EditingTaskState.loaded(editingTask: editingTask, switchValue: switchValue, taskCanBeDeleted: !taskCanBeDeleted));
+          emit(EditingTaskState.loaded(
+              editingTask: editingTask,
+              switchValue: switchValue,
+              taskCanBeDeleted: !taskCanBeDeleted));
         }
       }
     }
@@ -63,7 +69,10 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
       if (editingTask.deadline != null && switchValue) {
         int? newDeadLine = await _selectDeadLine(context);
         if (newDeadLine != null) {
-          emit(EditingTaskState.loaded(editingTask: editingTask.copyWith(deadline: newDeadLine), switchValue: switchValue, taskCanBeDeleted: taskCanBeDeleted));
+          emit(EditingTaskState.loaded(
+              editingTask: editingTask.copyWith(deadline: newDeadLine),
+              switchValue: switchValue,
+              taskCanBeDeleted: taskCanBeDeleted));
         }
       }
     }
@@ -71,13 +80,22 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
 
   Future<void> changeSwitch(BuildContext context) async {
     if (_stateIsLoaded) {
-      emit(EditingTaskState.loaded(editingTask: editingTask, switchValue: !switchValue, taskCanBeDeleted: taskCanBeDeleted));
+      emit(EditingTaskState.loaded(
+          editingTask: editingTask,
+          switchValue: !switchValue,
+          taskCanBeDeleted: taskCanBeDeleted));
       if (switchValue && editingTask.deadline == null) {
         int? newDeadline = await _selectDeadLine(context);
         if (newDeadline != null) {
-          emit(EditingTaskState.loaded(editingTask: editingTask.copyWith(deadline: newDeadline), switchValue: switchValue, taskCanBeDeleted: taskCanBeDeleted));
+          emit(EditingTaskState.loaded(
+              editingTask: editingTask.copyWith(deadline: newDeadline),
+              switchValue: switchValue,
+              taskCanBeDeleted: taskCanBeDeleted));
         } else {
-          emit(EditingTaskState.loaded(editingTask: editingTask, switchValue: !switchValue, taskCanBeDeleted: taskCanBeDeleted));
+          emit(EditingTaskState.loaded(
+              editingTask: editingTask,
+              switchValue: !switchValue,
+              taskCanBeDeleted: taskCanBeDeleted));
         }
       }
     }
@@ -85,7 +103,10 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
 
   void changeImportance(Importance? importance) {
     if (importance != null && _stateIsLoaded) {
-      emit(EditingTaskState.loaded(editingTask: editingTask.copyWith(importance: importance), switchValue: switchValue, taskCanBeDeleted: taskCanBeDeleted));
+      emit(EditingTaskState.loaded(
+          editingTask: editingTask.copyWith(importance: importance),
+          switchValue: switchValue,
+          taskCanBeDeleted: taskCanBeDeleted));
     }
   }
 
@@ -94,21 +115,23 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
       logger.info('Delete task');
       cubitsConnectorRepo.deleteTask(editingTask);
     }
-    context.read<NavigationController>().pop();
+    (Router.of(context).routerDelegate as BookshelfRouterDelegate)
+        .gotoTaskList();
   }
 
   void saveTask(BuildContext context, String text) {
     if (_stateIsLoaded) {
       Task savedTaskModel = editingTask.copyWith(
-          text: text,
-          changedAt: _dateToUnix(DateTime.now()),
-          lastUpdatedBy: Cont.getIt.get<DeviceIdHolder>().getDeviceId,
+        text: text,
+        changedAt: _dateToUnix(DateTime.now()),
+        lastUpdatedBy: Cont.getIt.get<DeviceIdHolder>().getDeviceId,
       );
 
       cubitsConnectorRepo.addNewTask(savedTaskModel);
       logger.info('Save task');
     }
 
-    context.read<NavigationController>().pop();
+    (Router.of(context).routerDelegate as BookshelfRouterDelegate)
+        .gotoTaskList();
   }
 }

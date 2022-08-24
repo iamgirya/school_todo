@@ -8,9 +8,11 @@ import 'device_id_holder.dart';
 
 Future<void> initServiceLocator() async {
   //репозитории
-  Cont.getIt.registerSingleton<IGlobalTaskSavesRepository>(GlobalTaskSavesRepository());
+  Cont.getIt.registerSingleton<IGlobalTaskSavesRepository>(
+      GlobalTaskSavesRepository());
 
-  Cont.getIt.registerSingleton<ICubitsConnectorRepository>(SimpleCubitsConnectorRepository());
+  Cont.getIt.registerSingleton<ICubitsConnectorRepository>(
+      SimpleCubitsConnectorRepository());
 
   ILocalTaskSavesRepository localRepo = HiveLocalTaskSavesRepository();
   await localRepo.initLocalTaskSavesRepository();

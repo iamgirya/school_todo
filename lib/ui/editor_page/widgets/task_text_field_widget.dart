@@ -8,9 +8,9 @@ import '../../../styles/app_fonts.dart';
 
 class TaskTextField extends StatelessWidget {
   const TaskTextField({
-    Key? key, required this.taskTextEditingController,
+    Key? key,
+    required this.taskTextEditingController,
   }) : super(key: key);
-
 
   final TextEditingController taskTextEditingController;
 
@@ -18,7 +18,7 @@ class TaskTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
     EditingTaskCubit editingTaskCubit =
-    BlocProvider.of<EditingTaskCubit>(context);
+        BlocProvider.of<EditingTaskCubit>(context);
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 104),
       child: Card(
@@ -36,8 +36,7 @@ class TaskTextField extends StatelessWidget {
             decoration: InputDecoration(
               contentPadding: EdgeInsets.zero,
               hintText: S.of(context).editorTextTaskHint,
-              hintStyle: AppTextStyles.body
-                  .copyWith(color: theme.tertiary),
+              hintStyle: AppTextStyles.body.copyWith(color: theme.tertiary),
               border: InputBorder.none,
             ),
             controller: taskTextEditingController,

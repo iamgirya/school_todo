@@ -9,9 +9,10 @@ class NavigationController {
 
   GlobalKey<NavigatorState> get key => _key1;
 
-
   void navigateTo(String page, {Object? arguments}) {
-    Cont.getIt.get<AppMetricaController>().reportEventWithMap('Open Screen', {'screenName' : page});
+    Cont.getIt
+        .get<AppMetricaController>()
+        .reportEventWithMap('Open Screen', {'screenName': page});
     _key1.currentState?.pushNamed(page, arguments: arguments);
   }
 

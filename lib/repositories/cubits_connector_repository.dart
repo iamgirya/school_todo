@@ -1,7 +1,6 @@
 import '../models/task_model.dart';
 
 abstract class ICubitsConnectorRepository {
-
   void addNewTask(Task newTask);
 
   void setCallBackOnNewTask(void Function(Task) callBack);

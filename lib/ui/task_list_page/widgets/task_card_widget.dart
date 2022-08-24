@@ -9,6 +9,7 @@ import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/styles/app_fonts.dart';
 
 import '../../../models/importance_model.dart';
+import '../../../navigation/delegate.dart';
 
 class TaskCard extends StatelessWidget {
   const TaskCard(
@@ -122,9 +123,12 @@ class TaskCard extends StatelessWidget {
                   child: IconButton(
                     padding: EdgeInsets.zero,
                     onPressed: () {
-                      context
-                          .read<NavigationController>()
-                          .navigateTo(RouteNames.editorPage, arguments: task);
+                      // context
+                      //     .read<NavigationController>()
+                      //     .navigateTo(RouteNames.editorPage, arguments: task);
+                      (Router.of(context).routerDelegate
+                              as BookshelfRouterDelegate)
+                          .gotoEditor(task.id);
                     },
                     icon: const Icon(Icons.info_outline),
                     color: theme.gray,
