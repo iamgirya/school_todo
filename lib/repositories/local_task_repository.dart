@@ -14,6 +14,8 @@ abstract class ILocalTaskSavesRepository {
 
   List<Task> loadLocalTasks();
 
+  Task loadLocalTask(String? id);
+
   int loadLocalRevision();
 
   void saveLocalRevision(int globalRevision);
@@ -56,6 +58,20 @@ class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
     return (Hive.box(tasksBoxName).get(tasksBoxListKey) as Iterable)
         .map((e) => e as Task)
         .toList();
+  }
+
+  @override
+  Task loadLocalTask(String? id) {
+    if (id == null) {
+      return Task.empty(null);
+    }
+    try {
+      return (Hive.box(tasksBoxName).get(tasksBoxListKey) as Iterable)
+          .map((e) => e as Task)
+          .firstWhere((element) => element.id == id);
+    } catch (e) {
+      return Task.empty(null);
+    }
   }
 
   @override

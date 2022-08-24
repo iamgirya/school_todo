@@ -4,7 +4,6 @@ import 'package:school_todo/navigation/state.dart';
 import 'package:school_todo/repositories/local_task_repository.dart';
 import 'package:school_todo/ui/task_list_page/task_list_page.dart';
 
-import '../models/task_model.dart';
 import '../ui/editor_page/editor_page.dart';
 
 class ToDoRouterDelegate extends RouterDelegate<NavigationStateDTO>
@@ -35,8 +34,10 @@ class ToDoRouterDelegate extends RouterDelegate<NavigationStateDTO>
 
   @override
   Widget build(BuildContext context) {
-    _taskListPage ??= const MaterialPage(
-      child: TaskListPage(),
+    _taskListPage ??= MaterialPage(
+      child: TaskListPage(
+        key: GlobalKey(),
+      ),
     );
 
     final pages = [
@@ -46,9 +47,7 @@ class ToDoRouterDelegate extends RouterDelegate<NavigationStateDTO>
           child: EditorPage(
             editingTask: Cont.getIt
                 .get<ILocalTaskSavesRepository>()
-                .loadLocalTasks()
-                .firstWhere((element) => element.id == state.taskId,
-                    orElse: () => Task.empty(null)),
+                .loadLocalTask(state.taskId),
           ),
         ),
     ];
