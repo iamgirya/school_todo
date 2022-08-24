@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:school_todo/navigation/navigation_controller.dart';
 import 'package:school_todo/repositories/cubits_connector_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -115,8 +114,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
       logger.info('Delete task');
       cubitsConnectorRepo.deleteTask(editingTask);
     }
-    (Router.of(context).routerDelegate as BookshelfRouterDelegate)
-        .gotoTaskList();
+    (Router.of(context).routerDelegate as ToDoRouterDelegate).gotoTaskList();
   }
 
   void saveTask(BuildContext context, String text) {
@@ -131,7 +129,6 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
       logger.info('Save task');
     }
 
-    (Router.of(context).routerDelegate as BookshelfRouterDelegate)
-        .gotoTaskList();
+    (Router.of(context).routerDelegate as ToDoRouterDelegate).gotoTaskList();
   }
 }

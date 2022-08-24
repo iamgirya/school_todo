@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
 import 'package:school_todo/models/task_model.dart';
-import 'package:school_todo/navigation/navigation_controller.dart';
-import 'package:school_todo/navigation/root_names_container.dart';
 import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/styles/app_fonts.dart';
 
@@ -126,8 +124,7 @@ class TaskCard extends StatelessWidget {
                       // context
                       //     .read<NavigationController>()
                       //     .navigateTo(RouteNames.editorPage, arguments: task);
-                      (Router.of(context).routerDelegate
-                              as BookshelfRouterDelegate)
+                      (Router.of(context).routerDelegate as ToDoRouterDelegate)
                           .gotoEditor(task.id);
                     },
                     icon: const Icon(Icons.info_outline),

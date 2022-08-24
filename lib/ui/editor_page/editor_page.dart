@@ -12,7 +12,6 @@ import '../../core/container_class.dart';
 import '../../generated/l10n.dart';
 import '../../models/task_model.dart';
 import '../../navigation/delegate.dart';
-import '../../navigation/navigation_controller.dart';
 import 'widgets/deadline_choose_widget.dart';
 
 class EditorPage extends StatelessWidget {
@@ -47,7 +46,7 @@ class EditorPage extends StatelessWidget {
             width: 14,
             child: IconButton(
                 onPressed: () {
-                  (Router.of(context).routerDelegate as BookshelfRouterDelegate)
+                  (Router.of(context).routerDelegate as ToDoRouterDelegate)
                       .gotoTaskList();
                 },
                 icon: Icon(

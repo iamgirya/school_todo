@@ -7,7 +7,7 @@ import 'package:school_todo/ui/task_list_page/task_list_page.dart';
 import '../models/task_model.dart';
 import '../ui/editor_page/editor_page.dart';
 
-class BookshelfRouterDelegate extends RouterDelegate<NavigationStateDTO>
+class ToDoRouterDelegate extends RouterDelegate<NavigationStateDTO>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<NavigationStateDTO> {
   NavigationState state = NavigationState(true, null);
 
@@ -35,11 +35,9 @@ class BookshelfRouterDelegate extends RouterDelegate<NavigationStateDTO>
 
   @override
   Widget build(BuildContext context) {
-    if (_taskListPage == null) {
-      _taskListPage = const MaterialPage(
-        child: TaskListPage(),
-      );
-    }
+    _taskListPage ??= const MaterialPage(
+      child: TaskListPage(),
+    );
 
     final pages = [
       _taskListPage!,

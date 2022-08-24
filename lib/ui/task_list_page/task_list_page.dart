@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:school_todo/blocs/app_configuration/app_configuration_cubit.dart';
 import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
-import 'package:school_todo/navigation/navigation_controller.dart';
 import 'package:school_todo/repositories/global_task_repository.dart';
 import 'package:school_todo/repositories/local_task_repository.dart';
 import 'package:school_todo/styles/app_colors.dart';
@@ -68,7 +68,7 @@ class TaskListPage extends StatelessWidget {
                 ),
               FloatingActionButton(
                 onPressed: () {
-                  // toggleTheme();
+                  BlocProvider.of<AppConfigurationCubit>(context).changeTheme();
                 },
                 heroTag: null,
                 backgroundColor: theme.blue,
@@ -79,7 +79,7 @@ class TaskListPage extends StatelessWidget {
               ),
               FloatingActionButton(
                 onPressed: () {
-                  (Router.of(context).routerDelegate as BookshelfRouterDelegate)
+                  (Router.of(context).routerDelegate as ToDoRouterDelegate)
                       .gotoEditor(null);
                 },
                 heroTag: null,

@@ -3,7 +3,7 @@ import 'package:school_todo/navigation/root_names_container.dart';
 import 'package:school_todo/navigation/state.dart';
 
 //Transform state <-> URL
-class BooksShelfRouteInformationParser
+class ToDoRouteInformationParser
     extends RouteInformationParser<NavigationStateDTO> {
   @override
   Future<NavigationStateDTO> parseRouteInformation(

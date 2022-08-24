@@ -13,16 +13,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dcf87de-003c-4ded-945a-cab4d1372f80" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/navigation/delegate.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/navigation/parser.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/navigation/state.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_cubit.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_cubit.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_state.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/integration_test/editing_menu_test/editing_menu_test_main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/integration_test/editing_menu_test/editing_menu_test_main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_state.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/navigation/root_names_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/navigation/root_names_container.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/repositories/global_task_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/global_task_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/navigation/delegate.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/navigation/delegate.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/navigation/navigation_controller.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/navigation/parser.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/navigation/parser.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/editor_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/editor_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/my_app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/my_app.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" afterDir="false" />
@@ -76,7 +77,7 @@
     <property name="dart.analysis.tool.window.force.activate" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../bookshelf-router" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/blocs/app_configuration" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -85,6 +86,9 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\danek\Documents\GitHub\school_todo\lib\blocs\app_configuration" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\danek\Documents\GitHub\school_todo" />
       <recent name="C:\Users\danek\Documents\GitHub\school_todo\lib\integration_test\editing_menu_test" />
@@ -156,6 +160,13 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/ui/my_app.dart</url>
+          <line>24</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint suspend="THREAD" type="dart-exception" />
       </default-breakpoints>
