@@ -3,30 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/core/app_metrica_controller.dart';
 import 'package:school_todo/core/logger.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:school_todo/repositories/task_list_repository.dart';
 
 import '../../core/container_class.dart';
 import '../../models/animated_task_model.dart';
 import '../../models/task_model.dart';
-import '../../repositories/local_task_repository.dart';
 
 import '../../repositories/cubits_connector_repository.dart';
-import '../../repositories/global_task_repository.dart';
 
 part 'task_list_state.dart';
 part 'task_list_cubit.freezed.dart';
 
 class TaskListCubit extends Cubit<TaskListState> {
   TaskListCubit(
-      {required this.localRepo,
-      required this.globalRepo,
-      required this.cubitsConnectorRepo})
+      {required this.taskListRepository, required this.cubitsConnectorRepo})
       : super(const TaskListState.initial()) {
     cubitsConnectorRepo.setCallBackOnNewTask(onGetTaskFromEditor);
     cubitsConnectorRepo.setCallBackOnDeleteTask(deleteTask);
   }
 
-  final ILocalTaskSavesRepository localRepo;
-  final IGlobalTaskSavesRepository globalRepo;
+  final ITaskListRepository taskListRepository;
   final ICubitsConnectorRepository cubitsConnectorRepo;
 
   List<AnimatedTask> get loadedTasks =>
@@ -34,31 +30,6 @@ class TaskListCubit extends Cubit<TaskListState> {
   bool get isCompletedVisible =>
       (state as TaskListLoadedState).isCompletedVisible;
   bool get isListAnimated => (state as TaskListLoadedState).inAnimation;
-
-  Future<void> _doServerRequest(Future<void> Function() serverRequest) async {
-    bool isConnected = globalRepo.isOffline;
-    await serverRequest();
-    localRepo.saveLocalRevision(globalRepo.getRevision());
-    if (isConnected && !globalRepo.isOffline) {
-      globalRepo.patchGlobalTaskList(localRepo.loadLocalTasks());
-    }
-  }
-
-  List<Task> _checkLocalChanges(List<Task> localTasks, List<Task> globalTasks) {
-    int localRevision = localRepo.loadLocalRevision();
-    int globalRevision = globalRepo.getRevision();
-
-    if (localRevision < globalRevision) {
-      logger.info('Global data is main');
-      localRepo.saveLocalRevision(globalRevision);
-      localRepo.saveLocalTasks(globalTasks);
-      return globalTasks;
-    } else {
-      logger.info('Local data is main');
-      globalRepo.patchGlobalTaskList(localTasks);
-      return localTasks;
-    }
-  }
 
   int getLengthOfTaskList() {
     if (state is TaskListLoadedState) {
@@ -90,19 +61,15 @@ class TaskListCubit extends Cubit<TaskListState> {
           isAnimated: true,
           isNeedToBeVisible: true);
       taskAnimationStop(fastTask, const Duration(milliseconds: 500));
-      logger.info(
-          'Add fast task with text: ${fastTaskTextEditingController.text}');
       fastTaskTextEditingController.clear();
       List<AnimatedTask> newLoadedTasks = List<AnimatedTask>.from(loadedTasks)
         ..add(fastTask);
 
-      List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
-      localRepo.saveLocalTasks(saveTaskList);
-      _doServerRequest(() async {
-        await globalRepo.postGlobalTask(fastTask.task);
-      });
+      taskListRepository.postChanges(newLoadedTasks, fastTask);
 
       Cont.getIt.get<AppMetricaController>().reportEvent('Add new fast task');
+      logger.info(
+          'Add fast task with text: ${fastTaskTextEditingController.text}');
 
       emit(
           (state as TaskListLoadedState).copyWith(loadedTasks: newLoadedTasks));
@@ -116,11 +83,7 @@ class TaskListCubit extends Cubit<TaskListState> {
       List<AnimatedTask> newLoadedTasks = List<AnimatedTask>.from(loadedTasks)
         ..removeAt(indexOfDeletingTask);
 
-      List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
-      localRepo.saveLocalTasks(saveTaskList);
-      _doServerRequest(() async {
-        await globalRepo.deleteGlobalTask(toDeleteTask.id);
-      });
+      taskListRepository.deleteChanges(newLoadedTasks, toDeleteTask.id);
 
       Cont.getIt.get<AppMetricaController>().reportEvent('Delete task');
 
@@ -177,11 +140,10 @@ class TaskListCubit extends Cubit<TaskListState> {
             isNeedToBeVisible: !(!isCompletedVisible && chosenTask.done));
       }
 
-      List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
-      localRepo.saveLocalTasks(saveTaskList);
-      _doServerRequest(() async {
-        await globalRepo.putGlobalTask(chosenTask.id, chosenTask);
-      });
+      taskListRepository.putChanges(
+          newLoadedTasks,
+          newLoadedTasks[indexOfEditedTask].task.id,
+          newLoadedTasks[indexOfEditedTask]);
 
       if (chosenTask.done) {
         Cont.getIt.get<AppMetricaController>().reportEvent('Task complete');
@@ -207,24 +169,20 @@ class TaskListCubit extends Cubit<TaskListState> {
         newLoadedTasks = List<AnimatedTask>.from(loadedTasks)..add(newTask);
         taskAnimationStop(newTask, const Duration(milliseconds: 500));
 
-        List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
-        localRepo.saveLocalTasks(saveTaskList);
-        _doServerRequest(() async {
-          await globalRepo.postGlobalTask(editingTask);
-        });
+        taskListRepository.postChanges(newLoadedTasks, newTask);
+
         Cont.getIt
             .get<AppMetricaController>()
             .reportEvent('Add new editing task');
       } else {
         newLoadedTasks = List<AnimatedTask>.from(loadedTasks);
         newLoadedTasks[indexOfEditedTask] =
-            loadedTasks[indexOfEditedTask].copyWith(task: editingTask);
+            newLoadedTasks[indexOfEditedTask].copyWith(task: editingTask);
 
-        List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
-        localRepo.saveLocalTasks(saveTaskList);
-        _doServerRequest(() async {
-          await globalRepo.putGlobalTask(editingTask.id, editingTask);
-        });
+        taskListRepository.putChanges(
+            newLoadedTasks,
+            newLoadedTasks[indexOfEditedTask].task.id,
+            newLoadedTasks[indexOfEditedTask]);
       }
       emit(
           (state as TaskListLoadedState).copyWith(loadedTasks: newLoadedTasks));
@@ -232,30 +190,21 @@ class TaskListCubit extends Cubit<TaskListState> {
   }
 
   Future<void> initialLoadTaskList() async {
-    List<Task> localTasks;
-    List<Task>? globalTasks;
+    List<Task> loadedTask = await taskListRepository.loadActualTaskList();
 
-    localTasks = localRepo.loadLocalTasks();
-    if (!isClosed) {
-      globalTasks = await globalRepo.getGlobalTaskList();
-      if (globalTasks != null) {
-        localTasks = _checkLocalChanges(localTasks, globalTasks);
+    List<AnimatedTask> animatedTaskList = loadedTask.map((e) {
+      AnimatedTask animatedTask = AnimatedTask(
+          task: e, isAnimated: !e.done, isNeedToBeVisible: !e.done);
+      if (!e.done) {
+        taskAnimationStop(animatedTask, const Duration(milliseconds: 500));
       }
-      List<AnimatedTask> animatedTaskList = localTasks.map((e) {
-        AnimatedTask animatedTask = AnimatedTask(
-            task: e, isAnimated: !e.done, isNeedToBeVisible: !e.done);
-        if (!e.done) {
-          taskAnimationStop(animatedTask, const Duration(milliseconds: 500));
-        }
-        return animatedTask;
-      }).toList();
-      if (!isClosed) {
-        emit(TaskListState.loaded(
-            loadedTasks: animatedTaskList,
-            isCompletedVisible: false,
-            inAnimation: false));
-      }
-    }
+      return animatedTask;
+    }).toList();
+
+    emit(TaskListState.loaded(
+        loadedTasks: animatedTaskList,
+        isCompletedVisible: false,
+        inAnimation: false));
   }
 
   void taskAnimationStop(

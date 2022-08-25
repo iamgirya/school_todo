@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/app_configuration/app_configuration_cubit.dart';
 import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
-import 'package:school_todo/repositories/global_task_repository.dart';
-import 'package:school_todo/repositories/local_task_repository.dart';
+import 'package:school_todo/repositories/task_list_repository.dart';
 import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/ui/task_list_page/widgets/task_list_widget.dart';
 
@@ -24,8 +23,7 @@ class TaskListPage extends StatelessWidget {
     return BlocProvider(
       create: (context) {
         TaskListCubit cubit = TaskListCubit(
-          localRepo: Cont.getIt.get<ILocalTaskSavesRepository>(),
-          globalRepo: Cont.getIt.get<IGlobalTaskSavesRepository>(),
+          taskListRepository: Cont.getIt.get<ITaskListRepository>(),
           cubitsConnectorRepo: Cont.getIt.get<ICubitsConnectorRepository>(),
         );
         cubit.initialLoadTaskList();

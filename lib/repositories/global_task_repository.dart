@@ -42,9 +42,8 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
   Future<bool> _isOfflineCheck() async {
     if (isOffline) {
       //проверка вифи и интернета
-      // проверит репо
       try {
-        final result = await InternetAddress.lookup('example.com');
+        final result = await InternetAddress.lookup('beta.mrdekk.ru');
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           logger.info('Connection reset, request accepted');
           isOffline = false;

@@ -30,6 +30,7 @@ void main() {
   setUp(() async {
     localRepo = MockILocalTaskSavesRepository();
     globalRepo = FakeGlobalRepository();
+
     cubitsConnectorRepo = SimpleCubitsConnectorRepository();
 
     taskListCubit = TaskListCubit(
@@ -42,7 +43,6 @@ void main() {
 
     await taskListCubit.initialLoadTaskList();
   });
-
 
   test('Init cubit', () {
     final zero = taskListCubit.getLengthOfTaskList();
@@ -108,7 +108,8 @@ void main() {
     expect(addedTask.deadline, null);
     expect(addedTask.done, false);
 
-    cubitsConnectorRepo.addNewTask(addedTask.copyWith(deadline: 100, text: "456"));
+    cubitsConnectorRepo
+        .addNewTask(addedTask.copyWith(deadline: 100, text: "456"));
     addedTask = taskListCubit.getTask(0);
 
     expect(textEditingController.text, '');
