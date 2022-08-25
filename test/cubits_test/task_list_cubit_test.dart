@@ -9,15 +9,16 @@ import 'package:school_todo/core/device_id_holder.dart';
 import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/repositories/cubits_connector_repository.dart';
 import 'package:school_todo/repositories/local_task_repository.dart';
+import 'package:school_todo/repositories/task_list_repository.dart';
 
 import '../mocks/fake_global_repository.dart';
 import '../mocks/task_list_cubit_test.mocks.dart';
+import 'task_list_cubit_test.mocks.dart';
 
-@GenerateMocks([ILocalTaskSavesRepository])
+@GenerateMocks([ITaskSavesRepository])
 void main() {
-  late MockILocalTaskSavesRepository localRepo;
-  late FakeGlobalRepository globalRepo;
   late ICubitsConnectorRepository cubitsConnectorRepo;
+  late ITaskSavesRepository taskListRepository;
   late TaskListCubit taskListCubit;
 
   setUpAll(() async {
@@ -28,18 +29,16 @@ void main() {
   });
 
   setUp(() async {
-    localRepo = MockILocalTaskSavesRepository();
-    globalRepo = FakeGlobalRepository();
-
+    taskListRepository = MockITaskListRepository();
     cubitsConnectorRepo = SimpleCubitsConnectorRepository();
 
+    when(taskListRepository.loadActualTaskList())
+        .thenAnswer((_) => Future(() => []));
+
     taskListCubit = TaskListCubit(
-      localRepo: localRepo,
-      globalRepo: globalRepo,
+      taskListRepository: taskListRepository,
       cubitsConnectorRepo: cubitsConnectorRepo,
     );
-
-    when(localRepo.loadLocalTasks()).thenAnswer((_) => []);
 
     await taskListCubit.initialLoadTaskList();
   });

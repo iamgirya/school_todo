@@ -19,7 +19,7 @@ Future<void> initServiceLocator() async {
   await localRepo.initLocalTaskSavesRepository();
   Cont.getIt.registerSingleton<ILocalTaskSavesRepository>(localRepo);
 
-  Cont.getIt.registerSingleton<ITaskListRepository>(
+  Cont.getIt.registerSingleton<ITaskSavesRepository>(
       TaskListRepository(localRepo: localRepo, globalRepo: globalRepo));
 
   //айди устройства

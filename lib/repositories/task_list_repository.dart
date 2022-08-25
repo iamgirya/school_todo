@@ -5,11 +5,11 @@ import '../core/logger.dart';
 import '../models/animated_task_model.dart';
 import '../models/task_model.dart';
 
-abstract class ITaskListRepository {
+abstract class ITaskSavesRepository {
   final ILocalTaskSavesRepository localRepo;
   final IGlobalTaskSavesRepository globalRepo;
 
-  ITaskListRepository({required this.localRepo, required this.globalRepo});
+  ITaskSavesRepository({required this.localRepo, required this.globalRepo});
 
   Future<void> postChanges(
       List<AnimatedTask> newLoadedTasks, AnimatedTask postTask);
@@ -21,7 +21,7 @@ abstract class ITaskListRepository {
   Future<List<Task>> loadActualTaskList();
 }
 
-class TaskListRepository implements ITaskListRepository {
+class TaskListRepository implements ITaskSavesRepository {
   TaskListRepository({required this.localRepo, required this.globalRepo});
 
   @override

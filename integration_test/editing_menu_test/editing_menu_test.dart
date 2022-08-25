@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -15,13 +14,13 @@ void main() {
   tearDown(() {
     GetIt.instance.reset();
   });
-  
+
   testWidgets('Enter in editor', (tester) async {
     test_main.main();
 
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.add), findsOneWidget);
+    //expect(find.byIcon(Icons.add), findsOneWidget);
     expect(find.text('My business'), findsOneWidget);
     expect(find.byKey(const Key('taskList')), findsOneWidget);
     expect(find.byType(Checkbox), findsNothing);
@@ -32,9 +31,12 @@ void main() {
 
     expect(find.byIcon(Icons.close), findsOneWidget);
     expect(find.text('Something to do...'), findsOneWidget);
-    expect(find.byWidgetPredicate((widget) => widget is Icon &&
-      widget.icon == Icons.delete &&
-      widget.color == const ToDoAppLightColors(Colors.red).disable), findsOneWidget);
+    expect(
+        find.byWidgetPredicate((widget) =>
+            widget is Icon &&
+            widget.icon == Icons.delete &&
+            widget.color == const ToDoAppLightColors(Colors.red).disable),
+        findsOneWidget);
   });
 
   testWidgets('Create task and complete them', (tester) async {

@@ -23,7 +23,7 @@ class TaskListPage extends StatelessWidget {
     return BlocProvider(
       create: (context) {
         TaskListCubit cubit = TaskListCubit(
-          taskListRepository: Cont.getIt.get<ITaskListRepository>(),
+          taskListRepository: Cont.getIt.get<ITaskSavesRepository>(),
           cubitsConnectorRepo: Cont.getIt.get<ICubitsConnectorRepository>(),
         );
         cubit.initialLoadTaskList();

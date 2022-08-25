@@ -22,7 +22,7 @@ class TaskListCubit extends Cubit<TaskListState> {
     cubitsConnectorRepo.setCallBackOnDeleteTask(deleteTask);
   }
 
-  final ITaskListRepository taskListRepository;
+  final ITaskSavesRepository taskListRepository;
   final ICubitsConnectorRepository cubitsConnectorRepo;
 
   List<AnimatedTask> get loadedTasks =>

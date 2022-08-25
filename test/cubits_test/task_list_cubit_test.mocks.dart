@@ -3,11 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:school_todo/models/task_model.dart' as _i4;
+import 'package:school_todo/models/animated_task_model.dart' as _i6;
+import 'package:school_todo/models/task_model.dart' as _i7;
+import 'package:school_todo/repositories/global_task_repository.dart' as _i3;
 import 'package:school_todo/repositories/local_task_repository.dart' as _i2;
+import 'package:school_todo/repositories/task_list_repository.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -20,34 +23,67 @@ import 'package:school_todo/repositories/local_task_repository.dart' as _i2;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-/// A class which mocks [ILocalTaskSavesRepository].
+class _FakeILocalTaskSavesRepository_0 extends _i1.SmartFake
+    implements _i2.ILocalTaskSavesRepository {
+  _FakeILocalTaskSavesRepository_0(Object parent, Invocation parentInvocation)
+      : super(parent, parentInvocation);
+}
+
+class _FakeIGlobalTaskSavesRepository_1 extends _i1.SmartFake
+    implements _i3.IGlobalTaskSavesRepository {
+  _FakeIGlobalTaskSavesRepository_1(Object parent, Invocation parentInvocation)
+      : super(parent, parentInvocation);
+}
+
+/// A class which mocks [ITaskListRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockILocalTaskSavesRepository extends _i1.Mock
-    implements _i2.ILocalTaskSavesRepository {
-  MockILocalTaskSavesRepository() {
+class MockITaskListRepository extends _i1.Mock
+    implements _i4.ITaskSavesRepository {
+  MockITaskListRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<void> initLocalTaskSavesRepository() => (super.noSuchMethod(
-      Invocation.method(#initLocalTaskSavesRepository, []),
-      returnValue: _i3.Future<void>.value(),
-      returnValueForMissingStub: _i3.Future<void>.value()) as _i3.Future<void>);
+  _i2.ILocalTaskSavesRepository get localRepo =>
+      (super.noSuchMethod(Invocation.getter(#localRepo),
+              returnValue: _FakeILocalTaskSavesRepository_0(
+                  this, Invocation.getter(#localRepo)))
+          as _i2.ILocalTaskSavesRepository);
   @override
-  void saveLocalTasks(List<_i4.Task>? addedTownList) =>
-      super.noSuchMethod(Invocation.method(#saveLocalTasks, [addedTownList]),
-          returnValueForMissingStub: null);
+  _i3.IGlobalTaskSavesRepository get globalRepo =>
+      (super.noSuchMethod(Invocation.getter(#globalRepo),
+              returnValue: _FakeIGlobalTaskSavesRepository_1(
+                  this, Invocation.getter(#globalRepo)))
+          as _i3.IGlobalTaskSavesRepository);
   @override
-  List<_i4.Task> loadLocalTasks() =>
-      (super.noSuchMethod(Invocation.method(#loadLocalTasks, []),
-          returnValue: <_i4.Task>[]) as List<_i4.Task>);
+  _i5.Future<void> postChanges(
+          List<_i6.AnimatedTask>? newLoadedTasks, _i6.AnimatedTask? postTask) =>
+      (super.noSuchMethod(
+              Invocation.method(#postChanges, [newLoadedTasks, postTask]),
+              returnValue: _i5.Future<void>.value(),
+              returnValueForMissingStub: _i5.Future<void>.value())
+          as _i5.Future<void>);
   @override
-  int loadLocalRevision() =>
-      (super.noSuchMethod(Invocation.method(#loadLocalRevision, []),
-          returnValue: 0) as int);
+  _i5.Future<void> putChanges(List<_i6.AnimatedTask>? newLoadedTasks,
+          String? changedTaskId, _i6.AnimatedTask? putTask) =>
+      (super.noSuchMethod(
+              Invocation.method(
+                  #putChanges, [newLoadedTasks, changedTaskId, putTask]),
+              returnValue: _i5.Future<void>.value(),
+              returnValueForMissingStub: _i5.Future<void>.value())
+          as _i5.Future<void>);
   @override
-  void saveLocalRevision(int? globalRevision) => super.noSuchMethod(
-      Invocation.method(#saveLocalRevision, [globalRevision]),
-      returnValueForMissingStub: null);
+  _i5.Future<void> deleteChanges(
+          List<_i6.AnimatedTask>? newLoadedTasks, String? deleteTaskId) =>
+      (super.noSuchMethod(
+              Invocation.method(#deleteChanges, [newLoadedTasks, deleteTaskId]),
+              returnValue: _i5.Future<void>.value(),
+              returnValueForMissingStub: _i5.Future<void>.value())
+          as _i5.Future<void>);
+  @override
+  _i5.Future<List<_i7.Task>> loadActualTaskList() =>
+      (super.noSuchMethod(Invocation.method(#loadActualTaskList, []),
+              returnValue: _i5.Future<List<_i7.Task>>.value(<_i7.Task>[]))
+          as _i5.Future<List<_i7.Task>>);
 }

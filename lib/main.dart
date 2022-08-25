@@ -13,8 +13,6 @@ import 'core/service_locator.dart';
 
 void main() {
   runZonedGuarded(() async {
-    debugRepaintRainbowEnabled = false;
-
     await initFirebase();
     Color importantColor = await getImportantColor();
 
