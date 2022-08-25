@@ -8,7 +8,6 @@ import 'package:school_todo/core/app_metrica_controller.dart';
 import 'package:school_todo/repositories/task_list_repository.dart';
 
 import '../test/cubits_test/task_list_cubit_test.mocks.dart';
-import '../test/mocks/task_list_cubit_test.mocks.dart';
 
 Future<void> initTestingServiceLocator() async {
   //репозитории
@@ -16,12 +15,10 @@ Future<void> initTestingServiceLocator() async {
   Cont.getIt.registerSingleton<ICubitsConnectorRepository>(
       SimpleCubitsConnectorRepository());
 
-  ILocalTaskSavesRepository localRepo = MockILocalTaskSavesRepository();
+  ILocalTaskSavesRepository localRepo = FakeILocalTaskSavesRepository();
   Cont.getIt.registerSingleton<ILocalTaskSavesRepository>(localRepo);
-  when(localRepo.loadLocalTasks()).thenAnswer((_) => []);
-  when(localRepo.loadLocalTask(any)).thenAnswer((_) => Task.empty(null));
 
-  ITaskSavesRepository taskListRepository = MockITaskListRepository();
+  ITaskSavesRepository taskListRepository = MockITaskSavesRepository();
   Cont.getIt.registerSingleton<ITaskSavesRepository>(taskListRepository);
   when(taskListRepository.loadActualTaskList())
       .thenAnswer((_) => Future(() => []));
@@ -34,4 +31,12 @@ Future<void> initTestingServiceLocator() async {
   //Аппметрика
   AppMetricaController appMetricaController = AppMetricaController();
   Cont.getIt.registerSingleton<AppMetricaController>(appMetricaController);
+}
+
+class FakeILocalTaskSavesRepository extends Fake
+    implements ILocalTaskSavesRepository {
+  @override
+  Task loadLocalTask(String? id) {
+    return Task.empty(null);
+  }
 }

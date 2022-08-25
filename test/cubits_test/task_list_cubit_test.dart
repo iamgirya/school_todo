@@ -8,14 +8,11 @@ import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/core/device_id_holder.dart';
 import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/repositories/cubits_connector_repository.dart';
-import 'package:school_todo/repositories/local_task_repository.dart';
 import 'package:school_todo/repositories/task_list_repository.dart';
 
-import '../mocks/fake_global_repository.dart';
-import '../mocks/task_list_cubit_test.mocks.dart';
 import 'task_list_cubit_test.mocks.dart';
 
-@GenerateMocks([ITaskSavesRepository])
+@GenerateMocks([ITaskSavesRepository, AppMetricaController])
 void main() {
   late ICubitsConnectorRepository cubitsConnectorRepo;
   late ITaskSavesRepository taskListRepository;
@@ -25,11 +22,12 @@ void main() {
     DeviceIdHolder deviceIdHolder = DeviceIdHolder();
     await deviceIdHolder.readDeviceId();
     Cont.getIt.registerSingleton<DeviceIdHolder>(deviceIdHolder);
-    Cont.getIt.registerSingleton<AppMetricaController>(AppMetricaController());
+    Cont.getIt
+        .registerSingleton<AppMetricaController>(MockAppMetricaController());
   });
 
   setUp(() async {
-    taskListRepository = MockITaskListRepository();
+    taskListRepository = MockITaskSavesRepository();
     cubitsConnectorRepo = SimpleCubitsConnectorRepository();
 
     when(taskListRepository.loadActualTaskList())

@@ -6,6 +6,7 @@
 import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:school_todo/core/app_metrica_controller.dart' as _i8;
 import 'package:school_todo/models/animated_task_model.dart' as _i6;
 import 'package:school_todo/models/task_model.dart' as _i7;
 import 'package:school_todo/repositories/global_task_repository.dart' as _i3;
@@ -35,12 +36,12 @@ class _FakeIGlobalTaskSavesRepository_1 extends _i1.SmartFake
       : super(parent, parentInvocation);
 }
 
-/// A class which mocks [ITaskListRepository].
+/// A class which mocks [ITaskSavesRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockITaskListRepository extends _i1.Mock
+class MockITaskSavesRepository extends _i1.Mock
     implements _i4.ITaskSavesRepository {
-  MockITaskListRepository() {
+  MockITaskSavesRepository() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -86,4 +87,36 @@ class MockITaskListRepository extends _i1.Mock
       (super.noSuchMethod(Invocation.method(#loadActualTaskList, []),
               returnValue: _i5.Future<List<_i7.Task>>.value(<_i7.Task>[]))
           as _i5.Future<List<_i7.Task>>);
+}
+
+/// A class which mocks [AppMetricaController].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAppMetricaController extends _i1.Mock
+    implements _i8.AppMetricaController {
+  MockAppMetricaController() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  bool get isActivated =>
+      (super.noSuchMethod(Invocation.getter(#isActivated), returnValue: false)
+          as bool);
+  @override
+  set isActivated(bool? _isActivated) =>
+      super.noSuchMethod(Invocation.setter(#isActivated, _isActivated),
+          returnValueForMissingStub: null);
+  @override
+  _i5.Future<void> initAppMetric() => (super.noSuchMethod(
+      Invocation.method(#initAppMetric, []),
+      returnValue: _i5.Future<void>.value(),
+      returnValueForMissingStub: _i5.Future<void>.value()) as _i5.Future<void>);
+  @override
+  void reportEvent(String? text) =>
+      super.noSuchMethod(Invocation.method(#reportEvent, [text]),
+          returnValueForMissingStub: null);
+  @override
+  void reportEventWithMap(String? text, Map<String, Object>? map) =>
+      super.noSuchMethod(Invocation.method(#reportEventWithMap, [text, map]),
+          returnValueForMissingStub: null);
 }

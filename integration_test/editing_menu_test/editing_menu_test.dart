@@ -20,7 +20,7 @@ void main() {
 
     await tester.pumpAndSettle();
 
-    //expect(find.byIcon(Icons.add), findsOneWidget);
+    expect(find.byIcon(Icons.add), findsOneWidget);
     expect(find.text('My business'), findsOneWidget);
     expect(find.byKey(const Key('taskList')), findsOneWidget);
     expect(find.byType(Checkbox), findsNothing);
