@@ -14,7 +14,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8dcf87de-003c-4ded-945a-cab4d1372f80" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/flutter_ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/flutter_ci.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
