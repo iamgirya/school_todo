@@ -58,41 +58,38 @@ class MockITaskSavesRepository extends _i1.Mock
                   this, Invocation.getter(#globalRepo)))
           as _i3.IGlobalTaskSavesRepository);
   @override
-  _i5.Future<void> postChanges(
+  _i5.Future<bool> postChanges(
           List<_i6.AnimatedTask>? newLoadedTasks, _i6.AnimatedTask? postTask) =>
       (super.noSuchMethod(
-              Invocation.method(#postChanges, [newLoadedTasks, postTask]),
-              returnValue: _i5.Future<void>.value(),
-              returnValueForMissingStub: _i5.Future<void>.value())
-          as _i5.Future<void>);
+          Invocation.method(#postChanges, [newLoadedTasks, postTask]),
+          returnValue: _i5.Future<bool>.value(false)) as _i5.Future<bool>);
   @override
-  _i5.Future<void> putChanges(List<_i6.AnimatedTask>? newLoadedTasks,
+  _i5.Future<bool> putChanges(List<_i6.AnimatedTask>? newLoadedTasks,
           String? changedTaskId, _i6.AnimatedTask? putTask) =>
       (super.noSuchMethod(
-              Invocation.method(
-                  #putChanges, [newLoadedTasks, changedTaskId, putTask]),
-              returnValue: _i5.Future<void>.value(),
-              returnValueForMissingStub: _i5.Future<void>.value())
-          as _i5.Future<void>);
+          Invocation.method(
+              #putChanges, [newLoadedTasks, changedTaskId, putTask]),
+          returnValue: _i5.Future<bool>.value(false)) as _i5.Future<bool>);
   @override
-  _i5.Future<void> deleteChanges(
+  _i5.Future<bool> deleteChanges(
           List<_i6.AnimatedTask>? newLoadedTasks, String? deleteTaskId) =>
       (super.noSuchMethod(
-              Invocation.method(#deleteChanges, [newLoadedTasks, deleteTaskId]),
-              returnValue: _i5.Future<void>.value(),
-              returnValueForMissingStub: _i5.Future<void>.value())
-          as _i5.Future<void>);
-  @override
-  _i5.Future<void> patchChanges(List<_i6.AnimatedTask>? newLoadedTasks) =>
-      (super.noSuchMethod(Invocation.method(#patchChanges, [newLoadedTasks]),
-              returnValue: _i5.Future<void>.value(),
-              returnValueForMissingStub: _i5.Future<void>.value())
-          as _i5.Future<void>);
+          Invocation.method(#deleteChanges, [newLoadedTasks, deleteTaskId]),
+          returnValue: _i5.Future<bool>.value(false)) as _i5.Future<bool>);
   @override
   _i5.Future<List<_i7.Task>> loadActualTaskList() =>
       (super.noSuchMethod(Invocation.method(#loadActualTaskList, []),
               returnValue: _i5.Future<List<_i7.Task>>.value(<_i7.Task>[]))
           as _i5.Future<List<_i7.Task>>);
+  @override
+  Map<dynamic, dynamic> loadConfiguration() =>
+      (super.noSuchMethod(Invocation.method(#loadConfiguration, []),
+          returnValue: <dynamic, dynamic>{}) as Map<dynamic, dynamic>);
+  @override
+  void saveConfiguration({bool? isTaskSorting}) => super.noSuchMethod(
+      Invocation.method(
+          #saveConfiguration, [], {#isTaskSorting: isTaskSorting}),
+      returnValueForMissingStub: null);
 }
 
 /// A class which mocks [AppMetricaController].

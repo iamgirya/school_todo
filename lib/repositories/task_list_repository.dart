@@ -11,17 +11,18 @@ abstract class ITaskSavesRepository {
 
   ITaskSavesRepository({required this.localRepo, required this.globalRepo});
 
-  Future<void> postChanges(
+  bool get isOffline;
+
+  Future<bool> postChanges(
       List<AnimatedTask> newLoadedTasks, AnimatedTask postTask);
-  Future<void> putChanges(List<AnimatedTask> newLoadedTasks,
+  Future<bool> putChanges(List<AnimatedTask> newLoadedTasks,
       String changedTaskId, AnimatedTask putTask);
-  Future<void> deleteChanges(
+  Future<bool> deleteChanges(
       List<AnimatedTask> newLoadedTasks, String deleteTaskId);
-  Future<void> patchChanges(List<AnimatedTask> newLoadedTasks);
 
   Future<List<Task>> loadActualTaskList();
 
-  Map<String, dynamic> loadConfiguration();
+  Map loadConfiguration();
 
   void saveConfiguration({required bool isTaskSorting});
 }
@@ -36,7 +37,7 @@ class TaskListRepository implements ITaskSavesRepository {
   ILocalTaskSavesRepository localRepo;
 
   @override
-  Future<void> postChanges(
+  Future<bool> postChanges(
       List<AnimatedTask> newLoadedTasks, AnimatedTask postTask) async {
     List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
     localRepo.saveLocalTasks(saveTaskList);
@@ -47,10 +48,11 @@ class TaskListRepository implements ITaskSavesRepository {
     if (isConnected && !globalRepo.isOffline) {
       globalRepo.patchGlobalTaskList(localRepo.loadLocalTasks());
     }
+    return globalRepo.isOffline;
   }
 
   @override
-  Future<void> deleteChanges(
+  Future<bool> deleteChanges(
       List<AnimatedTask> newLoadedTasks, String deleteTaskId) async {
     List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
     localRepo.saveLocalTasks(saveTaskList);
@@ -61,10 +63,11 @@ class TaskListRepository implements ITaskSavesRepository {
     if (isConnected && !globalRepo.isOffline) {
       globalRepo.patchGlobalTaskList(localRepo.loadLocalTasks());
     }
+    return globalRepo.isOffline;
   }
 
   @override
-  Future<void> putChanges(List<AnimatedTask> newLoadedTasks,
+  Future<bool> putChanges(List<AnimatedTask> newLoadedTasks,
       String changedTaskId, AnimatedTask putTask) async {
     List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
     localRepo.saveLocalTasks(saveTaskList);
@@ -75,6 +78,7 @@ class TaskListRepository implements ITaskSavesRepository {
     if (isConnected && !globalRepo.isOffline) {
       globalRepo.patchGlobalTaskList(localRepo.loadLocalTasks());
     }
+    return globalRepo.isOffline;
   }
 
   @override
@@ -102,20 +106,7 @@ class TaskListRepository implements ITaskSavesRepository {
   }
 
   @override
-  Future<void> patchChanges(List<AnimatedTask> newLoadedTasks) async {
-    List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
-    localRepo.saveLocalTasks(saveTaskList);
-
-    bool isConnected = globalRepo.isOffline;
-    await globalRepo.patchGlobalTaskList(saveTaskList);
-    localRepo.saveLocalRevision(globalRepo.getRevision());
-    if (isConnected && !globalRepo.isOffline) {
-      globalRepo.patchGlobalTaskList(localRepo.loadLocalTasks());
-    }
-  }
-
-  @override
-  Map<String, dynamic> loadConfiguration() {
+  Map loadConfiguration() {
     return localRepo.loadConfiguration();
   }
 
@@ -123,4 +114,7 @@ class TaskListRepository implements ITaskSavesRepository {
   void saveConfiguration({required bool isTaskSorting}) {
     localRepo.saveConfiguration({'isTaskSorting': isTaskSorting});
   }
+
+  @override
+  bool get isOffline => globalRepo.isOffline;
 }

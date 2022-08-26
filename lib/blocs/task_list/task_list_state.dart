@@ -11,6 +11,7 @@ class TaskListState with _$TaskListState {
     required bool isCompletedVisible,
     required bool inAnimation,
     required bool isTaskSorting,
+    required bool isOffline,
   }) = TaskListLoadedState;
 }
 

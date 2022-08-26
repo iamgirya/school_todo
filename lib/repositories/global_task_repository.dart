@@ -28,9 +28,13 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
   String get baseUrl => IGlobalTaskSavesRepository.baseUrl;
   String get apiToken => IGlobalTaskSavesRepository.apiToken;
 
+  Duration get requestTimeOut => const Duration(seconds: 5);
+  Duration get lookUpTimeOut => const Duration(seconds: 1);
+
   @override
   bool isOffline = false;
 
+  bool tryToRefreshRevision = false;
   int _revision = 0;
   int get revision => _revision;
   set revision(int newRevision) {
@@ -41,14 +45,14 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
 
   Future<bool> _isOfflineCheck() async {
     if (isOffline) {
-      //проверка вифи и интернета
       try {
-        final result = await InternetAddress.lookup('beta.mrdekk.ru');
+        final result =
+            await InternetAddress.lookup('example.com').timeout(lookUpTimeOut);
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           logger.info('Connection reset, request accepted');
           isOffline = false;
         }
-      } on SocketException catch (_) {
+      } catch (_) {
         logger.info('App is offline, request denied');
       }
     }
@@ -58,7 +62,15 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
   void _onError(error) {
     if (error is DioError) {
       if (error.response?.statusCode == 400) {
-        logger.severe('Error: wrong request', [error]);
+        if (!tryToRefreshRevision) {
+          logger.severe('Error: wrong request, try to refresh revision');
+          tryToRefreshRevision = true;
+          getGlobalTaskList();
+        } else {
+          logger.severe('Error: wrong request', [error]);
+          tryToRefreshRevision = false;
+          isOffline = true;
+        }
       } else if (error.response?.statusCode == 401) {
         logger.severe('Error: wrong authorization', [error]);
         isOffline = true;
@@ -113,7 +125,7 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
               },
             ),
           )
-          .timeout(const Duration(seconds: 3));
+          .timeout(requestTimeOut);
       if (_responseIsSuccessful(response)) {
         revision = response.data!['revision'];
         logger.info('Success delete global task');
@@ -143,7 +155,7 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
               },
             ),
           )
-          .timeout(const Duration(seconds: 3));
+          .timeout(requestTimeOut);
       if (_responseIsSuccessful(response)) {
         revision = response.data!['revision'];
         logger.info('Success get global task');
@@ -174,7 +186,7 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
               },
             ),
           )
-          .timeout(const Duration(seconds: 6));
+          .timeout(requestTimeOut);
       List<Task> tmpTaskList = [];
 
       if (_responseIsSuccessful(response)) {
@@ -215,7 +227,7 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
               'list': loadedTasks.map((e) => e.toJson()).toList(),
             }),
           )
-          .timeout(const Duration(seconds: 3));
+          .timeout(requestTimeOut);
       List<Task> tmpTaskList = [];
 
       if (_responseIsSuccessful(response)) {
@@ -256,7 +268,7 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
               'element': postTask.toJson(),
             }),
           )
-          .timeout(const Duration(seconds: 3));
+          .timeout(requestTimeOut);
       if (_responseIsSuccessful(response)) {
         revision = response.data!['revision'];
         logger.info('Success post global task list');
@@ -292,7 +304,7 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
               'element': putTask.toJson(),
             }),
           )
-          .timeout(const Duration(seconds: 3));
+          .timeout(requestTimeOut);
       if (_responseIsSuccessful(response)) {
         revision = response.data!['revision'];
         logger.info('Success put global task list');

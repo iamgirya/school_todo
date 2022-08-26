@@ -32,6 +32,7 @@ class TaskListCubit extends Cubit<TaskListState> {
       (state as TaskListLoadedState).isCompletedVisible;
   bool get isListAnimated => (state as TaskListLoadedState).inAnimation;
   bool get isTaskSorting => (state as TaskListLoadedState).isTaskSorting;
+  bool get isOffline => (state as TaskListLoadedState).isOffline;
 
   void _taskAnimationStop(
       AnimatedTask animatedTask, Duration animationDuration) {
@@ -49,6 +50,14 @@ class TaskListCubit extends Cubit<TaskListState> {
         }
       }
     });
+  }
+
+  void _checkOffline(bool nowOfflineMode) {
+    if (!isOffline && nowOfflineMode) {
+      emit((state as TaskListLoadedState).copyWith(isOffline: !isOffline));
+    } else if (isOffline && !nowOfflineMode) {
+      emit((state as TaskListLoadedState).copyWith(isOffline: !isOffline));
+    }
   }
 
   int getLengthOfTaskList() {
@@ -89,7 +98,9 @@ class TaskListCubit extends Cubit<TaskListState> {
         newLoadedTasks = _getSortedAnimatedTaskList(newLoadedTasks);
       }
 
-      taskListRepository.postChanges(newLoadedTasks, fastTask);
+      taskListRepository
+          .postChanges(newLoadedTasks, fastTask)
+          .then((value) => _checkOffline(value));
 
       Cont.getIt.get<AppMetricaController>().reportEvent('Add new fast task');
       logger.info(
@@ -107,7 +118,9 @@ class TaskListCubit extends Cubit<TaskListState> {
       List<AnimatedTask> newLoadedTasks = List<AnimatedTask>.from(loadedTasks)
         ..removeAt(indexOfDeletingTask);
 
-      taskListRepository.deleteChanges(newLoadedTasks, toDeleteTask.id);
+      taskListRepository
+          .deleteChanges(newLoadedTasks, toDeleteTask.id)
+          .then((value) => _checkOffline(value));
 
       Cont.getIt.get<AppMetricaController>().reportEvent('Delete task');
 
@@ -164,10 +177,10 @@ class TaskListCubit extends Cubit<TaskListState> {
             isNeedToBeVisible: !(!isCompletedVisible && chosenTask.done));
       }
 
-      taskListRepository.putChanges(
-          newLoadedTasks,
-          newLoadedTasks[indexOfEditedTask].task.id,
-          newLoadedTasks[indexOfEditedTask]);
+      taskListRepository
+          .putChanges(newLoadedTasks, newLoadedTasks[indexOfEditedTask].task.id,
+              newLoadedTasks[indexOfEditedTask])
+          .then((value) => _checkOffline(value));
 
       if (chosenTask.done) {
         Cont.getIt.get<AppMetricaController>().reportEvent('Task complete');
@@ -197,7 +210,9 @@ class TaskListCubit extends Cubit<TaskListState> {
           newLoadedTasks = _getSortedAnimatedTaskList(newLoadedTasks);
         }
 
-        taskListRepository.postChanges(newLoadedTasks, newTask);
+        taskListRepository
+            .postChanges(newLoadedTasks, newTask)
+            .then((value) => _checkOffline(value));
 
         Cont.getIt
             .get<AppMetricaController>()
@@ -211,10 +226,12 @@ class TaskListCubit extends Cubit<TaskListState> {
           newLoadedTasks = _getSortedAnimatedTaskList(newLoadedTasks);
         }
 
-        taskListRepository.putChanges(
-            newLoadedTasks,
-            newLoadedTasks[indexOfEditedTask].task.id,
-            newLoadedTasks[indexOfEditedTask]);
+        taskListRepository
+            .putChanges(
+                newLoadedTasks,
+                newLoadedTasks[indexOfEditedTask].task.id,
+                newLoadedTasks[indexOfEditedTask])
+            .then((value) => _checkOffline(value));
       }
       emit(
           (state as TaskListLoadedState).copyWith(loadedTasks: newLoadedTasks));
@@ -238,7 +255,10 @@ class TaskListCubit extends Cubit<TaskListState> {
       isCompletedVisible: false,
       inAnimation: false,
       isTaskSorting: taskListRepository.loadConfiguration()['isTaskSorting'],
+      isOffline: false,
     ));
+
+    _checkOffline(taskListRepository.isOffline);
   }
 
   bool isTaskVisibleOnIndex(int indexOfTask) {
