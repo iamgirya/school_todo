@@ -83,6 +83,12 @@ class MockITaskSavesRepository extends _i1.Mock
               returnValueForMissingStub: _i5.Future<void>.value())
           as _i5.Future<void>);
   @override
+  _i5.Future<void> patchChanges(List<_i6.AnimatedTask>? newLoadedTasks) =>
+      (super.noSuchMethod(Invocation.method(#patchChanges, [newLoadedTasks]),
+              returnValue: _i5.Future<void>.value(),
+              returnValueForMissingStub: _i5.Future<void>.value())
+          as _i5.Future<void>);
+  @override
   _i5.Future<List<_i7.Task>> loadActualTaskList() =>
       (super.noSuchMethod(Invocation.method(#loadActualTaskList, []),
               returnValue: _i5.Future<List<_i7.Task>>.value(<_i7.Task>[]))

@@ -22,7 +22,7 @@ mixin _$TaskListState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<AnimatedTask> loadedTasks,
-            bool isCompletedVisible, bool inAnimation)
+            bool isCompletedVisible, bool inAnimation, bool isTaskSorting)
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -32,7 +32,7 @@ mixin _$TaskListState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<AnimatedTask> loadedTasks, bool isCompletedVisible,
-            bool inAnimation)?
+            bool inAnimation, bool isTaskSorting)?
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -42,7 +42,7 @@ mixin _$TaskListState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<AnimatedTask> loadedTasks, bool isCompletedVisible,
-            bool inAnimation)?
+            bool inAnimation, bool isTaskSorting)?
         loaded,
     required TResult orElse(),
   }) =>
@@ -161,7 +161,7 @@ class _$TaskListErrorState implements TaskListErrorState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<AnimatedTask> loadedTasks,
-            bool isCompletedVisible, bool inAnimation)
+            bool isCompletedVisible, bool inAnimation, bool isTaskSorting)
         loaded,
   }) {
     return error(message);
@@ -174,7 +174,7 @@ class _$TaskListErrorState implements TaskListErrorState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<AnimatedTask> loadedTasks, bool isCompletedVisible,
-            bool inAnimation)?
+            bool inAnimation, bool isTaskSorting)?
         loaded,
   }) {
     return error?.call(message);
@@ -187,7 +187,7 @@ class _$TaskListErrorState implements TaskListErrorState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<AnimatedTask> loadedTasks, bool isCompletedVisible,
-            bool inAnimation)?
+            bool inAnimation, bool isTaskSorting)?
         loaded,
     required TResult orElse(),
   }) {
@@ -290,7 +290,7 @@ class _$TaskListInitialState implements TaskListInitialState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<AnimatedTask> loadedTasks,
-            bool isCompletedVisible, bool inAnimation)
+            bool isCompletedVisible, bool inAnimation, bool isTaskSorting)
         loaded,
   }) {
     return initial();
@@ -303,7 +303,7 @@ class _$TaskListInitialState implements TaskListInitialState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<AnimatedTask> loadedTasks, bool isCompletedVisible,
-            bool inAnimation)?
+            bool inAnimation, bool isTaskSorting)?
         loaded,
   }) {
     return initial?.call();
@@ -316,7 +316,7 @@ class _$TaskListInitialState implements TaskListInitialState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<AnimatedTask> loadedTasks, bool isCompletedVisible,
-            bool inAnimation)?
+            bool inAnimation, bool isTaskSorting)?
         loaded,
     required TResult orElse(),
   }) {
@@ -413,7 +413,7 @@ class _$TaskListLoadingState implements TaskListLoadingState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<AnimatedTask> loadedTasks,
-            bool isCompletedVisible, bool inAnimation)
+            bool isCompletedVisible, bool inAnimation, bool isTaskSorting)
         loaded,
   }) {
     return loading();
@@ -426,7 +426,7 @@ class _$TaskListLoadingState implements TaskListLoadingState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<AnimatedTask> loadedTasks, bool isCompletedVisible,
-            bool inAnimation)?
+            bool inAnimation, bool isTaskSorting)?
         loaded,
   }) {
     return loading?.call();
@@ -439,7 +439,7 @@ class _$TaskListLoadingState implements TaskListLoadingState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<AnimatedTask> loadedTasks, bool isCompletedVisible,
-            bool inAnimation)?
+            bool inAnimation, bool isTaskSorting)?
         loaded,
     required TResult orElse(),
   }) {
@@ -499,7 +499,8 @@ abstract class _$$TaskListLoadedStateCopyWith<$Res> {
   $Res call(
       {List<AnimatedTask> loadedTasks,
       bool isCompletedVisible,
-      bool inAnimation});
+      bool inAnimation,
+      bool isTaskSorting});
 }
 
 /// @nodoc
@@ -518,6 +519,7 @@ class __$$TaskListLoadedStateCopyWithImpl<$Res>
     Object? loadedTasks = freezed,
     Object? isCompletedVisible = freezed,
     Object? inAnimation = freezed,
+    Object? isTaskSorting = freezed,
   }) {
     return _then(_$TaskListLoadedState(
       loadedTasks: loadedTasks == freezed
@@ -532,6 +534,10 @@ class __$$TaskListLoadedStateCopyWithImpl<$Res>
           ? _value.inAnimation
           : inAnimation // ignore: cast_nullable_to_non_nullable
               as bool,
+      isTaskSorting: isTaskSorting == freezed
+          ? _value.isTaskSorting
+          : isTaskSorting // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -542,7 +548,8 @@ class _$TaskListLoadedState implements TaskListLoadedState {
   const _$TaskListLoadedState(
       {required final List<AnimatedTask> loadedTasks,
       required this.isCompletedVisible,
-      required this.inAnimation})
+      required this.inAnimation,
+      required this.isTaskSorting})
       : _loadedTasks = loadedTasks;
 
   final List<AnimatedTask> _loadedTasks;
@@ -556,10 +563,12 @@ class _$TaskListLoadedState implements TaskListLoadedState {
   final bool isCompletedVisible;
   @override
   final bool inAnimation;
+  @override
+  final bool isTaskSorting;
 
   @override
   String toString() {
-    return 'TaskListState.loaded(loadedTasks: $loadedTasks, isCompletedVisible: $isCompletedVisible, inAnimation: $inAnimation)';
+    return 'TaskListState.loaded(loadedTasks: $loadedTasks, isCompletedVisible: $isCompletedVisible, inAnimation: $inAnimation, isTaskSorting: $isTaskSorting)';
   }
 
   @override
@@ -572,7 +581,9 @@ class _$TaskListLoadedState implements TaskListLoadedState {
             const DeepCollectionEquality()
                 .equals(other.isCompletedVisible, isCompletedVisible) &&
             const DeepCollectionEquality()
-                .equals(other.inAnimation, inAnimation));
+                .equals(other.inAnimation, inAnimation) &&
+            const DeepCollectionEquality()
+                .equals(other.isTaskSorting, isTaskSorting));
   }
 
   @override
@@ -580,7 +591,8 @@ class _$TaskListLoadedState implements TaskListLoadedState {
       runtimeType,
       const DeepCollectionEquality().hash(_loadedTasks),
       const DeepCollectionEquality().hash(isCompletedVisible),
-      const DeepCollectionEquality().hash(inAnimation));
+      const DeepCollectionEquality().hash(inAnimation),
+      const DeepCollectionEquality().hash(isTaskSorting));
 
   @JsonKey(ignore: true)
   @override
@@ -595,10 +607,10 @@ class _$TaskListLoadedState implements TaskListLoadedState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<AnimatedTask> loadedTasks,
-            bool isCompletedVisible, bool inAnimation)
+            bool isCompletedVisible, bool inAnimation, bool isTaskSorting)
         loaded,
   }) {
-    return loaded(loadedTasks, isCompletedVisible, inAnimation);
+    return loaded(loadedTasks, isCompletedVisible, inAnimation, isTaskSorting);
   }
 
   @override
@@ -608,10 +620,11 @@ class _$TaskListLoadedState implements TaskListLoadedState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<AnimatedTask> loadedTasks, bool isCompletedVisible,
-            bool inAnimation)?
+            bool inAnimation, bool isTaskSorting)?
         loaded,
   }) {
-    return loaded?.call(loadedTasks, isCompletedVisible, inAnimation);
+    return loaded?.call(
+        loadedTasks, isCompletedVisible, inAnimation, isTaskSorting);
   }
 
   @override
@@ -621,12 +634,13 @@ class _$TaskListLoadedState implements TaskListLoadedState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<AnimatedTask> loadedTasks, bool isCompletedVisible,
-            bool inAnimation)?
+            bool inAnimation, bool isTaskSorting)?
         loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(loadedTasks, isCompletedVisible, inAnimation);
+      return loaded(
+          loadedTasks, isCompletedVisible, inAnimation, isTaskSorting);
     }
     return orElse();
   }
@@ -673,11 +687,13 @@ abstract class TaskListLoadedState implements TaskListState {
   const factory TaskListLoadedState(
       {required final List<AnimatedTask> loadedTasks,
       required final bool isCompletedVisible,
-      required final bool inAnimation}) = _$TaskListLoadedState;
+      required final bool inAnimation,
+      required final bool isTaskSorting}) = _$TaskListLoadedState;
 
   List<AnimatedTask> get loadedTasks;
   bool get isCompletedVisible;
   bool get inAnimation;
+  bool get isTaskSorting;
   @JsonKey(ignore: true)
   _$$TaskListLoadedStateCopyWith<_$TaskListLoadedState> get copyWith =>
       throw _privateConstructorUsedError;

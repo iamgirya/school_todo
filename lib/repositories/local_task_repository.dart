@@ -19,12 +19,17 @@ abstract class ILocalTaskSavesRepository {
   int loadLocalRevision();
 
   void saveLocalRevision(int globalRevision);
+
+  Map<String, dynamic> loadConfiguration();
+
+  void saveConfiguration(Map<String, dynamic> configuration);
 }
 
 class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
   static const String tasksBoxName = 'tasks';
   static const String tasksBoxListKey = 'tasks';
   static const String tasksBoxRevisionKey = 'revision';
+  static const String tasksBoxConfigurationKey = 'isTaskSorted';
 
   @override
   Future<void> initLocalTaskSavesRepository() async {
@@ -49,6 +54,11 @@ class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
     var revision = Hive.box(tasksBoxName).get(tasksBoxRevisionKey);
     if (revision == null) {
       Hive.box(tasksBoxName).put(tasksBoxRevisionKey, 0);
+    }
+    var isSorted = Hive.box(tasksBoxName).get(tasksBoxConfigurationKey);
+    if (isSorted == null) {
+      Hive.box(tasksBoxName)
+          .put(tasksBoxConfigurationKey, {'isTaskSorting': false});
     }
   }
 
@@ -88,5 +98,16 @@ class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
   @override
   void saveLocalRevision(int globalRevision) {
     Hive.box(tasksBoxName).put(tasksBoxRevisionKey, globalRevision);
+  }
+
+  @override
+  Map<String, dynamic> loadConfiguration() {
+    return (Hive.box(tasksBoxName).get(tasksBoxConfigurationKey)
+        as Map<String, bool>);
+  }
+
+  @override
+  void saveConfiguration(Map<String, dynamic> configuration) {
+    Hive.box(tasksBoxName).put(tasksBoxConfigurationKey, configuration);
   }
 }

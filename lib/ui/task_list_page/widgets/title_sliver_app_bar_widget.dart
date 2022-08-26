@@ -88,12 +88,18 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                       child: IconButton(
                         padding: EdgeInsets.zero,
                         onPressed: () {
-                          taskListCubit.sortTaskList();
+                          taskListCubit.changeTaskSorting();
                         },
-                        icon: Icon(
-                          Icons.sort,
-                          color: theme.blue,
-                        ),
+                        icon: state is! TaskListLoadedState ||
+                                taskListCubit.isTaskSorting
+                            ? Icon(
+                                Icons.stop_circle_outlined,
+                                color: theme.blue,
+                              )
+                            : Icon(
+                                Icons.sort,
+                                color: theme.blue,
+                              ),
                       ),
                     ),
                   ),

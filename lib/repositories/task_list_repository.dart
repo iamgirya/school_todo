@@ -20,6 +20,10 @@ abstract class ITaskSavesRepository {
   Future<void> patchChanges(List<AnimatedTask> newLoadedTasks);
 
   Future<List<Task>> loadActualTaskList();
+
+  Map<String, dynamic> loadConfiguration();
+
+  void saveConfiguration({required bool isTaskSorting});
 }
 
 class TaskListRepository implements ITaskSavesRepository {
@@ -108,5 +112,15 @@ class TaskListRepository implements ITaskSavesRepository {
     if (isConnected && !globalRepo.isOffline) {
       globalRepo.patchGlobalTaskList(localRepo.loadLocalTasks());
     }
+  }
+
+  @override
+  Map<String, dynamic> loadConfiguration() {
+    return localRepo.loadConfiguration();
+  }
+
+  @override
+  void saveConfiguration({required bool isTaskSorting}) {
+    localRepo.saveConfiguration({'isTaskSorting': isTaskSorting});
   }
 }

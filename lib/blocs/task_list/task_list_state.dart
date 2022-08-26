@@ -10,6 +10,7 @@ class TaskListState with _$TaskListState {
     required List<AnimatedTask> loadedTasks,
     required bool isCompletedVisible,
     required bool inAnimation,
+    required bool isTaskSorting,
   }) = TaskListLoadedState;
 }
 

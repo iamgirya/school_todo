@@ -31,6 +31,7 @@ class TaskListCubit extends Cubit<TaskListState> {
   bool get isCompletedVisible =>
       (state as TaskListLoadedState).isCompletedVisible;
   bool get isListAnimated => (state as TaskListLoadedState).inAnimation;
+  bool get isTaskSorting => (state as TaskListLoadedState).isTaskSorting;
 
   void _taskAnimationStop(
       AnimatedTask animatedTask, Duration animationDuration) {
@@ -83,6 +84,10 @@ class TaskListCubit extends Cubit<TaskListState> {
       fastTaskTextEditingController.clear();
       List<AnimatedTask> newLoadedTasks = List<AnimatedTask>.from(loadedTasks)
         ..add(fastTask);
+
+      if (isTaskSorting) {
+        newLoadedTasks = _getSortedAnimatedTaskList(newLoadedTasks);
+      }
 
       taskListRepository.postChanges(newLoadedTasks, fastTask);
 
@@ -188,6 +193,10 @@ class TaskListCubit extends Cubit<TaskListState> {
         newLoadedTasks = List<AnimatedTask>.from(loadedTasks)..add(newTask);
         _taskAnimationStop(newTask, const Duration(milliseconds: 500));
 
+        if (isTaskSorting) {
+          newLoadedTasks = _getSortedAnimatedTaskList(newLoadedTasks);
+        }
+
         taskListRepository.postChanges(newLoadedTasks, newTask);
 
         Cont.getIt
@@ -197,6 +206,10 @@ class TaskListCubit extends Cubit<TaskListState> {
         newLoadedTasks = List<AnimatedTask>.from(loadedTasks);
         newLoadedTasks[indexOfEditedTask] =
             newLoadedTasks[indexOfEditedTask].copyWith(task: editingTask);
+
+        if (isTaskSorting) {
+          newLoadedTasks = _getSortedAnimatedTaskList(newLoadedTasks);
+        }
 
         taskListRepository.putChanges(
             newLoadedTasks,
@@ -221,9 +234,11 @@ class TaskListCubit extends Cubit<TaskListState> {
     }).toList();
 
     emit(TaskListState.loaded(
-        loadedTasks: animatedTaskList,
-        isCompletedVisible: false,
-        inAnimation: false));
+      loadedTasks: animatedTaskList,
+      isCompletedVisible: false,
+      inAnimation: false,
+      isTaskSorting: taskListRepository.loadConfiguration()['isTaskSorting'],
+    ));
   }
 
   bool isTaskVisibleOnIndex(int indexOfTask) {
@@ -260,18 +275,38 @@ class TaskListCubit extends Cubit<TaskListState> {
     }
   }
 
-  void sortTaskList() {
+  void changeTaskSorting() {
     if (state is TaskListLoadedState) {
-      List<AnimatedTask> newLoadedTasks = List<AnimatedTask>.from(loadedTasks)
-        ..sort((first, second) {
-          int firstImportance = importanceToInt(first.task.importance);
-          int secondImportance = importanceToInt(second.task.importance);
-          return -firstImportance.compareTo(secondImportance);
-        });
-
-      // реализовать через сохранённую локально переменную
-      emit(
-          (state as TaskListLoadedState).copyWith(loadedTasks: newLoadedTasks));
+      if (!isTaskSorting) {
+        taskListRepository.saveConfiguration(isTaskSorting: true);
+        emit((state as TaskListLoadedState).copyWith(
+            loadedTasks: _getSortedAnimatedTaskList(), isTaskSorting: true));
+      } else {
+        taskListRepository.saveConfiguration(isTaskSorting: false);
+        emit((state as TaskListLoadedState).copyWith(isTaskSorting: false));
+      }
     }
+  }
+
+  List<AnimatedTask> _getSortedAnimatedTaskList(
+      [List<AnimatedTask>? listToSort]) {
+    if (state is TaskListLoadedState) {
+      if (listToSort != null) {
+        return List<AnimatedTask>.from(listToSort)
+          ..sort((first, second) {
+            int firstImportance = importanceToInt(first.task.importance);
+            int secondImportance = importanceToInt(second.task.importance);
+            return -firstImportance.compareTo(secondImportance);
+          });
+      } else {
+        return List<AnimatedTask>.from(loadedTasks)
+          ..sort((first, second) {
+            int firstImportance = importanceToInt(first.task.importance);
+            int secondImportance = importanceToInt(second.task.importance);
+            return -firstImportance.compareTo(secondImportance);
+          });
+      }
+    }
+    return [];
   }
 }
