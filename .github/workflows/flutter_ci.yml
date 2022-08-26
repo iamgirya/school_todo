@@ -46,10 +46,10 @@ jobs:
       - run: flutter build apk lib/main_prod.dart --release
       
       - name: upload artifact to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.2.1
         with:
           appId: 1:197756551218:android:a87443384abfd78ae07c2b
-          token: 0cQtqK_o7rxPvCgYIARAAGAwSNwF-L9IrIVFgUfre9FycYmXFoGa027XUbIxGDXyUNv-wrhjaIVmfDMsDHLMQsWlMuoZfTCOE9nI
+          token: 0cAVmQ9C2MccXCgYIARAAGAwSNwF-L9IrVA1oSACctLuJyGkoPIw7OKnXQXDEnFrjAMwDXYF2E-I5IO-jn0AB05B1LX4yvaKkrXw
           groups: testers
           file: build/app/outputs/apk/release/app-release.apk
           
