@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/app_configuration/app_configuration_cubit.dart';
@@ -20,6 +19,7 @@ class TaskListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
+    double scale = BlocProvider.of<AppConfigurationCubit>(context).appScale;
     return LayoutBuilder(builder: (context, constraints) {
       return BlocProvider(
         create: (context) {
@@ -36,7 +36,8 @@ class TaskListPage extends StatelessWidget {
             body: CustomScrollView(
               slivers: <Widget>[
                 SliverPersistentHeader(
-                  delegate: TitleSliverAppBar(expandedHeight: 132),
+                  delegate:
+                      TitleSliverAppBar(expandedHeight: 132, scale: scale),
                   pinned: true,
                 ),
                 SliverToBoxAdapter(
@@ -56,37 +57,44 @@ class TaskListPage extends StatelessWidget {
             floatingActionButton: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                if (kDebugMode)
-                  FloatingActionButton(
+                SizedBox(
+                  height: 56 * scale,
+                  width: 56 * scale,
+                  child: FloatingActionButton(
                     onPressed: () {
-                      // кнопка для вызова ошибки
-                      //FirebaseCrashlytics.instance.crash();
+                      BlocProvider.of<AppConfigurationCubit>(context)
+                          .changeTheme();
                     },
                     heroTag: null,
-                    child: const Icon(Icons.error),
-                  ),
-                FloatingActionButton(
-                  onPressed: () {
-                    BlocProvider.of<AppConfigurationCubit>(context)
-                        .changeTheme();
-                  },
-                  heroTag: null,
-                  backgroundColor: theme.blue,
-                  child: Icon(
-                    theme is ToDoAppDarkColors ? Icons.nightlight : Icons.sunny,
-                    color: Colors.white,
+                    backgroundColor: theme.blue,
+                    child: Transform.scale(
+                      scale: scale,
+                      child: Icon(
+                        theme is ToDoAppDarkColors
+                            ? Icons.nightlight
+                            : Icons.sunny,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
-                FloatingActionButton(
-                  onPressed: () {
-                    (Router.of(context).routerDelegate as ToDoRouterDelegate)
-                        .gotoEditor(null);
-                  },
-                  heroTag: null,
-                  backgroundColor: theme.blue,
-                  child: const Icon(
-                    Icons.add,
-                    color: Colors.white,
+                SizedBox(
+                  height: 56 * scale,
+                  width: 56 * scale,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      (Router.of(context).routerDelegate as ToDoRouterDelegate)
+                          .gotoEditor(null);
+                    },
+                    heroTag: null,
+                    backgroundColor: theme.blue,
+                    child: Transform.scale(
+                      scale: scale,
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ],

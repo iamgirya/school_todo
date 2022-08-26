@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
 
+import '../../../blocs/app_configuration/app_configuration_cubit.dart';
 import '../../../generated/l10n.dart';
 import '../../../models/importance_model.dart';
 import '../../../models/task_model.dart';
@@ -16,8 +17,9 @@ class ImportanceChoose extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
+    double scale = BlocProvider.of<AppConfigurationCubit>(context).appScale;
     return SizedBox(
-      height: 72,
+      height: 72 * scale,
       width: Size.infinite.width,
       child: Align(
         alignment: Alignment.centerLeft,
@@ -38,7 +40,8 @@ class ImportanceChoose extends StatelessWidget {
                       children: [
                         Text(
                           S.of(context).editorImportanceTitle,
-                          style: AppTextStyles.body,
+                          style: AppTextStyles.body.copyWith(
+                              fontSize: AppTextStyles.body.fontSize! * scale),
                         ),
                         Text(
                           taskModel.importance == Importance.basic
@@ -47,6 +50,7 @@ class ImportanceChoose extends StatelessWidget {
                                   ? S.of(context).editorImportanceLow
                                   : S.of(context).editorImportanceImportant,
                           style: AppTextStyles.subhead.copyWith(
+                              fontSize: AppTextStyles.body.fontSize! * scale,
                               color:
                                   taskModel.importance == Importance.important
                                       ? theme.red
@@ -66,24 +70,27 @@ class ImportanceChoose extends StatelessWidget {
                           value: Importance.basic,
                           child: Text(
                             S.of(context).editorImportanceBasic,
-                            style: AppTextStyles.subhead
-                                .copyWith(color: theme.primary),
+                            style: AppTextStyles.subhead.copyWith(
+                                color: theme.primary,
+                                fontSize: AppTextStyles.body.fontSize! * scale),
                           ),
                         ),
                         PopupMenuItem<Importance>(
                           value: Importance.low,
                           child: Text(
                             S.of(context).editorImportanceLow,
-                            style: AppTextStyles.subhead
-                                .copyWith(color: theme.primary),
+                            style: AppTextStyles.subhead.copyWith(
+                                color: theme.primary,
+                                fontSize: AppTextStyles.body.fontSize! * scale),
                           ),
                         ),
                         PopupMenuItem<Importance>(
                           value: Importance.important,
                           child: Text(
                             S.of(context).editorImportanceImportant,
-                            style: AppTextStyles.subhead
-                                .copyWith(color: theme.red),
+                            style: AppTextStyles.subhead.copyWith(
+                                color: theme.red,
+                                fontSize: AppTextStyles.body.fontSize! * scale),
                           ),
                         ),
                       ]);

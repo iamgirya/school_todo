@@ -8,6 +8,7 @@ import 'package:school_todo/ui/editor_page/widgets/delete_task_button_widget.dar
 import 'package:school_todo/ui/editor_page/widgets/importance_choose_widget.dart';
 import 'package:school_todo/ui/editor_page/widgets/task_text_field_widget.dart';
 
+import '../../blocs/app_configuration/app_configuration_cubit.dart';
 import '../../core/container_class.dart';
 import '../../generated/l10n.dart';
 import '../../models/task_model.dart';
@@ -24,6 +25,8 @@ class EditorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
+    double scale = BlocProvider.of<AppConfigurationCubit>(context).appScale;
+
     return BlocProvider(
       create: (context) {
         EditingTaskCubit editingTaskCubit = EditingTaskCubit(
@@ -42,17 +45,20 @@ class EditorPage extends StatelessWidget {
           elevation: 0,
           backgroundColor: theme.backgroundPrimary,
           leading: SizedBox(
-            height: 14,
-            width: 14,
-            child: IconButton(
-                onPressed: () {
-                  (Router.of(context).routerDelegate as ToDoRouterDelegate)
-                      .gotoTaskList();
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: theme.primary,
-                )),
+            height: 14 * scale,
+            width: 14 * scale,
+            child: Transform.scale(
+              scale: scale,
+              child: IconButton(
+                  onPressed: () {
+                    (Router.of(context).routerDelegate as ToDoRouterDelegate)
+                        .gotoTaskList();
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    color: theme.primary,
+                  )),
+            ),
           ),
           actions: [
             BlocBuilder<EditingTaskCubit, EditingTaskState>(
@@ -65,8 +71,8 @@ class EditorPage extends StatelessWidget {
                 child: Text(
                   S.of(context).editorSaveButton,
                   style: AppTextStyles.button.copyWith(
-                    color: theme.blue,
-                  ),
+                      color: theme.blue,
+                      fontSize: AppTextStyles.button.fontSize! * scale),
                 ),
               );
             }),

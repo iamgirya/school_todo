@@ -31,14 +31,21 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
 
   int _dateToUnix(DateTime date) => date.millisecondsSinceEpoch ~/ 1000;
 
-  Future<int?> _selectDeadLine(BuildContext context) async {
+  Future<int?> _selectDeadLine(BuildContext context, double scale) async {
     int? nowUnixDeadline = editingTask.deadline;
     final DateTime? picked = await showDatePicker(
-        helpText: '',
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2030));
+      helpText: '',
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2030),
+      builder: (context, child) {
+        return Transform.scale(
+          scale: scale,
+          child: child,
+        );
+      },
+    );
     if (picked != null) {
       int pickedUnix = _dateToUnix(picked);
       if (pickedUnix != nowUnixDeadline) {
@@ -63,10 +70,10 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
     }
   }
 
-  Future<void> onTapeOnDate(BuildContext context) async {
+  Future<void> onTapeOnDate(BuildContext context, double scale) async {
     if (_stateIsLoaded) {
       if (editingTask.deadline != null && switchValue) {
-        int? newDeadLine = await _selectDeadLine(context);
+        int? newDeadLine = await _selectDeadLine(context, scale);
         if (newDeadLine != null) {
           emit(EditingTaskState.loaded(
               editingTask: editingTask.copyWith(deadline: newDeadLine),
@@ -77,14 +84,14 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
     }
   }
 
-  Future<void> changeSwitch(BuildContext context) async {
+  Future<void> changeSwitch(BuildContext context, double scale) async {
     if (_stateIsLoaded) {
       emit(EditingTaskState.loaded(
           editingTask: editingTask,
           switchValue: !switchValue,
           taskCanBeDeleted: taskCanBeDeleted));
       if (switchValue && editingTask.deadline == null) {
-        int? newDeadline = await _selectDeadLine(context);
+        int? newDeadline = await _selectDeadLine(context, scale);
         if (newDeadline != null) {
           emit(EditingTaskState.loaded(
               editingTask: editingTask.copyWith(deadline: newDeadline),

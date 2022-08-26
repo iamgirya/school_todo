@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/editing_task/editing_task_cubit.dart';
 
+import '../../../blocs/app_configuration/app_configuration_cubit.dart';
 import '../../../generated/l10n.dart';
 import '../../../models/task_model.dart';
 import '../../../styles/app_colors.dart';
@@ -13,8 +14,9 @@ class DeadlineChoose extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
+    double scale = BlocProvider.of<AppConfigurationCubit>(context).appScale;
     return SizedBox(
-      height: 72,
+      height: 72 * scale,
       child: BlocBuilder<EditingTaskCubit, EditingTaskState>(
         builder: (context, state) {
           if (state is EditingTaskLoadedState) {
@@ -30,12 +32,14 @@ class DeadlineChoose extends StatelessWidget {
                   children: [
                     Text(
                       S.of(context).editorDeadlineTitle,
-                      style: AppTextStyles.body,
+                      style: AppTextStyles.body.copyWith(
+                        fontSize: AppTextStyles.body.fontSize! * scale,
+                      ),
                     ),
                     if (taskModel.deadline != null)
                       GestureDetector(
                         onTap: () {
-                          editingTaskCubit.onTapeOnDate(context);
+                          editingTaskCubit.onTapeOnDate(context, scale);
                         },
                         child: Text(
                           taskModel.getConvertUnixToStringDate() ??
@@ -45,20 +49,25 @@ class DeadlineChoose extends StatelessWidget {
                                     editingTaskCubit.switchValue
                                 ? theme.blue
                                 : theme.tertiary,
+                            fontSize: AppTextStyles.body.fontSize! * scale,
                           ),
                         ),
                       ),
                   ],
                 ),
                 const Spacer(),
-                Switch(
-                  key: const Key('switchKey'),
-                  activeColor: theme.blue,
-                  activeTrackColor: theme.blue!.withOpacity(0.3),
-                  value: editingTaskCubit.switchValue,
-                  onChanged: (value) {
-                    editingTaskCubit.changeSwitch(context);
-                  },
+                Transform.scale(
+                  scale: scale,
+                  alignment: Alignment.centerRight,
+                  child: Switch(
+                    key: const Key('switchKey'),
+                    activeColor: theme.blue,
+                    activeTrackColor: theme.blue!.withOpacity(0.3),
+                    value: editingTaskCubit.switchValue,
+                    onChanged: (value) {
+                      editingTaskCubit.changeSwitch(context, scale);
+                    },
+                  ),
                 ),
               ],
             );

@@ -13,21 +13,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dcf87de-003c-4ded-945a-cab4d1372f80" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/main_prod.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main_test.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_cubit.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_cubit.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/error_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/error_handler.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main_common.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/my_app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/my_app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/editor_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/editor_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/widgets/deadline_choose_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/widgets/deadline_choose_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/widgets/delete_task_button_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/widgets/delete_task_button_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/widgets/importance_choose_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/widgets/importance_choose_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/editor_page/widgets/task_text_field_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/editor_page/widgets/task_text_field_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/dismissible_task_cad_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/dismissible_task_cad_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_card_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_card_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/new_task_card_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/new_task_card_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/title_sliver_app_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/title_sliver_app_bar_widget.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
