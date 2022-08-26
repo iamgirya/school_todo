@@ -20,7 +20,7 @@ abstract class ILocalTaskSavesRepository {
 
   void saveLocalRevision(int globalRevision);
 
-  Map loadConfiguration();
+  Map<String, bool>? loadConfiguration();
 
   void saveConfiguration(Map<String, dynamic> configuration);
 }
@@ -101,8 +101,10 @@ class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
   }
 
   @override
-  Map loadConfiguration() {
-    return (Hive.box(tasksBoxName).get(tasksBoxConfigurationKey) as Map);
+  Map<String, bool>? loadConfiguration() {
+    Map<String, bool> map = Map<String, bool>.from(
+        Hive.box(tasksBoxName).get(tasksBoxConfigurationKey));
+    return map;
   }
 
   @override

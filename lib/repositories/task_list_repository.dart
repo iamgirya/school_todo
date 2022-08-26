@@ -22,7 +22,7 @@ abstract class ITaskSavesRepository {
 
   Future<List<Task>> loadActualTaskList();
 
-  Map loadConfiguration();
+  Map<String, bool> loadConfiguration();
 
   void saveConfiguration({required bool isTaskSorting});
 }
@@ -106,8 +106,8 @@ class TaskListRepository implements ITaskSavesRepository {
   }
 
   @override
-  Map loadConfiguration() {
-    return localRepo.loadConfiguration();
+  Map<String, bool> loadConfiguration() {
+    return localRepo.loadConfiguration()!;
   }
 
   @override

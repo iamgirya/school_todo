@@ -58,6 +58,10 @@ class MockITaskSavesRepository extends _i1.Mock
                   this, Invocation.getter(#globalRepo)))
           as _i3.IGlobalTaskSavesRepository);
   @override
+  bool get isOffline =>
+      (super.noSuchMethod(Invocation.getter(#isOffline), returnValue: false)
+          as bool);
+  @override
   _i5.Future<bool> postChanges(
           List<_i6.AnimatedTask>? newLoadedTasks, _i6.AnimatedTask? postTask) =>
       (super.noSuchMethod(
@@ -82,9 +86,9 @@ class MockITaskSavesRepository extends _i1.Mock
               returnValue: _i5.Future<List<_i7.Task>>.value(<_i7.Task>[]))
           as _i5.Future<List<_i7.Task>>);
   @override
-  Map<dynamic, dynamic> loadConfiguration() =>
+  Map<String, bool> loadConfiguration() =>
       (super.noSuchMethod(Invocation.method(#loadConfiguration, []),
-          returnValue: <dynamic, dynamic>{}) as Map<dynamic, dynamic>);
+          returnValue: <String, bool>{}) as Map<String, bool>);
   @override
   void saveConfiguration({bool? isTaskSorting}) => super.noSuchMethod(
       Invocation.method(

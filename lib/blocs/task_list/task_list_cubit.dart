@@ -254,7 +254,8 @@ class TaskListCubit extends Cubit<TaskListState> {
       loadedTasks: animatedTaskList,
       isCompletedVisible: false,
       inAnimation: false,
-      isTaskSorting: taskListRepository.loadConfiguration()['isTaskSorting'],
+      isTaskSorting:
+          taskListRepository.loadConfiguration()['isTaskSorting'] ?? false,
       isOffline: false,
     ));
 

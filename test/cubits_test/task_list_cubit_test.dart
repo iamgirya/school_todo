@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
-import 'package:mockito/mockito.dart';
 import 'package:school_todo/core/app_metrica_controller.dart';
 import 'package:school_todo/core/container_class.dart';
 import 'package:school_todo/core/device_id_holder.dart';
@@ -10,9 +9,10 @@ import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/repositories/cubits_connector_repository.dart';
 import 'package:school_todo/repositories/task_list_repository.dart';
 
+import '../mocks/fake_task_saves_repository.dart';
 import 'task_list_cubit_test.mocks.dart';
 
-@GenerateMocks([ITaskSavesRepository, AppMetricaController])
+@GenerateMocks([AppMetricaController])
 void main() {
   late ICubitsConnectorRepository cubitsConnectorRepo;
   late ITaskSavesRepository taskListRepository;
@@ -27,11 +27,8 @@ void main() {
   });
 
   setUp(() async {
-    taskListRepository = MockITaskSavesRepository();
+    taskListRepository = FakeTaskSavesRepository();
     cubitsConnectorRepo = SimpleCubitsConnectorRepository();
-
-    when(taskListRepository.loadActualTaskList())
-        .thenAnswer((_) => Future(() => []));
 
     taskListCubit = TaskListCubit(
       taskListRepository: taskListRepository,

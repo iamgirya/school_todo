@@ -7,7 +7,7 @@ import 'package:school_todo/repositories/local_task_repository.dart';
 import 'package:school_todo/core/app_metrica_controller.dart';
 import 'package:school_todo/repositories/task_list_repository.dart';
 
-import '../test/cubits_test/task_list_cubit_test.mocks.dart';
+import '../test/mocks/fake_task_saves_repository.dart';
 
 Future<void> initTestingServiceLocator() async {
   //репозитории
@@ -18,10 +18,8 @@ Future<void> initTestingServiceLocator() async {
   ILocalTaskSavesRepository localRepo = FakeILocalTaskSavesRepository();
   Cont.getIt.registerSingleton<ILocalTaskSavesRepository>(localRepo);
 
-  ITaskSavesRepository taskListRepository = MockITaskSavesRepository();
+  ITaskSavesRepository taskListRepository = FakeTaskSavesRepository();
   Cont.getIt.registerSingleton<ITaskSavesRepository>(taskListRepository);
-  when(taskListRepository.loadActualTaskList())
-      .thenAnswer((_) => Future(() => []));
 
   //айди устройства
   DeviceIdHolder deviceIdHolder = DeviceIdHolder();
