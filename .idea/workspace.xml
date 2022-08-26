@@ -14,13 +14,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8dcf87de-003c-4ded-945a-cab4d1372f80" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/task_list/task_list_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/firebase_options.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/firebase_options.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/importance_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/importance_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/repositories/task_list_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/task_list_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_card_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_card_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/title_sliver_app_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/title_sliver_app_bar_widget.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
