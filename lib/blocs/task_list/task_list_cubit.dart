@@ -7,6 +7,7 @@ import 'package:school_todo/repositories/task_list_repository.dart';
 
 import '../../core/container_class.dart';
 import '../../models/animated_task_model.dart';
+import '../../models/importance_model.dart';
 import '../../models/task_model.dart';
 
 import '../../repositories/cubits_connector_repository.dart';
@@ -30,6 +31,24 @@ class TaskListCubit extends Cubit<TaskListState> {
   bool get isCompletedVisible =>
       (state as TaskListLoadedState).isCompletedVisible;
   bool get isListAnimated => (state as TaskListLoadedState).inAnimation;
+
+  void _taskAnimationStop(
+      AnimatedTask animatedTask, Duration animationDuration) {
+    Future.delayed(animationDuration, () {
+      if (state is TaskListLoadedState) {
+        int indexOfTask = loadedTasks
+            .indexWhere((element) => element.task.id == animatedTask.task.id);
+        if (indexOfTask != -1) {
+          List<AnimatedTask> newLoadedTasks =
+              List<AnimatedTask>.from(loadedTasks);
+          newLoadedTasks[indexOfTask] =
+              newLoadedTasks[indexOfTask].copyWith(isAnimated: false);
+          emit((state as TaskListLoadedState)
+              .copyWith(loadedTasks: newLoadedTasks));
+        }
+      }
+    });
+  }
 
   int getLengthOfTaskList() {
     if (state is TaskListLoadedState) {
@@ -60,7 +79,7 @@ class TaskListCubit extends Cubit<TaskListState> {
           task: Task.empty(fastTaskTextEditingController.text),
           isAnimated: true,
           isNeedToBeVisible: true);
-      taskAnimationStop(fastTask, const Duration(milliseconds: 500));
+      _taskAnimationStop(fastTask, const Duration(milliseconds: 500));
       fastTaskTextEditingController.clear();
       List<AnimatedTask> newLoadedTasks = List<AnimatedTask>.from(loadedTasks)
         ..add(fastTask);
@@ -98,7 +117,7 @@ class TaskListCubit extends Cubit<TaskListState> {
         if (e.task.done) {
           e = e.copyWith(
               isNeedToBeVisible: !isCompletedVisible, isAnimated: e.task.done);
-          taskAnimationStop(e, const Duration(milliseconds: 500));
+          _taskAnimationStop(e, const Duration(milliseconds: 500));
           return e;
         } else {
           return e;
@@ -132,7 +151,7 @@ class TaskListCubit extends Cubit<TaskListState> {
             isAnimated: true,
             isNeedToBeVisible: !(!isCompletedVisible && chosenTask.done));
         newLoadedTasks[indexOfEditedTask] = animatedTask;
-        taskAnimationStop(animatedTask, animationDuration);
+        _taskAnimationStop(animatedTask, animationDuration);
       } else {
         newLoadedTasks[indexOfEditedTask] = AnimatedTask(
             task: chosenTask,
@@ -167,7 +186,7 @@ class TaskListCubit extends Cubit<TaskListState> {
         AnimatedTask newTask = AnimatedTask(
             task: editingTask, isAnimated: true, isNeedToBeVisible: true);
         newLoadedTasks = List<AnimatedTask>.from(loadedTasks)..add(newTask);
-        taskAnimationStop(newTask, const Duration(milliseconds: 500));
+        _taskAnimationStop(newTask, const Duration(milliseconds: 500));
 
         taskListRepository.postChanges(newLoadedTasks, newTask);
 
@@ -196,7 +215,7 @@ class TaskListCubit extends Cubit<TaskListState> {
       AnimatedTask animatedTask = AnimatedTask(
           task: e, isAnimated: !e.done, isNeedToBeVisible: !e.done);
       if (!e.done) {
-        taskAnimationStop(animatedTask, const Duration(milliseconds: 500));
+        _taskAnimationStop(animatedTask, const Duration(milliseconds: 500));
       }
       return animatedTask;
     }).toList();
@@ -205,24 +224,6 @@ class TaskListCubit extends Cubit<TaskListState> {
         loadedTasks: animatedTaskList,
         isCompletedVisible: false,
         inAnimation: false));
-  }
-
-  void taskAnimationStop(
-      AnimatedTask animatedTask, Duration animationDuration) {
-    Future.delayed(animationDuration, () {
-      if (state is TaskListLoadedState) {
-        int indexOfTask = loadedTasks
-            .indexWhere((element) => element.task.id == animatedTask.task.id);
-        if (indexOfTask != -1) {
-          List<AnimatedTask> newLoadedTasks =
-              List<AnimatedTask>.from(loadedTasks);
-          newLoadedTasks[indexOfTask] =
-              newLoadedTasks[indexOfTask].copyWith(isAnimated: false);
-          emit((state as TaskListLoadedState)
-              .copyWith(loadedTasks: newLoadedTasks));
-        }
-      }
-    });
   }
 
   bool isTaskVisibleOnIndex(int indexOfTask) {
@@ -256,6 +257,21 @@ class TaskListCubit extends Cubit<TaskListState> {
           animationController.animateTo(0);
         }
       }
+    }
+  }
+
+  void sortTaskList() {
+    if (state is TaskListLoadedState) {
+      List<AnimatedTask> newLoadedTasks = List<AnimatedTask>.from(loadedTasks)
+        ..sort((first, second) {
+          int firstImportance = importanceToInt(first.task.importance);
+          int secondImportance = importanceToInt(second.task.importance);
+          return -firstImportance.compareTo(secondImportance);
+        });
+
+      // реализовать через сохранённую локально переменную
+      emit(
+          (state as TaskListLoadedState).copyWith(loadedTasks: newLoadedTasks));
     }
   }
 }

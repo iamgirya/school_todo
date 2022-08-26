@@ -19,3 +19,14 @@ extension StringToEnum on String {
     );
   }
 }
+
+int importanceToInt(Importance importance) {
+  if (importance == Importance.important) {
+    return 10;
+  } else if (importance == Importance.basic) {
+    return 0;
+  } else if (importance == Importance.low) {
+    return -10;
+  }
+  return 0;
+}

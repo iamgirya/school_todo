@@ -48,16 +48,17 @@ class TaskCard extends StatelessWidget {
             title: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.only(top: 12),
+                SizedBox(
                   height: 18 * scale,
                   width: 18 * scale,
-                  child: ColoredBox(
-                    color: !task.done && task.importance == Importance.important
-                        ? theme.importTaskColor!.withOpacity(0.16)
-                        : theme.importTaskColor!.withOpacity(0.0),
-                    child: Transform.scale(
-                      scale: scale,
+                  child: Transform.scale(
+                    alignment: Alignment.topCenter,
+                    scale: 1,
+                    child: ColoredBox(
+                      color:
+                          !task.done && task.importance == Importance.important
+                              ? theme.importTaskColor!.withOpacity(0.16)
+                              : theme.importTaskColor!.withOpacity(0.0),
                       child: Checkbox(
                         value: task.done,
                         activeColor: theme.green,

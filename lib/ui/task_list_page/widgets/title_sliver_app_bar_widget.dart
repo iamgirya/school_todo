@@ -16,11 +16,14 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
+    AppConfigurationCubit appConfigurationCubit =
+        BlocProvider.of<AppConfigurationCubit>(context);
+    double scale = appConfigurationCubit.appScale;
+    TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
+
     double delta = maxExtent - minExtent;
     double percentOfShrinkOffset =
         (delta - shrinkOffset) / delta > 0 ? (delta - shrinkOffset) / delta : 0;
-    TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
-    double scale = BlocProvider.of<AppConfigurationCubit>(context).appScale;
     return Align(
       child: Material(
         elevation:
@@ -77,30 +80,75 @@ class TitleSliverAppBar extends SliverPersistentHeaderDelegate {
                     ],
                   ),
                   const Spacer(),
-                  if (state is TaskListLoadedState)
-                    SizedBox(
-                      width: 24 * scale,
-                      height: 24 * scale,
-                      child: Transform.scale(
-                        scale: scale,
-                        child: IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () {
-                            taskListCubit.changeCompletedTaskVisible(
-                                const Duration(milliseconds: 500));
-                          },
-                          icon: !taskListCubit.isCompletedVisible
-                              ? Icon(
-                                  Icons.visibility,
-                                  color: theme.blue,
-                                )
-                              : Icon(
-                                  Icons.visibility_off,
-                                  color: theme.blue,
-                                ),
+                  SizedBox(
+                    width: 24 * scale,
+                    height: 24 * scale,
+                    child: Transform.scale(
+                      scale: scale,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          taskListCubit.sortTaskList();
+                        },
+                        icon: Icon(
+                          Icons.sort,
+                          color: theme.blue,
                         ),
                       ),
                     ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  SizedBox(
+                    width: 24 * scale,
+                    height: 24 * scale,
+                    child: Transform.scale(
+                      scale: scale,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          appConfigurationCubit.changeTheme();
+                        },
+                        icon: appConfigurationCubit.isLightTheme
+                            ? Icon(
+                                Icons.nightlight,
+                                color: theme.blue,
+                              )
+                            : Icon(
+                                Icons.sunny,
+                                color: theme.blue,
+                              ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  SizedBox(
+                    width: 24 * scale,
+                    height: 24 * scale,
+                    child: Transform.scale(
+                      scale: scale,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          taskListCubit.changeCompletedTaskVisible(
+                              const Duration(milliseconds: 500));
+                        },
+                        icon: state is! TaskListLoadedState ||
+                                !taskListCubit.isCompletedVisible
+                            ? Icon(
+                                Icons.visibility,
+                                color: theme.blue,
+                              )
+                            : Icon(
+                                Icons.visibility_off,
+                                color: theme.blue,
+                              ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

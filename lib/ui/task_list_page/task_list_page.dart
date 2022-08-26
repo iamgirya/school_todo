@@ -62,27 +62,6 @@ class TaskListPage extends StatelessWidget {
                   width: 56 * scale,
                   child: FloatingActionButton(
                     onPressed: () {
-                      BlocProvider.of<AppConfigurationCubit>(context)
-                          .changeTheme();
-                    },
-                    heroTag: null,
-                    backgroundColor: theme.blue,
-                    child: Transform.scale(
-                      scale: scale,
-                      child: Icon(
-                        theme is ToDoAppDarkColors
-                            ? Icons.nightlight
-                            : Icons.sunny,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 56 * scale,
-                  width: 56 * scale,
-                  child: FloatingActionButton(
-                    onPressed: () {
                       (Router.of(context).routerDelegate as ToDoRouterDelegate)
                           .gotoEditor(null);
                     },

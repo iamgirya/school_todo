@@ -17,6 +17,7 @@ abstract class ITaskSavesRepository {
       String changedTaskId, AnimatedTask putTask);
   Future<void> deleteChanges(
       List<AnimatedTask> newLoadedTasks, String deleteTaskId);
+  Future<void> patchChanges(List<AnimatedTask> newLoadedTasks);
 
   Future<List<Task>> loadActualTaskList();
 }
@@ -94,5 +95,18 @@ class TaskListRepository implements ITaskSavesRepository {
       }
     }
     return localTasks;
+  }
+
+  @override
+  Future<void> patchChanges(List<AnimatedTask> newLoadedTasks) async {
+    List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
+    localRepo.saveLocalTasks(saveTaskList);
+
+    bool isConnected = globalRepo.isOffline;
+    await globalRepo.patchGlobalTaskList(saveTaskList);
+    localRepo.saveLocalRevision(globalRepo.getRevision());
+    if (isConnected && !globalRepo.isOffline) {
+      globalRepo.patchGlobalTaskList(localRepo.loadLocalTasks());
+    }
   }
 }
