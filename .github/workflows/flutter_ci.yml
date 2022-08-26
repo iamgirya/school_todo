@@ -13,7 +13,7 @@ jobs:
           channel: 'stable'
       - run: flutter pub get
       - run: flutter analyze --no-fatal-infos
-      - run: flutter format --set-exit-if-changed
+      - run: flutter format lib/ --set-exit-if-changed
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
