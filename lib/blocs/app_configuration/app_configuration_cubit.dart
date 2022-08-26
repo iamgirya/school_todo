@@ -5,16 +5,19 @@ part 'app_configuration_state.dart';
 part 'app_configuration_cubit.freezed.dart';
 
 class AppConfigurationCubit extends Cubit<AppConfigurationState> {
-  AppConfigurationCubit()
-      : super(const AppConfigurationState.loaded(
+  AppConfigurationCubit(double scale)
+      : super(AppConfigurationState.loaded(
           isLightTheme: true,
+          scale: scale,
         ));
 
   bool get isLightTheme => (state as AppConfigurationLoadedState).isLightTheme;
+  double get appScale => (state as AppConfigurationLoadedState).scale;
 
   void changeTheme() {
     if (state is AppConfigurationLoadedState) {
-      emit(AppConfigurationState.loaded(isLightTheme: !isLightTheme));
+      emit(AppConfigurationState.loaded(
+          isLightTheme: !isLightTheme, scale: appScale));
     }
   }
 }

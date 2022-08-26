@@ -13,14 +13,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dcf87de-003c-4ded-945a-cab4d1372f80" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/main_prod.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/integration_test/editing_menu_test/editing_menu_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/integration_test/editing_menu_test/editing_menu_test.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/integration_test/testing_service_locator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/integration_test/testing_service_locator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/editing_task/editing_task_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/cubits_test/task_list_cubit_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/cubits_test/task_list_cubit_test.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/cubits_test/task_list_cubit_test.mocks.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/cubits_test/task_list_cubit_test.mocks.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/mocks/fake_global_repository.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_cubit.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_cubit.freezed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/app_configuration/app_configuration_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/error_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/error_handler.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main_common.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/my_app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/my_app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/task_list_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/dismissible_task_cad_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/dismissible_task_cad_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_card_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/task_list_page/widgets/task_card_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,24 +97,22 @@
       <recent name="C:\Users\danek\Documents\GitHub\school_todo\test\cubits_test" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter Test.tests in task_list_cubit_test.dart">
-    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true">
-      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+  <component name="RunManager" selected="Flutter.main_prod.dart">
+    <configuration name="main_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main_test.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="tests in editing_menu_test.dart (1)" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/integration_test/editing_menu_test/editing_menu_test.dart" />
-      <option name="useRegexp" value="false" />
+    <configuration name="main_common.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main_common.dart" />
       <method v="2" />
     </configuration>
-    <configuration name="tests in editing_menu_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/test/integration_tests/editing_menu_test/editing_menu_test.dart" />
-      <option name="useRegexp" value="false" />
+    <configuration name="main_prod.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main_prod.dart" />
       <method v="2" />
     </configuration>
-    <configuration name="tests in editing_menu_test_main.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/integration_test/editing_menu_test/editing_menu_test_main.dart" />
-      <option name="useRegexp" value="false" />
+    <configuration name="main_test.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main_test.dart" />
       <method v="2" />
     </configuration>
     <configuration name="tests in task_list_cubit_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
@@ -117,11 +122,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Flutter.main_prod.dart" />
+        <item itemvalue="Flutter.main_test.dart" />
+        <item itemvalue="Flutter.main_common.dart" />
+        <item itemvalue="Dart Command Line App.main_test.dart" />
         <item itemvalue="Flutter Test.tests in task_list_cubit_test.dart" />
-        <item itemvalue="Flutter Test.tests in editing_menu_test.dart (1)" />
-        <item itemvalue="Flutter.main.dart" />
-        <item itemvalue="Flutter Test.tests in editing_menu_test_main.dart" />
-        <item itemvalue="Flutter Test.tests in editing_menu_test.dart" />
       </list>
     </recent_temporary>
   </component>

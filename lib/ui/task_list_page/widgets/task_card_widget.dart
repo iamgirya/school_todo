@@ -6,6 +6,7 @@ import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/styles/app_colors.dart';
 import 'package:school_todo/styles/app_fonts.dart';
 
+import '../../../blocs/app_configuration/app_configuration_cubit.dart';
 import '../../../models/importance_model.dart';
 import '../../../navigation/delegate.dart';
 
@@ -21,6 +22,7 @@ class TaskCard extends StatelessWidget {
   Widget build(BuildContext context) {
     ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
     TaskListCubit taskListCubit = BlocProvider.of<TaskListCubit>(context);
+    double scale = BlocProvider.of<AppConfigurationCubit>(context).appScale;
 
     return FadeTransition(
       opacity: CurvedAnimation(
@@ -46,44 +48,49 @@ class TaskCard extends StatelessWidget {
             title: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 18,
-                  width: 18,
+                Container(
+                  padding: const EdgeInsets.only(top: 12),
+                  height: 18 * scale,
+                  width: 18 * scale,
                   child: ColoredBox(
                     color: !task.done && task.importance == Importance.important
                         ? theme.importTaskColor!.withOpacity(0.16)
                         : theme.importTaskColor!.withOpacity(0.0),
-                    child: Checkbox(
-                      value: task.done,
-                      activeColor: theme.green,
-                      fillColor:
-                          !task.done && task.importance == Importance.important
-                              ? MaterialStateProperty.all(theme.importTaskColor)
-                              : null,
-                      onChanged: (_) {
-                        taskListCubit.changeTaskComplete(
-                            chosenTask: task,
-                            animationDuration: !taskListCubit.isCompletedVisible
-                                ? const Duration(milliseconds: 500)
-                                : null);
-                      },
+                    child: Transform.scale(
+                      scale: scale,
+                      child: Checkbox(
+                        value: task.done,
+                        activeColor: theme.green,
+                        fillColor: !task.done &&
+                                task.importance == Importance.important
+                            ? MaterialStateProperty.all(theme.importTaskColor)
+                            : null,
+                        onChanged: (_) {
+                          taskListCubit.changeTaskComplete(
+                              chosenTask: task,
+                              animationDuration:
+                                  !taskListCubit.isCompletedVisible
+                                      ? const Duration(milliseconds: 500)
+                                      : null);
+                        },
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 12,
+                SizedBox(
+                  width: 12 * scale,
                 ),
                 if (task.importance != Importance.basic)
                   SizedBox(
-                    height: 24,
-                    width: 16,
+                    height: 24 * scale,
+                    width: 16 * scale,
                     child: task.importance == Importance.important
                         ? SvgPicture.asset('assets/images/double_ex.svg')
                         : const Icon(Icons.arrow_downward),
                   ),
                 if (task.importance != Importance.basic)
-                  const SizedBox(
-                    width: 8,
+                  SizedBox(
+                    width: 8 * scale,
                   ),
                 Expanded(
                   child: Column(
@@ -97,38 +104,45 @@ class TaskCard extends StatelessWidget {
                             ? AppTextStyles.body.copyWith(
                                 color: theme.tertiary,
                                 decoration: TextDecoration.lineThrough,
+                                fontSize: AppTextStyles.body.fontSize! * scale,
                               )
-                            : AppTextStyles.body,
+                            : AppTextStyles.body.copyWith(
+                                fontSize: AppTextStyles.body.fontSize! * scale,
+                              ),
                       ),
-                      const SizedBox(
-                        height: 4,
+                      SizedBox(
+                        height: 4 * scale,
                       ),
                       if (task.deadline != null)
                         Text(
                           task.getConvertUnixToStringDate()!,
-                          style: AppTextStyles.subhead
-                              .copyWith(color: theme.tertiary),
+                          style: AppTextStyles.subhead.copyWith(
+                            color: theme.tertiary,
+                            fontSize: AppTextStyles.body.fontSize! * scale,
+                          ),
                         ),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  width: 12,
+                SizedBox(
+                  width: 12 * scale,
                 ),
                 SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      // context
-                      //     .read<NavigationController>()
-                      //     .navigateTo(RouteNames.editorPage, arguments: task);
-                      (Router.of(context).routerDelegate as ToDoRouterDelegate)
-                          .gotoEditor(task.id);
-                    },
-                    icon: const Icon(Icons.info_outline),
-                    color: theme.gray,
+                  height: 24 * scale,
+                  width: 24 * scale,
+                  child: Transform.scale(
+                    scale: scale,
+                    alignment: Alignment.center,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        (Router.of(context).routerDelegate
+                                as ToDoRouterDelegate)
+                            .gotoEditor(task.id);
+                      },
+                      icon: const Icon(Icons.info_outline),
+                      color: theme.gray,
+                    ),
                   ),
                 ),
               ],

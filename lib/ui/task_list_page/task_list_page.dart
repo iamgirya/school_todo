@@ -20,77 +20,80 @@ class TaskListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ToDoAppColors theme = Theme.of(context).extension<ToDoAppColors>()!;
-    return BlocProvider(
-      create: (context) {
-        TaskListCubit cubit = TaskListCubit(
-          taskListRepository: Cont.getIt.get<ITaskSavesRepository>(),
-          cubitsConnectorRepo: Cont.getIt.get<ICubitsConnectorRepository>(),
-        );
-        cubit.initialLoadTaskList();
-        return cubit;
-      },
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: theme.backgroundPrimary,
-          body: CustomScrollView(
-            slivers: <Widget>[
-              SliverPersistentHeader(
-                delegate: TitleSliverAppBar(expandedHeight: 132),
-                pinned: true,
-              ),
-              SliverToBoxAdapter(
-                child: Column(
-                  children: const [
-                    TaskList(
-                      key: Key('taskList'),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                  ],
+    return LayoutBuilder(builder: (context, constraints) {
+      return BlocProvider(
+        create: (context) {
+          TaskListCubit cubit = TaskListCubit(
+            taskListRepository: Cont.getIt.get<ITaskSavesRepository>(),
+            cubitsConnectorRepo: Cont.getIt.get<ICubitsConnectorRepository>(),
+          );
+          cubit.initialLoadTaskList();
+          return cubit;
+        },
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: theme.backgroundPrimary,
+            body: CustomScrollView(
+              slivers: <Widget>[
+                SliverPersistentHeader(
+                  delegate: TitleSliverAppBar(expandedHeight: 132),
+                  pinned: true,
                 ),
-              ),
-            ],
-          ),
-          floatingActionButton: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (kDebugMode)
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: const [
+                      TaskList(
+                        key: Key('taskList'),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            floatingActionButton: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (kDebugMode)
+                  FloatingActionButton(
+                    onPressed: () {
+                      // кнопка для вызова ошибки
+                      //FirebaseCrashlytics.instance.crash();
+                    },
+                    heroTag: null,
+                    child: const Icon(Icons.error),
+                  ),
                 FloatingActionButton(
                   onPressed: () {
-                    // кнопка для вызова ошибки
-                    //FirebaseCrashlytics.instance.crash();
+                    BlocProvider.of<AppConfigurationCubit>(context)
+                        .changeTheme();
                   },
                   heroTag: null,
-                  child: const Icon(Icons.error),
+                  backgroundColor: theme.blue,
+                  child: Icon(
+                    theme is ToDoAppDarkColors ? Icons.nightlight : Icons.sunny,
+                    color: Colors.white,
+                  ),
                 ),
-              FloatingActionButton(
-                onPressed: () {
-                  BlocProvider.of<AppConfigurationCubit>(context).changeTheme();
-                },
-                heroTag: null,
-                backgroundColor: theme.blue,
-                child: Icon(
-                  theme is ToDoAppDarkColors ? Icons.nightlight : Icons.sunny,
-                  color: Colors.white,
+                FloatingActionButton(
+                  onPressed: () {
+                    (Router.of(context).routerDelegate as ToDoRouterDelegate)
+                        .gotoEditor(null);
+                  },
+                  heroTag: null,
+                  backgroundColor: theme.blue,
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              FloatingActionButton(
-                onPressed: () {
-                  (Router.of(context).routerDelegate as ToDoRouterDelegate)
-                      .gotoEditor(null);
-                },
-                heroTag: null,
-                backgroundColor: theme.blue,
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

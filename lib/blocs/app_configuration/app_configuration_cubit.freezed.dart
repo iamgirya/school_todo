@@ -20,21 +20,21 @@ mixin _$AppConfigurationState {
   TResult when<TResult extends Object?>({
     required TResult Function(String message) error,
     required TResult Function() loading,
-    required TResult Function(bool isLightTheme) loaded,
+    required TResult Function(bool isLightTheme, double scale) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String message)? error,
     TResult Function()? loading,
-    TResult Function(bool isLightTheme)? loaded,
+    TResult Function(bool isLightTheme, double scale)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? error,
     TResult Function()? loading,
-    TResult Function(bool isLightTheme)? loaded,
+    TResult Function(bool isLightTheme, double scale)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -150,7 +150,7 @@ class _$AppConfigurationErrorState implements AppConfigurationErrorState {
   TResult when<TResult extends Object?>({
     required TResult Function(String message) error,
     required TResult Function() loading,
-    required TResult Function(bool isLightTheme) loaded,
+    required TResult Function(bool isLightTheme, double scale) loaded,
   }) {
     return error(message);
   }
@@ -160,7 +160,7 @@ class _$AppConfigurationErrorState implements AppConfigurationErrorState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String message)? error,
     TResult Function()? loading,
-    TResult Function(bool isLightTheme)? loaded,
+    TResult Function(bool isLightTheme, double scale)? loaded,
   }) {
     return error?.call(message);
   }
@@ -170,7 +170,7 @@ class _$AppConfigurationErrorState implements AppConfigurationErrorState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? error,
     TResult Function()? loading,
-    TResult Function(bool isLightTheme)? loaded,
+    TResult Function(bool isLightTheme, double scale)? loaded,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -271,7 +271,7 @@ class _$AppConfigurationLoadingState implements AppConfigurationLoadingState {
   TResult when<TResult extends Object?>({
     required TResult Function(String message) error,
     required TResult Function() loading,
-    required TResult Function(bool isLightTheme) loaded,
+    required TResult Function(bool isLightTheme, double scale) loaded,
   }) {
     return loading();
   }
@@ -281,7 +281,7 @@ class _$AppConfigurationLoadingState implements AppConfigurationLoadingState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String message)? error,
     TResult Function()? loading,
-    TResult Function(bool isLightTheme)? loaded,
+    TResult Function(bool isLightTheme, double scale)? loaded,
   }) {
     return loading?.call();
   }
@@ -291,7 +291,7 @@ class _$AppConfigurationLoadingState implements AppConfigurationLoadingState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? error,
     TResult Function()? loading,
-    TResult Function(bool isLightTheme)? loaded,
+    TResult Function(bool isLightTheme, double scale)? loaded,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -345,7 +345,7 @@ abstract class _$$AppConfigurationLoadedStateCopyWith<$Res> {
           _$AppConfigurationLoadedState value,
           $Res Function(_$AppConfigurationLoadedState) then) =
       __$$AppConfigurationLoadedStateCopyWithImpl<$Res>;
-  $Res call({bool isLightTheme});
+  $Res call({bool isLightTheme, double scale});
 }
 
 /// @nodoc
@@ -364,12 +364,17 @@ class __$$AppConfigurationLoadedStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLightTheme = freezed,
+    Object? scale = freezed,
   }) {
     return _then(_$AppConfigurationLoadedState(
       isLightTheme: isLightTheme == freezed
           ? _value.isLightTheme
           : isLightTheme // ignore: cast_nullable_to_non_nullable
               as bool,
+      scale: scale == freezed
+          ? _value.scale
+          : scale // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -377,14 +382,17 @@ class __$$AppConfigurationLoadedStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AppConfigurationLoadedState implements AppConfigurationLoadedState {
-  const _$AppConfigurationLoadedState({required this.isLightTheme});
+  const _$AppConfigurationLoadedState(
+      {required this.isLightTheme, required this.scale});
 
   @override
   final bool isLightTheme;
+  @override
+  final double scale;
 
   @override
   String toString() {
-    return 'AppConfigurationState.loaded(isLightTheme: $isLightTheme)';
+    return 'AppConfigurationState.loaded(isLightTheme: $isLightTheme, scale: $scale)';
   }
 
   @override
@@ -393,12 +401,15 @@ class _$AppConfigurationLoadedState implements AppConfigurationLoadedState {
         (other.runtimeType == runtimeType &&
             other is _$AppConfigurationLoadedState &&
             const DeepCollectionEquality()
-                .equals(other.isLightTheme, isLightTheme));
+                .equals(other.isLightTheme, isLightTheme) &&
+            const DeepCollectionEquality().equals(other.scale, scale));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(isLightTheme));
+      runtimeType,
+      const DeepCollectionEquality().hash(isLightTheme),
+      const DeepCollectionEquality().hash(scale));
 
   @JsonKey(ignore: true)
   @override
@@ -411,9 +422,9 @@ class _$AppConfigurationLoadedState implements AppConfigurationLoadedState {
   TResult when<TResult extends Object?>({
     required TResult Function(String message) error,
     required TResult Function() loading,
-    required TResult Function(bool isLightTheme) loaded,
+    required TResult Function(bool isLightTheme, double scale) loaded,
   }) {
-    return loaded(isLightTheme);
+    return loaded(isLightTheme, scale);
   }
 
   @override
@@ -421,9 +432,9 @@ class _$AppConfigurationLoadedState implements AppConfigurationLoadedState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String message)? error,
     TResult Function()? loading,
-    TResult Function(bool isLightTheme)? loaded,
+    TResult Function(bool isLightTheme, double scale)? loaded,
   }) {
-    return loaded?.call(isLightTheme);
+    return loaded?.call(isLightTheme, scale);
   }
 
   @override
@@ -431,11 +442,11 @@ class _$AppConfigurationLoadedState implements AppConfigurationLoadedState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? error,
     TResult Function()? loading,
-    TResult Function(bool isLightTheme)? loaded,
+    TResult Function(bool isLightTheme, double scale)? loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(isLightTheme);
+      return loaded(isLightTheme, scale);
     }
     return orElse();
   }
@@ -477,9 +488,11 @@ class _$AppConfigurationLoadedState implements AppConfigurationLoadedState {
 
 abstract class AppConfigurationLoadedState implements AppConfigurationState {
   const factory AppConfigurationLoadedState(
-      {required final bool isLightTheme}) = _$AppConfigurationLoadedState;
+      {required final bool isLightTheme,
+      required final double scale}) = _$AppConfigurationLoadedState;
 
   bool get isLightTheme;
+  double get scale;
   @JsonKey(ignore: true)
   _$$AppConfigurationLoadedStateCopyWith<_$AppConfigurationLoadedState>
       get copyWith => throw _privateConstructorUsedError;

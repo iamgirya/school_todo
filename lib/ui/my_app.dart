@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:school_todo/blocs/app_configuration/app_configuration_cubit.dart';
 import 'package:school_todo/navigation/delegate.dart';
@@ -22,41 +23,50 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AppConfigurationCubit>(
-      create: (context) {
-        return AppConfigurationCubit();
-      },
-      child: BlocBuilder<AppConfigurationCubit, AppConfigurationState>(
-          builder: (context, state) {
-        return MaterialApp.router(
-          routerDelegate: delegate,
-          routeInformationParser: parser,
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          theme: ThemeData.light().copyWith(
-            extensions: <ThemeExtension<dynamic>>[
-              ToDoAppLightColors(
-                importantColor,
+    return LayoutBuilder(builder: (context, constraints) {
+      double scale =
+          constraints.maxWidth > 500 ? 0.5 + constraints.maxWidth / 1000 : 1;
+      return BlocProvider<AppConfigurationCubit>(
+        create: (context) {
+          return AppConfigurationCubit(scale);
+        },
+        child: BlocBuilder<AppConfigurationCubit, AppConfigurationState>(
+            builder: (context, state) {
+          return FlavorBanner(
+            location: BannerLocation.topEnd,
+            child: MaterialApp.router(
+              debugShowCheckedModeBanner:
+                  FlavorConfig.instance.variables['isTestFlavor'],
+              routerDelegate: delegate,
+              routeInformationParser: parser,
+              localizationsDelegates: const [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              theme: ThemeData.light().copyWith(
+                extensions: <ThemeExtension<dynamic>>[
+                  ToDoAppLightColors(
+                    importantColor,
+                  ),
+                ],
               ),
-            ],
-          ),
-          darkTheme: ThemeData.dark().copyWith(
-            extensions: <ThemeExtension<dynamic>>[
-              ToDoAppDarkColors(
-                importantColor,
+              darkTheme: ThemeData.dark().copyWith(
+                extensions: <ThemeExtension<dynamic>>[
+                  ToDoAppDarkColors(
+                    importantColor,
+                  ),
+                ],
               ),
-            ],
-          ),
-          themeMode: (state as AppConfigurationLoadedState).isLightTheme
-              ? ThemeMode.light
-              : ThemeMode.dark,
-        );
-      }),
-    );
+              themeMode: (state as AppConfigurationLoadedState).isLightTheme
+                  ? ThemeMode.light
+                  : ThemeMode.dark,
+            ),
+          );
+        }),
+      );
+    });
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_todo/blocs/task_list/task_list_cubit.dart';
 import 'package:school_todo/models/task_model.dart';
 
+import '../../../blocs/app_configuration/app_configuration_cubit.dart';
 import '../../../core/logger.dart';
 import 'task_card_widget.dart';
 
@@ -44,6 +45,7 @@ class _DismissibleTaskCardState extends State<DismissibleTaskCard>
       Task chosenTask = taskListCubit.getTask(widget.indexOfTask);
 
       return LayoutBuilder(builder: (context, constraints) {
+        double scale = BlocProvider.of<AppConfigurationCubit>(context).appScale;
         return Dismissible(
           key: Key(chosenTask.id.toString()),
           confirmDismiss: (direction) async {
@@ -74,16 +76,19 @@ class _DismissibleTaskCardState extends State<DismissibleTaskCard>
               return ColoredBox(
                 color: Colors.red,
                 child: Container(
-                  height: 24,
-                  width: 24,
+                  height: 24 * scale,
+                  width: 24 * scale,
                   padding: EdgeInsets.only(
                       right: constraints.maxWidth * date > 72
                           ? constraints.maxWidth * date - 48
                           : 24),
                   alignment: Alignment.centerRight,
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.white,
+                  child: Transform.scale(
+                    scale: scale,
+                    child: const Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               );
