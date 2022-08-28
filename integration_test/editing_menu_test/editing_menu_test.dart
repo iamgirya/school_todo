@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:get_it/get_it.dart';
@@ -10,6 +11,15 @@ import 'editing_menu_test_main.dart' as test_main;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  FlavorConfig(
+    name: 'DEV',
+    color: Colors.blue,
+    location: BannerLocation.topEnd,
+    variables: {
+      "isTestFlavor": true,
+    },
+  );
 
   tearDown(() {
     GetIt.instance.reset();

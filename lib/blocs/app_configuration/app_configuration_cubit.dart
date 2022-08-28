@@ -11,8 +11,12 @@ class AppConfigurationCubit extends Cubit<AppConfigurationState> {
           scale: scale,
         ));
 
-  bool get isLightTheme => (state as AppConfigurationLoadedState).isLightTheme;
-  double get appScale => (state as AppConfigurationLoadedState).scale;
+  bool get isLightTheme => (state is AppConfigurationLoadedState)
+      ? (state as AppConfigurationLoadedState).isLightTheme
+      : true;
+  double get appScale => (state is AppConfigurationLoadedState)
+      ? (state as AppConfigurationLoadedState).scale
+      : 1;
 
   void changeTheme() {
     if (state is AppConfigurationLoadedState) {

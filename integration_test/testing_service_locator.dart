@@ -11,7 +11,6 @@ import '../test/mocks/fake_task_saves_repository.dart';
 
 Future<void> initTestingServiceLocator() async {
   //репозитории
-
   Cont.getIt.registerSingleton<ICubitsConnectorRepository>(
       SimpleCubitsConnectorRepository());
 

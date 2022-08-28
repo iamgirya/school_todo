@@ -9,6 +9,7 @@ import '../ui/editor_page/editor_page.dart';
 class ToDoRouterDelegate extends RouterDelegate<NavigationStateDTO>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<NavigationStateDTO> {
   NavigationState state = NavigationState(true, null);
+  final GlobalKey<NavigatorState> _navigationKey = GlobalKey<NavigatorState>();
 
   bool get isTaskList => state.isOnListPage;
 
@@ -30,31 +31,26 @@ class ToDoRouterDelegate extends RouterDelegate<NavigationStateDTO>
     notifyListeners();
   }
 
-  MaterialPage? _taskListPage;
-
   @override
   Widget build(BuildContext context) {
-    _taskListPage ??= MaterialPage(
-      child: TaskListPage(
-        key: GlobalKey(),
-      ),
-    );
-
-    final pages = [
-      _taskListPage!,
-      if (!state.isOnListPage)
-        MaterialPage(
-          child: EditorPage(
-            editingTask: Cont.getIt
-                .get<ILocalTaskSavesRepository>()
-                .loadLocalTask(state.taskId),
-          ),
-        ),
-    ];
     return Navigator(
       onPopPage: (route, result) => route.didPop(result),
       key: navigatorKey,
-      pages: pages,
+      pages: [
+        const MaterialPage(
+          child: TaskListPage(
+              // key: GlobalKey(),
+              ),
+        ),
+        if (!state.isOnListPage)
+          MaterialPage(
+            child: EditorPage(
+              editingTask: Cont.getIt
+                  .get<ILocalTaskSavesRepository>()
+                  .loadLocalTask(state.taskId),
+            ),
+          ),
+      ],
     );
   }
 
@@ -64,7 +60,7 @@ class ToDoRouterDelegate extends RouterDelegate<NavigationStateDTO>
   }
 
   @override
-  GlobalKey<NavigatorState>? get navigatorKey => GlobalKey();
+  GlobalKey<NavigatorState>? get navigatorKey => _navigationKey;
 
   @override
   Future<void> setNewRoutePath(NavigationStateDTO configuration) {
