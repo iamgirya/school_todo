@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
             child: MaterialApp.router(
               debugShowCheckedModeBanner:
                   FlavorConfig.instance.variables['isTestFlavor'],
+              backButtonDispatcher: RootBackButtonDispatcher(),
               routerDelegate: delegate,
               routeInformationParser: parser,
               localizationsDelegates: const [

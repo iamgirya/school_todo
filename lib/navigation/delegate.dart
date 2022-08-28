@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:school_todo/core/container_class.dart';
+import 'package:school_todo/navigation/root_names_container.dart';
 import 'package:school_todo/navigation/state.dart';
 import 'package:school_todo/repositories/local_task_repository.dart';
 import 'package:school_todo/ui/task_list_page/task_list_page.dart';
 
+import '../core/app_metrica_controller.dart';
 import '../ui/editor_page/editor_page.dart';
 
 class ToDoRouterDelegate extends RouterDelegate<NavigationStateDTO>
@@ -22,6 +24,9 @@ class ToDoRouterDelegate extends RouterDelegate<NavigationStateDTO>
       ..isOnListPage = true
       ..taskId = null;
     notifyListeners();
+
+    Cont.getIt.get<AppMetricaController>().reportEventWithMap(
+        'Open Screen', {'screenName': RouteNames.taskListPage});
   }
 
   void gotoEditor(String? id) {
@@ -29,12 +34,22 @@ class ToDoRouterDelegate extends RouterDelegate<NavigationStateDTO>
       ..isOnListPage = false
       ..taskId = id;
     notifyListeners();
+
+    Cont.getIt.get<AppMetricaController>().reportEventWithMap(
+        'Open Screen', {'screenName': RouteNames.editorPage});
   }
 
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      onPopPage: (route, result) => route.didPop(result),
+      onPopPage: (route, result) {
+        if (!route.didPop(result)) return false;
+        if (!isTaskList) {
+          gotoTaskList();
+        }
+        popRoute();
+        return true;
+      },
       key: navigatorKey,
       pages: [
         const MaterialPage(
