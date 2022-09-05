@@ -3,7 +3,7 @@ import 'package:school_todo/models/animated_task_model.dart';
 import 'package:school_todo/models/task_model.dart';
 import 'package:school_todo/repositories/task_list_repository.dart';
 
-class FakeTaskSavesRepository extends Fake implements ITaskSavesRepository {
+class FakeTaskSavesRepository extends Fake implements TaskSavesRepository {
   @override
   Future<bool> deleteChanges(
       List<AnimatedTask> newLoadedTasks, String deleteTaskId) {

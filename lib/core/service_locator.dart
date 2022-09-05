@@ -9,18 +9,18 @@ import 'device_id_holder.dart';
 
 Future<void> initServiceLocator() async {
   //репозитории
-  IGlobalTaskSavesRepository globalRepo = GlobalTaskSavesRepository();
-  Cont.getIt.registerSingleton<IGlobalTaskSavesRepository>(globalRepo);
+  GlobalTaskSavesRepository globalRepo = GlobalTaskSavesRepositoryImpl();
+  Cont.getIt.registerSingleton<GlobalTaskSavesRepository>(globalRepo);
 
-  Cont.getIt.registerSingleton<ICubitsConnectorRepository>(
-      SimpleCubitsConnectorRepository());
+  Cont.getIt.registerSingleton<CubitsConnectorRepository>(
+      CubitsConnectorRepositoryImpl());
 
-  ILocalTaskSavesRepository localRepo = HiveLocalTaskSavesRepository();
+  LocalTaskSavesRepository localRepo = LocalTaskSavesRepositoryHiveImpl();
   await localRepo.initLocalTaskSavesRepository();
-  Cont.getIt.registerSingleton<ILocalTaskSavesRepository>(localRepo);
+  Cont.getIt.registerSingleton<LocalTaskSavesRepository>(localRepo);
 
-  Cont.getIt.registerSingleton<ITaskSavesRepository>(
-      TaskListRepository(localRepo: localRepo, globalRepo: globalRepo));
+  Cont.getIt.registerSingleton<TaskSavesRepository>(
+      TaskListRepositoryImpl(localRepo: localRepo, globalRepo: globalRepo));
 
   //айди устройства
   DeviceIdHolder deviceIdHolder = DeviceIdHolder();

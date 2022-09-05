@@ -23,8 +23,8 @@ class TaskListCubit extends Cubit<TaskListState> {
     cubitsConnectorRepo.setCallBackOnDeleteTask(deleteTask);
   }
 
-  final ITaskSavesRepository taskListRepository;
-  final ICubitsConnectorRepository cubitsConnectorRepo;
+  final TaskSavesRepository taskListRepository;
+  final CubitsConnectorRepository cubitsConnectorRepo;
 
   List<AnimatedTask> get loadedTasks =>
       (state as TaskListLoadedState).loadedTasks;
@@ -35,7 +35,9 @@ class TaskListCubit extends Cubit<TaskListState> {
   bool get isOffline => (state as TaskListLoadedState).isOffline;
 
   void _taskAnimationStop(
-      AnimatedTask animatedTask, Duration animationDuration) {
+    AnimatedTask animatedTask,
+    Duration animationDuration,
+  ) {
     Future.delayed(animationDuration, () {
       if (state is TaskListLoadedState) {
         int indexOfTask = loadedTasks
@@ -82,7 +84,9 @@ class TaskListCubit extends Cubit<TaskListState> {
     }
   }
 
-  void addNewFastTask(TextEditingController fastTaskTextEditingController) {
+  void addNewFastTask(
+    TextEditingController fastTaskTextEditingController,
+  ) {
     if (state is TaskListLoadedState &&
         fastTaskTextEditingController.text.isNotEmpty) {
       AnimatedTask fastTask = AnimatedTask(
@@ -153,8 +157,10 @@ class TaskListCubit extends Cubit<TaskListState> {
     }
   }
 
-  void changeTaskComplete(
-      {required Task chosenTask, Duration? animationDuration}) {
+  void changeTaskComplete({
+    required Task chosenTask,
+    Duration? animationDuration,
+  }) {
     if (state is TaskListLoadedState) {
       chosenTask = chosenTask.copyWith(
           done: !chosenTask.done,

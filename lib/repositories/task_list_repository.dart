@@ -5,11 +5,11 @@ import '../core/logger.dart';
 import '../models/animated_task_model.dart';
 import '../models/task_model.dart';
 
-abstract class ITaskSavesRepository {
-  final ILocalTaskSavesRepository localRepo;
-  final IGlobalTaskSavesRepository globalRepo;
+abstract class TaskSavesRepository {
+  final LocalTaskSavesRepository localRepo;
+  final GlobalTaskSavesRepository globalRepo;
 
-  ITaskSavesRepository({required this.localRepo, required this.globalRepo});
+  TaskSavesRepository({required this.localRepo, required this.globalRepo});
 
   bool get isOffline;
 
@@ -27,18 +27,20 @@ abstract class ITaskSavesRepository {
   void saveConfiguration({required bool isTaskSorting});
 }
 
-class TaskListRepository implements ITaskSavesRepository {
-  TaskListRepository({required this.localRepo, required this.globalRepo});
+class TaskListRepositoryImpl implements TaskSavesRepository {
+  TaskListRepositoryImpl({required this.localRepo, required this.globalRepo});
 
   @override
-  IGlobalTaskSavesRepository globalRepo;
+  GlobalTaskSavesRepository globalRepo;
 
   @override
-  ILocalTaskSavesRepository localRepo;
+  LocalTaskSavesRepository localRepo;
 
   @override
   Future<bool> postChanges(
-      List<AnimatedTask> newLoadedTasks, AnimatedTask postTask) async {
+    List<AnimatedTask> newLoadedTasks,
+    AnimatedTask postTask,
+  ) async {
     List<Task> saveTaskList = newLoadedTasks.map((e) => e.task).toList();
     localRepo.saveLocalTasks(saveTaskList);
 
@@ -92,7 +94,8 @@ class TaskListRepository implements ITaskSavesRepository {
       int localRevision = localRepo.loadLocalRevision();
       int globalRevision = globalRepo.getRevision();
 
-      if (localRevision < globalRevision) {
+      if (localRevision < globalRevision ||
+          (globalRevision == 0 && localRevision == 0)) {
         logger.info('Global data is main');
         localRepo.saveLocalRevision(globalRevision);
         localRepo.saveLocalTasks(globalTasks);

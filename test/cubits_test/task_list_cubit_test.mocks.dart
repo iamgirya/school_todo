@@ -25,13 +25,13 @@ import 'package:school_todo/repositories/task_list_repository.dart' as _i4;
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeILocalTaskSavesRepository_0 extends _i1.SmartFake
-    implements _i2.ILocalTaskSavesRepository {
+    implements _i2.LocalTaskSavesRepository {
   _FakeILocalTaskSavesRepository_0(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
 class _FakeIGlobalTaskSavesRepository_1 extends _i1.SmartFake
-    implements _i3.IGlobalTaskSavesRepository {
+    implements _i3.GlobalTaskSavesRepository {
   _FakeIGlobalTaskSavesRepository_1(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
@@ -40,23 +40,23 @@ class _FakeIGlobalTaskSavesRepository_1 extends _i1.SmartFake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockITaskSavesRepository extends _i1.Mock
-    implements _i4.ITaskSavesRepository {
+    implements _i4.TaskSavesRepository {
   MockITaskSavesRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i2.ILocalTaskSavesRepository get localRepo =>
+  _i2.LocalTaskSavesRepository get localRepo =>
       (super.noSuchMethod(Invocation.getter(#localRepo),
               returnValue: _FakeILocalTaskSavesRepository_0(
                   this, Invocation.getter(#localRepo)))
-          as _i2.ILocalTaskSavesRepository);
+          as _i2.LocalTaskSavesRepository);
   @override
-  _i3.IGlobalTaskSavesRepository get globalRepo =>
+  _i3.GlobalTaskSavesRepository get globalRepo =>
       (super.noSuchMethod(Invocation.getter(#globalRepo),
               returnValue: _FakeIGlobalTaskSavesRepository_1(
                   this, Invocation.getter(#globalRepo)))
-          as _i3.IGlobalTaskSavesRepository);
+          as _i3.GlobalTaskSavesRepository);
   @override
   bool get isOffline =>
       (super.noSuchMethod(Invocation.getter(#isOffline), returnValue: false)

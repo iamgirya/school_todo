@@ -14,8 +14,8 @@ import 'task_list_cubit_test.mocks.dart';
 
 @GenerateMocks([AppMetricaController])
 void main() {
-  late ICubitsConnectorRepository cubitsConnectorRepo;
-  late ITaskSavesRepository taskListRepository;
+  late CubitsConnectorRepository cubitsConnectorRepo;
+  late TaskSavesRepository taskListRepository;
   late TaskListCubit taskListCubit;
 
   setUpAll(() async {
@@ -28,7 +28,7 @@ void main() {
 
   setUp(() async {
     taskListRepository = FakeTaskSavesRepository();
-    cubitsConnectorRepo = SimpleCubitsConnectorRepository();
+    cubitsConnectorRepo = CubitsConnectorRepositoryImpl();
 
     taskListCubit = TaskListCubit(
       taskListRepository: taskListRepository,

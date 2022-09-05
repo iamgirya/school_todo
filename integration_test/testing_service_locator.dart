@@ -11,14 +11,14 @@ import '../test/mocks/fake_task_saves_repository.dart';
 
 Future<void> initTestingServiceLocator() async {
   //репозитории
-  Cont.getIt.registerSingleton<ICubitsConnectorRepository>(
-      SimpleCubitsConnectorRepository());
+  Cont.getIt.registerSingleton<CubitsConnectorRepository>(
+      CubitsConnectorRepositoryImpl());
 
-  ILocalTaskSavesRepository localRepo = FakeILocalTaskSavesRepository();
-  Cont.getIt.registerSingleton<ILocalTaskSavesRepository>(localRepo);
+  LocalTaskSavesRepository localRepo = FakeILocalTaskSavesRepository();
+  Cont.getIt.registerSingleton<LocalTaskSavesRepository>(localRepo);
 
-  ITaskSavesRepository taskListRepository = FakeTaskSavesRepository();
-  Cont.getIt.registerSingleton<ITaskSavesRepository>(taskListRepository);
+  TaskSavesRepository taskListRepository = FakeTaskSavesRepository();
+  Cont.getIt.registerSingleton<TaskSavesRepository>(taskListRepository);
 
   //айди устройства
   DeviceIdHolder deviceIdHolder = DeviceIdHolder();
@@ -31,7 +31,7 @@ Future<void> initTestingServiceLocator() async {
 }
 
 class FakeILocalTaskSavesRepository extends Fake
-    implements ILocalTaskSavesRepository {
+    implements LocalTaskSavesRepository {
   @override
   Task loadLocalTask(String? id) {
     return Task.empty(null);

@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import '../core/logger.dart';
 import '../models/task_model.dart';
 
-abstract class IGlobalTaskSavesRepository {
+abstract class GlobalTaskSavesRepository {
   static const String baseUrl = 'https://beta.mrdekk.ru/todobackend';
 
   static const String apiToken = 'Puding';
@@ -24,9 +24,9 @@ abstract class IGlobalTaskSavesRepository {
   int getRevision();
 }
 
-class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
-  String get baseUrl => IGlobalTaskSavesRepository.baseUrl;
-  String get apiToken => IGlobalTaskSavesRepository.apiToken;
+class GlobalTaskSavesRepositoryImpl implements GlobalTaskSavesRepository {
+  String get baseUrl => GlobalTaskSavesRepository.baseUrl;
+  String get apiToken => GlobalTaskSavesRepository.apiToken;
 
   Duration get requestTimeOut => const Duration(seconds: 5);
   Duration get lookUpTimeOut => const Duration(seconds: 1);
@@ -79,7 +79,6 @@ class GlobalTaskSavesRepository implements IGlobalTaskSavesRepository {
       } else if ((error.response?.statusCode) != null &&
           (error.response?.statusCode)! >= 500) {
         logger.severe('Error: server error', [error]);
-        isOffline = true;
       }
       if (error.error is SocketException) {
         logger.severe('Error: lost Internet connection', [error]);

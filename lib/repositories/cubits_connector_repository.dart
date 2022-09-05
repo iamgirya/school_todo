@@ -1,6 +1,6 @@
 import '../models/task_model.dart';
 
-abstract class ICubitsConnectorRepository {
+abstract class CubitsConnectorRepository {
   void addNewTask(Task newTask);
 
   void setCallBackOnNewTask(void Function(Task) callBack);
@@ -10,7 +10,7 @@ abstract class ICubitsConnectorRepository {
   void setCallBackOnDeleteTask(void Function(Task) callBack);
 }
 
-class SimpleCubitsConnectorRepository implements ICubitsConnectorRepository {
+class CubitsConnectorRepositoryImpl implements CubitsConnectorRepository {
   late void Function(Task newTask) _onNewTask;
 
   @override

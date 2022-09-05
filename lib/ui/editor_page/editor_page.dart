@@ -31,7 +31,7 @@ class EditorPage extends StatelessWidget {
       create: (context) {
         EditingTaskCubit editingTaskCubit = EditingTaskCubit(
           initTask: editingTask,
-          cubitsConnectorRepo: Cont.getIt.get<ICubitsConnectorRepository>(),
+          cubitsConnectorRepo: Cont.getIt.get<CubitsConnectorRepository>(),
         );
         if (editingTask != null) {
           taskTextEditingController.text = editingTask!.text;

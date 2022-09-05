@@ -27,7 +27,7 @@ import 'package:school_todo/repositories/local_task_repository.dart' as _i2;
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockILocalTaskSavesRepository extends _i1.Mock
-    implements _i2.ILocalTaskSavesRepository {
+    implements _i2.LocalTaskSavesRepository {
   MockILocalTaskSavesRepository() {
     _i1.throwOnMissingStub(this);
   }
@@ -59,7 +59,7 @@ class MockILocalTaskSavesRepository extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockIGlobalTaskSavesRepository extends _i1.Mock
-    implements _i5.IGlobalTaskSavesRepository {
+    implements _i5.GlobalTaskSavesRepository {
   MockIGlobalTaskSavesRepository() {
     _i1.throwOnMissingStub(this);
   }
@@ -106,7 +106,7 @@ class MockIGlobalTaskSavesRepository extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockICubitsConnectorRepository extends _i1.Mock
-    implements _i6.ICubitsConnectorRepository {
+    implements _i6.CubitsConnectorRepository {
   MockICubitsConnectorRepository() {
     _i1.throwOnMissingStub(this);
   }

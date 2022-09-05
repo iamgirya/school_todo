@@ -61,7 +61,7 @@ class ToDoRouterDelegate extends RouterDelegate<NavigationStateDTO>
           MaterialPage(
             child: EditorPage(
               editingTask: Cont.getIt
-                  .get<ILocalTaskSavesRepository>()
+                  .get<LocalTaskSavesRepository>()
                   .loadLocalTask(state.taskId),
             ),
           ),

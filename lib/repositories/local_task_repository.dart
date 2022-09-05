@@ -7,7 +7,7 @@ import 'package:school_todo/core/logger.dart';
 import '../models/importance_model.dart';
 import '../models/task_model.dart';
 
-abstract class ILocalTaskSavesRepository {
+abstract class LocalTaskSavesRepository {
   Future<void> initLocalTaskSavesRepository();
 
   void saveLocalTasks(List<Task> addedTownList);
@@ -25,7 +25,7 @@ abstract class ILocalTaskSavesRepository {
   void saveConfiguration(Map<String, dynamic> configuration);
 }
 
-class HiveLocalTaskSavesRepository implements ILocalTaskSavesRepository {
+class LocalTaskSavesRepositoryHiveImpl implements LocalTaskSavesRepository {
   static const String tasksBoxName = 'tasks';
   static const String tasksBoxListKey = 'tasks';
   static const String tasksBoxRevisionKey = 'revision';

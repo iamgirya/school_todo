@@ -21,7 +21,7 @@ class EditingTaskCubit extends Cubit<EditingTaskState> {
           taskCanBeDeleted: initTask != null && initTask.text.isNotEmpty,
         ));
 
-  final ICubitsConnectorRepository cubitsConnectorRepo;
+  final CubitsConnectorRepository cubitsConnectorRepo;
 
   bool get _stateIsLoaded => state is EditingTaskLoadedState;
   Task get editingTask => (state as EditingTaskLoadedState).editingTask;
