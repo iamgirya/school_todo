@@ -1,0 +1,17 @@
+{
+  "@@locale": "ru_RU",
+  "taskListTitleName": "Мои дела",
+  "taskListTitleCompleted": "Выполнено - {completedCount}",
+  "taskListFastTaskHint": "Новое",
+  "editorSaveButton": "СОХРАНИТЬ",
+  "editorImportanceTitle": "Важность",
+  "editorDeadlineTitle": "Сделать до",
+  "editorDeleteButton": "Удалить",
+  "editorImportanceBasic": "Нет",
+  "editorImportanceImportant": "!!Высокий",
+  "editorImportanceLow": "Низкий",
+  "noWord": "Нет",
+  "editorTextTaskHint": "Что-то надо сделать...",
+  "yesWord": "Да",
+  "dialogAcceptedDeleting": "Вы уверены, что хотите удалить задачу?"
+}
